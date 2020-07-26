@@ -7,5 +7,4 @@
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="KinematicBody2D"]
-position = Vector2( 2, 0 )
 texture = ExtResource( 1 )
