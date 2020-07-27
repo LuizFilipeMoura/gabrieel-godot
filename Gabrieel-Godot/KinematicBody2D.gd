@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 const UP = Vector2(0,-1)
-const GRAVITY = 20
+const GRAVITY = 15
 const ACCELERATION = 3
 const MAX_SPEED = 175
-const JUMP_HEIGHT = -350
+const JUMP_HEIGHT = -300
 
 var motion = Vector2()
 
@@ -17,16 +17,19 @@ func _physics_process(delta):
 		motion.x -=  ACCELERATION
 		motion.x = max(motion.x, -MAX_SPEED)
 		$AnimatedSprite.flip_h = true
-		$AnimatedSprite.play("player_running")
+		if is_on_floor():
+			$AnimatedSprite.play("player_running")
 		
 	elif Input.is_action_pressed("move_right"):
 		motion.x +=  ACCELERATION
 		motion.x = min(motion.x, MAX_SPEED)
 		$AnimatedSprite.flip_h = false
-		$AnimatedSprite.play("player_running")
+		if is_on_floor():
+			$AnimatedSprite.play("player_running")
 	else:
 		friction = true
-		$AnimatedSprite.play("player_idle")
+		if is_on_floor():
+			$AnimatedSprite.play("player_idle")
 		
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):

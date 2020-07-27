@@ -14,7 +14,7 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_1.png" type="Texture" id=12]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_2.png" type="Texture" id=13]
 
-[sub_resource type="CapsuleShape2D" id=4]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 6.31586
 height = 17.6046
 
@@ -30,14 +30,14 @@ animations = [ {
 "name": "player_jumping",
 "speed": 12.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "player_idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "player_running",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "player_idle",
 "speed": 5.0
 } ]
 
@@ -61,7 +61,7 @@ smoothing_speed = 8.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( 8.8194, -3.77975 )
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 pause_mode = 2
