@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerIdle.png" type="Texture" id=1]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/EnemyIdle.png" type="Texture" id=2]
@@ -14,10 +14,6 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_1.png" type="Texture" id=12]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_2.png" type="Texture" id=13]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 6.31586
-height = 17.6046
-
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [  ],
@@ -26,7 +22,7 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],
-"loop": true,
+"loop": false,
 "name": "player_jumping",
 "speed": 12.0
 }, {
@@ -42,7 +38,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 12.4594, 19.6403 )
+extents = Vector2( 8.44345, 19.6403 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -59,18 +55,17 @@ drag_margin_v_enabled = true
 smoothing_enabled = true
 smoothing_speed = 8.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-position = Vector2( 8.8194, -3.77975 )
-shape = SubResource( 1 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 pause_mode = 2
 process_priority = 1
 position = Vector2( 8.9213, -4.74155 )
 frames = SubResource( 2 )
 animation = "player_jumping"
-frame = 2
+frame = 5
 playing = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
+polygon = PoolVector2Array( 16.842, 10.052, 0.96701, 10.1145, 0.84201, 8.3645, 3.71701, 5.9895, 3.90451, -18.948, 14.592, -18.948, 14.0295, 6.3645, 16.9045, 8.302 )
 
 [node name="KinematicBody2D3" type="KinematicBody2D" parent="."]
 position = Vector2( 425.493, 147.193 )
