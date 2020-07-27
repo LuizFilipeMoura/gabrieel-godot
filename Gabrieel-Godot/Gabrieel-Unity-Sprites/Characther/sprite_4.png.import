@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/New Piskel (19).png-589c483bf34a2e1e11cb4b873feff6f5.stex"
+path="res://.import/sprite_4.png-bde610f2443ac7621f92eabf31d38ea7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/New Piskel (19).png"
-dest_files=[ "res://.import/New Piskel (19).png-589c483bf34a2e1e11cb4b873feff6f5.stex" ]
+source_file="res://Gabrieel-Unity-Sprites/Characther/sprite_4.png"
+dest_files=[ "res://.import/sprite_4.png-bde610f2443ac7621f92eabf31d38ea7.stex" ]
 
 [params]
 
