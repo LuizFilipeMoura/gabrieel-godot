@@ -2,9 +2,13 @@ extends KinematicBody2D
 
 const UP = Vector2(0,-1)
 const GRAVITY = 10
-const ACCELERATION = 3
-const MAX_SPEED = 100
+const ACCELERATION = 10
+const MAX_SPEED = 150
 const JUMP_HEIGHT = -225
+
+const TIME_PERIOD = 0.1 # 500ms
+
+var time = 0
 
 var motion = Vector2()
 
@@ -43,7 +47,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump"):
 			motion.y = JUMP_HEIGHT
 		if friction == true:
-			motion.x = lerp(motion.x, 0, 0.2)
+			motion.x = lerp(motion.x, 0, 0.4)
 	else:
 		if !is_on_floor():
 			$AnimatedSprite.play("player_jumping")
@@ -62,5 +66,11 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+
+	time += delta
+	if time > TIME_PERIOD:
+		#print(time)
+		# Reset timer
+		time = 0
+	pass
