@@ -24,3 +24,5 @@ func _physics_process(delta):
 func _on_PlayerDetector_body_entered(body):
 	if(body.name == 'Player'):
 		$AnimatedSprite.play("enemy_death")
+		var escala = Vector2(1, 0.5)
+		$CollisionShape2D.transform.scaled(escala)
