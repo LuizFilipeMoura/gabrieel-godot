@@ -7,7 +7,7 @@ onready var body = get_node("Player")
 # var b = "text"
 
 func body_enter(body):
-	print(body.get_name())
+	print('a')
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

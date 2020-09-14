@@ -12,7 +12,7 @@ var time = 0
 
 var motion = Vector2()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	motion.y += GRAVITY
 	
 	var friction = false
@@ -74,3 +74,10 @@ func _process(delta):
 		# Reset timer
 		time = 0
 	pass
+
+
+
+func _on_Area2D_body_entered(body):
+	print(body.name)
+	if(body.name == 'Player'):
+		get_tree().change_scene("res://Node2D.tscn")
