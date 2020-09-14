@@ -5,7 +5,7 @@ const GRAVITY = 10
 const ACCELERATION = 10
 const MAX_SPEED = 150
 const JUMP_HEIGHT = -225
-
+var  LIFE = 3
 const TIME_PERIOD = 0.1 # 500ms
 
 var time = 0
@@ -80,3 +80,6 @@ func _process(delta):
 func _on_Area2D_body_entered(body):
 	if(body.name == 'Player'):
 		get_tree().change_scene("res://Node2D.tscn")
+		
+		LIFE = LIFE - 1
+		print(LIFE)
