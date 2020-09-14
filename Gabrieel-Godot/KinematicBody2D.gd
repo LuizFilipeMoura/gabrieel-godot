@@ -5,11 +5,12 @@ const GRAVITY = 10
 const ACCELERATION = 10
 const MAX_SPEED = 150
 const JUMP_HEIGHT = -225
-var  LIFE = 3
+
 const TIME_PERIOD = 0.1 # 500ms
 
+var isAttacking = false
 var time = 0
-
+var LIFE = 3
 var motion = Vector2()
 
 func _physics_process(_delta):
@@ -26,7 +27,8 @@ func _physics_process(_delta):
 			motion.x = max(motion.x, -MAX_SPEED)
 			$AnimatedSprite.flip_h = true
 			if is_on_floor():
-				$AnimatedSprite.play("player_running")
+				if !isAttacking:
+					$AnimatedSprite.play("player_running")
 		
 	elif Input.is_action_pressed("move_right"):
 		if Input.is_action_pressed("move_left"):
@@ -37,11 +39,13 @@ func _physics_process(_delta):
 			motion.x = min(motion.x, MAX_SPEED)
 			$AnimatedSprite.flip_h = false
 			if is_on_floor():
-				$AnimatedSprite.play("player_running")
+				if !isAttacking:
+					$AnimatedSprite.play("player_running")
 	else:
 		friction = true
 		if is_on_floor():
-			$AnimatedSprite.play("player_idle")
+			if !isAttacking:
+				$AnimatedSprite.play("player_idle")
 		
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
@@ -54,12 +58,20 @@ func _physics_process(_delta):
 		if friction == true:
 			motion.x = lerp(motion.x, 0, 0.05)
 	motion = move_and_slide(motion, UP)
+	
+	if Input.is_action_just_pressed("attack"):
+		attack()
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-
+func attack():
+	if($AnimatedSprite.animation == "player_idle" || $AnimatedSprite.animation == "player_running"):
+			isAttacking = true
+			$AnimatedSprite.play("player_attacking")
+			yield($AnimatedSprite, "animation_finished")
+			isAttacking = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

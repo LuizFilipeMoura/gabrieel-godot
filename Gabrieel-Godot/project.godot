@@ -22,6 +22,7 @@ _global_script_class_icons={
 
 config/name="Gabrieel"
 run/main_scene="res://Node2D.tscn"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
 [gdnative]
@@ -45,8 +46,13 @@ jump={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":75,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 
-environment/default_clear_color=Color( 0.109804, 0.294118, 0.686275, 1 )
+environment/default_clear_color=Color( 0.94902, 0.592157, 1, 1 )
 environment/default_environment="res://default_env.tres"

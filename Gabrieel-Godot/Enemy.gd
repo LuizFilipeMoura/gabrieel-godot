@@ -2,8 +2,9 @@ extends KinematicBody2D
 
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var isDead = false;
+
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -14,15 +15,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-
-	for i in get_slide_count():
-		var collision = get_slide_collision(i)
-		print("Collided with: ", collision.collider.name)
 	pass
 
-
+func die():
+	isDead = true
+	$AnimatedSprite.play("enemy_death")
+	yield($AnimatedSprite, "animation_finished")
+	$CollisionShape2D.scale = Vector2(1.5, 0.4)
+	$CollisionShape2D.position = Vector2(10, 10)
+		
 func _on_PlayerDetector_body_entered(body):
 	if(body.name == 'Player'):
-		$AnimatedSprite.play("enemy_death")
-		var escala = Vector2(1, 0.5)
-		$CollisionShape2D.transform.scaled(escala)
+		if(!isDead):
+			die()
+
