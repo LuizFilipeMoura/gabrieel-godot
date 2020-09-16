@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 
 var isDead = false;
-
+var live = 2 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimatedSprite.play("enemy_idle")
@@ -27,9 +27,12 @@ func _on_Head_body_entered(body):
 		if(!isDead):
 			die()
 
-
+func hurt():
+	live = live - 1
+	if(live <= 0):
+		die()
 
 func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):
-			get_tree().change_scene("res://Node2D.tscn")
-	pass # Replace with function body.
+		body.hurt()
+

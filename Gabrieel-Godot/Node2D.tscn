@@ -89,11 +89,6 @@ animations = [ {
 "name": "player_running",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "player_idle",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "player_attacking",
@@ -103,6 +98,11 @@ animations = [ {
 "loop": false,
 "name": "player_jumping",
 "speed": 12.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "player_idle",
+"speed": 5.0
 } ]
 
 [sub_resource type="CircleShape2D" id=15]
@@ -111,58 +111,58 @@ radius = 8.0
 [sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 6.84937, 19.4078 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 24 )
 region = Rect2( 0, 0, 41, 41 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 24 )
 region = Rect2( 41, 0, 41, 41 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 24 )
 region = Rect2( 0, 41, 41, 41 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 24 )
 region = Rect2( 41, 41, 41, 41 )
 
-[sub_resource type="AtlasTexture" id=26]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 24 )
 region = Rect2( 0, 82, 41, 41 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 24 )
 region = Rect2( 41, 82, 41, 41 )
 
-[sub_resource type="SpriteFrames" id=17]
+[sub_resource type="SpriteFrames" id=23]
 animations = [ {
 "frames": [  ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": false,
+"name": "enemy_death",
+"speed": 15.0
+}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "enemy_idle",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
-"loop": false,
-"name": "enemy_death",
-"speed": 15.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 5.80637, 16.6997 )
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 8.11075, 18.6734 )
 
-[sub_resource type="RectangleShape2D" id=20]
-extents = Vector2( 557.89, 5.60356 )
+[sub_resource type="RectangleShape2D" id=26]
+extents = Vector2( 1156.49, 5.60356 )
 
-[sub_resource type="SpriteFrames" id=21]
+[sub_resource type="SpriteFrames" id=27]
 animations = [ {
 "frames": [ ExtResource( 22 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 21 ), ExtResource( 20 ) ],
 "loop": true,
@@ -192,7 +192,7 @@ process_priority = 1
 position = Vector2( 8.9213, -4.91832 )
 frames = SubResource( 14 )
 animation = "player_attacking"
-frame = 3
+frame = 7
 playing = true
 flip_h = true
 
@@ -230,7 +230,7 @@ shape = SubResource( 16 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Enemy"]
 position = Vector2( -0.945995, -1.26135 )
 scale = Vector2( 1.21046, 1.21046 )
-frames = SubResource( 17 )
+frames = SubResource( 23 )
 animation = "enemy_idle"
 
 [node name="Head" type="Area2D" parent="Enemy"]
@@ -240,13 +240,47 @@ scale = Vector2( 1, 0.36 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/Head"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( -0.552582, -10.2487 )
-shape = SubResource( 18 )
+shape = SubResource( 24 )
 
 [node name="Body" type="Area2D" parent="Enemy"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/Body"]
 position = Vector2( -0.210266, 5.57094 )
-shape = SubResource( 28 )
+shape = SubResource( 25 )
+
+[node name="Enemy2" type="KinematicBody2D" parent="." groups=[
+"Enemy",
+]]
+position = Vector2( 593.654, 142.395 )
+input_pickable = true
+collision_layer = 2147483649
+collision_mask = 39
+script = ExtResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2"]
+position = Vector2( -0.420441, 4.62351 )
+shape = SubResource( 16 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Enemy2"]
+position = Vector2( -0.945995, -1.26135 )
+scale = Vector2( 1.21046, 1.21046 )
+frames = SubResource( 23 )
+animation = "enemy_idle"
+
+[node name="Head" type="Area2D" parent="Enemy2"]
+position = Vector2( 0, -15.338 )
+scale = Vector2( 1, 0.36 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/Head"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -0.552582, -10.2487 )
+shape = SubResource( 24 )
+
+[node name="Body" type="Area2D" parent="Enemy2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/Body"]
+position = Vector2( -0.210266, 5.57094 )
+shape = SubResource( 25 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -3
@@ -260,12 +294,12 @@ position = Vector2( 448.687, 231.75 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
 position = Vector2( -24.7221, 2.24747 )
-shape = SubResource( 20 )
+shape = SubResource( 26 )
 
 [node name="BurningSkull" type="AnimatedSprite" parent="."]
 position = Vector2( 268.665, 155.725 )
 z_index = -1
-frames = SubResource( 21 )
+frames = SubResource( 27 )
 frame = 3
 playing = true
 
@@ -288,4 +322,7 @@ mode = 2
 [connection signal="animation_finished" from="Enemy/AnimatedSprite" to="Enemy" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Enemy/Head" to="Enemy" method="_on_Head_body_entered"]
 [connection signal="body_entered" from="Enemy/Body" to="Enemy" method="_on_Body_body_entered"]
+[connection signal="animation_finished" from="Enemy2/AnimatedSprite" to="Enemy2" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="body_entered" from="Enemy2/Head" to="Enemy2" method="_on_Head_body_entered"]
+[connection signal="body_entered" from="Enemy2/Body" to="Enemy2" method="_on_Body_body_entered"]
 [connection signal="body_entered" from="DeathZone" to="Player" method="_on_Area2D_body_entered"]

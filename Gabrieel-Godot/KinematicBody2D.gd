@@ -92,7 +92,10 @@ func _process(delta):
 		time = 0
 	pass
 
-
+func hurt():
+	LIFE = LIFE - 1
+	if(LIFE <= 0):
+		get_tree().change_scene("res://Node2D.tscn")
 
 func _on_Area2D_body_entered(body):
 	if(body.name == 'Player'):
@@ -103,4 +106,4 @@ func _on_AttackRange_body_entered(body):
 	if(body.is_in_group("Enemy") && isAttacking):
 		
 		yield($AnimatedSprite, "animation_finished")
-		body.die()
+		body.hurt()
