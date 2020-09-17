@@ -7,6 +7,8 @@ const MAX_SPEED = 150
 const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
+var damage = 1
+
 var isAttacking = false
 var time = 0
 var LIFE = 3
@@ -67,6 +69,11 @@ func _physics_process(_delta):
 		attack()
 
 
+func knockback(enemy):
+	if enemy.position.x > position.x:
+		motion.x = -10
+	if enemy.position.x < position.x:
+		motion.x = 10
 
 
 func attack():
@@ -91,9 +98,11 @@ func _process(delta):
 		# Reset timer
 		time = 0
 	pass
-
-func hurt():
-	LIFE = LIFE - 1
+func smallJump():
+	motion.y = (JUMP_HEIGHT/2)
+	
+func hurt(damageTaken):
+	LIFE = LIFE - damageTaken
 	if(LIFE <= 0):
 		get_tree().change_scene("res://Node2D.tscn")
 
@@ -102,8 +111,6 @@ func _on_Area2D_body_entered(body):
 		get_tree().change_scene("res://Node2D.tscn")
 		
 func _on_AttackRange_body_entered(body):
-	
 	if(body.is_in_group("Enemy") && isAttacking):
-		
 		yield($AnimatedSprite, "animation_finished")
-		body.hurt()
+		body.hurt(damage)

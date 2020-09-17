@@ -54,5 +54,5 @@ attack={
 
 [rendering]
 
-environment/default_clear_color=Color( 0.235294, 0.219608, 0.219608, 1 )
+environment/default_clear_color=Color( 0.176471, 0.176471, 0.176471, 1 )
 environment/default_environment="res://default_env.tres"
