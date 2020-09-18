@@ -1,24 +1,14 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=39 format=2]
 
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerIdle.png" type="Texture" id=1]
+[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/New Piskel (19).png" type="Texture" id=1]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/EnemyIdle.png" type="Texture" id=2]
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=3]
 [ext_resource path="res://KinematicBody2D.gd" type="Script" id=4]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/sprite_0.png" type="Texture" id=5]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/sprite_2.png" type="Texture" id=6]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/sprite_1.png" type="Texture" id=7]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_5.png" type="Texture" id=8]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_3.png" type="Texture" id=9]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_4.png" type="Texture" id=10]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_0.png" type="Texture" id=11]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_1.png" type="Texture" id=12]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/sprite_2.png" type="Texture" id=13]
 [ext_resource path="res://Enemy.gd" type="Script" id=14]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_2.png" type="Texture" id=15]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_3.png" type="Texture" id=16]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_4.png" type="Texture" id=17]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_1.png" type="Texture" id=18]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/New Piskel (1).png" type="Texture" id=19]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_6.png" type="Texture" id=20]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_5.png" type="Texture" id=21]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_0.png" type="Texture" id=22]
@@ -30,89 +20,75 @@
 [ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=28]
 [ext_resource path="res://Player_glow.gd" type="Script" id=29]
 [ext_resource path="res://Skull_glow.gd" type="Script" id=30]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 0, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 19 )
-region = Rect2( 54, 0, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 19 )
-region = Rect2( 108, 0, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 32, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 19 )
-region = Rect2( 54, 32, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 19 )
-region = Rect2( 108, 32, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 64, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 19 )
-region = Rect2( 54, 64, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 19 )
-region = Rect2( 108, 64, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 96, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 19 )
-region = Rect2( 54, 96, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 19 )
-region = Rect2( 108, 96, 54, 32 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 128, 54, 32 )
-
-[sub_resource type="SpriteFrames" id=14]
-animations = [ {
-"frames": [  ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "player_running",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "player_idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
-"loop": true,
-"name": "player_attacking",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],
-"loop": false,
-"name": "player_jumping",
-"speed": 12.0
-} ]
+[ext_resource path="res://GabrieelSoundtrack.wav" type="AudioStream" id=31]
 
 [sub_resource type="CircleShape2D" id=15]
 radius = 8.0
+
+[sub_resource type="Animation" id=29]
+resource_name = "player_attacking"
+length = 0.541667
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25, 0.291667, 0.333333, 0.375, 0.416667, 0.458333, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "player_idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "player_jumping"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 36, 35, 37, 38, 39, 40 ]
+}
+
+[sub_resource type="Animation" id=30]
+resource_name = "player_running"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 15, 16 ]
+}
 
 [sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 6.84937, 19.4078 )
@@ -148,15 +124,15 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
-"loop": false,
-"name": "enemy_death",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "enemy_idle",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": false,
+"name": "enemy_death",
+"speed": 15.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=24]
@@ -192,16 +168,6 @@ drag_margin_v_enabled = true
 smoothing_enabled = true
 smoothing_speed = 8.0
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
-pause_mode = 2
-process_priority = 1
-position = Vector2( 8.9213, -4.91832 )
-frames = SubResource( 14 )
-animation = "player_attacking"
-frame = 8
-playing = true
-flip_h = true
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
 polygon = PoolVector2Array( 16.842, 10.052, 0.96701, 10.1145, 0.84201, 8.3645, 3.71701, 5.9895, 3.90451, -18.948, 14.592, -18.948, 14.0295, 6.3645, 16.9045, 8.302 )
 
@@ -212,6 +178,19 @@ position = Vector2( -15.1774, -6.57011 )
 position = Vector2( 0.667419, 0.166855 )
 shape = SubResource( 15 )
 disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+anims/player_attacking = SubResource( 29 )
+anims/player_idle = SubResource( 28 )
+anims/player_jumping = SubResource( 31 )
+anims/player_running = SubResource( 30 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+position = Vector2( 8.97913, -6.15071 )
+texture = ExtResource( 1 )
+vframes = 9
+hframes = 9
+frame = 40
 
 [node name="Enemy" type="KinematicBody2D" parent="." groups=[
 "Enemy",
@@ -299,7 +278,6 @@ shape = SubResource( 26 )
 position = Vector2( 268.665, 155.725 )
 z_index = -1
 frames = SubResource( 27 )
-frame = 4
 playing = true
 
 [node name="NightLight" type="Light2D" parent="."]
@@ -358,8 +336,8 @@ light_mask = 3075
 position = Vector2( 321.146, 127.147 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 23 )
-texture_scale = 2.43
-color = Color( 0.839216, 0.568627, 0.933333, 1 )
+texture_scale = 1.5
+color = Color( 0.882353, 0.72549, 0.937255, 1 )
 range_height = 2048.0
 shadow_enabled = true
 shadow_color = Color( 0, 0, 0, 1 )
@@ -369,7 +347,7 @@ shadow_filter = 2
 script = ExtResource( 29 )
 
 [node name="Skull_glow" type="Light2D" parent="."]
-position = Vector2( 270.173, 148.746 )
+position = Vector2( 270.829, 148.559 )
 rotation = -4.46638e-06
 scale = Vector2( 0.68, 0.302 )
 texture = ExtResource( 23 )
@@ -379,6 +357,11 @@ range_height = -2048.0
 range_layer_min = -4
 shadow_enabled = true
 script = ExtResource( 30 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 31 )
+volume_db = -5.674
+autoplay = true
 [connection signal="body_entered" from="Player/AttackRange" to="Player" method="_on_AttackRange_body_entered"]
 [connection signal="animation_finished" from="Enemy/AnimatedSprite" to="Enemy" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Enemy/Head" to="Enemy" method="_on_Head_body_entered"]

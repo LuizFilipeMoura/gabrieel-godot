@@ -25,35 +25,35 @@ func _physics_process(_delta):
 			if Input.is_action_pressed("move_right"):
 				motion.x = 0
 				friction = true
-				$AnimatedSprite.play("player_idle")
+				$AnimationPlayer.play("player_idle")
 			else:
 				motion.x -=  ACCELERATION
 				motion.x = max(motion.x, -MAX_SPEED)
-				$AnimatedSprite.flip_h = true
+				$Sprite.flip_h = true
 				$AttackRange.transform.origin.x = -15
 				if is_on_floor():
 					if !isAttacking && motion.x != 0:
-						$AnimatedSprite.play("player_running")
+						$AnimationPlayer.play("player_running")
 						
 			
 		elif Input.is_action_pressed("move_right"):
 			if Input.is_action_pressed("move_left"):
 				motion.x = 0
 				friction = true
-				$AnimatedSprite.play("player_idle")
+				$AnimationPlayer.play("player_idle")
 			else:
 				motion.x +=  ACCELERATION
 				motion.x = min(motion.x, MAX_SPEED)
-				$AnimatedSprite.flip_h = false
+				$Sprite.flip_h = false
 				$AttackRange.transform.origin.x = 34
 				if is_on_floor():
 					if !isAttacking && motion.x != 0:
-						$AnimatedSprite.play("player_running")
+						$AnimationPlayer.play("player_running")
 		else:
 			friction = true
 			if is_on_floor():
 				if !isAttacking:
-					$AnimatedSprite.play("player_idle")
+					$AnimationPlayer.play("player_idle")
 		
 		
 	else:
@@ -68,12 +68,13 @@ func _physics_process(_delta):
 		
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
+			$AnimationPlayer.play("player_jumping")
 			motion.y = JUMP_HEIGHT
 		if friction == true:
 			motion.x = lerp(motion.x, 0, 0.4)
 	else:
-		if !is_on_floor():
-			$AnimatedSprite.play("player_jumping")
+		#if !is_on_floor():
+			#print('a')
 		if friction == true:
 			motion.x = lerp(motion.x, 0, 0.05)
 	motion = move_and_slide(motion, UP)
@@ -83,11 +84,11 @@ func _physics_process(_delta):
 
 
 func attack():
-	if($AnimatedSprite.animation == "player_idle" || $AnimatedSprite.animation == "player_running"):
+	if($AnimationPlayer.current_animation == "player_idle" || $AnimationPlayer.current_animation == "player_running"):
 			isAttacking = true
 			$AttackRange/CollisionShape2D.disabled = false
-			$AnimatedSprite.play("player_attacking")
-			yield($AnimatedSprite, "animation_finished")
+			$AnimationPlayer.play("player_attacking")
+			yield($AnimationPlayer, "animation_finished")
 			isAttacking = false
 			$AttackRange/CollisionShape2D.disabled = true
 # Called when the node enters the scene tree for the first time.
@@ -106,11 +107,12 @@ func _process(delta):
 func smallJump():
 	motion.y = (JUMP_HEIGHT/2)
 	motion.x = motion.x/4
+	$AnimationPlayer.play("player_jumping")
 	
 	
 func knockback():
 	motion.y = JUMP_HEIGHT/2
-	if ($AnimatedSprite.flip_h):
+	if ($Sprite.flip_h):
 		motion.x = 150
 	else:
 		motion.x = -150
@@ -154,5 +156,5 @@ func _on_Area2D_body_entered(body):
 		
 func _on_AttackRange_body_entered(body):
 	if(body.is_in_group("Enemy") && isAttacking):
-		yield($AnimatedSprite, "animation_finished")
+		yield($AnimationPlayer, "animation_finished")
 		body.hurt(damage)
