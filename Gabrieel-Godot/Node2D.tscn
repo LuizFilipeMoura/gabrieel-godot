@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerIdle.png" type="Texture" id=1]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/EnemyIdle.png" type="Texture" id=2]
@@ -22,11 +22,14 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_6.png" type="Texture" id=20]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_5.png" type="Texture" id=21]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/burningskull/sprite_0.png" type="Texture" id=22]
-[ext_resource path="res://SPRITES_GODOT/APfkB6p.png" type="Texture" id=23]
-[ext_resource path="res://SPRITES_GODOT/inimeigo clone.png" type="Texture" id=24]
+[ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=23]
+[ext_resource path="res://SPRITES_GODOT/enemy_death_spritesheet.png" type="Texture" id=24]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/mountains.png" type="Texture" id=25]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/ShortBuilding.png" type="Texture" id=26]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/cloud.png" type="Texture" id=27]
+[ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=28]
+[ext_resource path="res://Player_glow.gd" type="Script" id=29]
+[ext_resource path="res://Skull_glow.gd" type="Script" id=30]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 19 )
@@ -92,6 +95,11 @@ animations = [ {
 "name": "player_running",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "player_idle",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "player_attacking",
@@ -101,11 +109,6 @@ animations = [ {
 "loop": false,
 "name": "player_jumping",
 "speed": 12.0
-}, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "player_idle",
-"speed": 5.0
 } ]
 
 [sub_resource type="CircleShape2D" id=15]
@@ -145,15 +148,15 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "enemy_idle",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
 "loop": false,
 "name": "enemy_death",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "enemy_idle",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=24]
@@ -176,7 +179,7 @@ animations = [ {
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 439.124, 168.282 )
+position = Vector2( 313.124, 133.282 )
 collision_mask = 7
 script = ExtResource( 4 )
 
@@ -210,22 +213,10 @@ position = Vector2( 0.667419, 0.166855 )
 shape = SubResource( 15 )
 disabled = true
 
-[node name="Light2D" type="Light2D" parent="Player"]
-position = Vector2( 8.02246, -6.13525 )
-scale = Vector2( 0.05, 0.05 )
-texture = ExtResource( 23 )
-texture_scale = 2.43
-color = Color( 0.792157, 0.447059, 0.921569, 0.858824 )
-shadow_enabled = true
-shadow_color = Color( 0, 0, 0, 1 )
-shadow_buffer_size = 32
-shadow_gradient_length = 1.0
-shadow_filter_smooth = 33.3
-
 [node name="Enemy" type="KinematicBody2D" parent="." groups=[
 "Enemy",
 ]]
-position = Vector2( 354.082, 127.521 )
+position = Vector2( 444.762, 151.213 )
 input_pickable = true
 collision_layer = 2147483649
 collision_mask = 39
@@ -308,55 +299,86 @@ shape = SubResource( 26 )
 position = Vector2( 268.665, 155.725 )
 z_index = -1
 frames = SubResource( 27 )
+frame = 4
 playing = true
 
-[node name="Light2D" type="Light2D" parent="BurningSkull"]
-position = Vector2( 1.508, -6.979 )
-rotation = -6.28319
-scale = Vector2( 0.68, 0.302 )
-texture = ExtResource( 23 )
-texture_scale = 0.4
-range_height = -2048.0
-
-[node name="Light2D" type="Light2D" parent="."]
+[node name="NightLight" type="Light2D" parent="."]
+position = Vector2( 13.687, -13.2352 )
 scale = Vector2( 50, 50 )
 texture = ExtResource( 23 )
 texture_scale = 0.9
-color = Color( 0.046875, 0.046875, 0.046875, 0.509804 )
+color = Color( 0.458824, 0.329412, 0.329412, 0.866667 )
 energy = 0.8
 mode = 2
+range_layer_min = -100
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 500, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky"]
+position = Vector2( 214.995, 24.7534 )
+scale = Vector2( 2.55167, 2.11006 )
+texture = ExtResource( 28 )
+
+[node name="Montains" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( -8.32446, -1.18921 )
 motion_mirroring = Vector2( 500, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-self_modulate = Color( 0.211765, 0.0392157, 0.0392157, 1 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Montains"]
+self_modulate = Color( 0.0470588, 0.215686, 0.00392157, 1 )
 position = Vector2( 218.992, 202.156 )
 scale = Vector2( 0.166727, 0.27009 )
 texture = ExtResource( 25 )
 
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Clouds" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( -8.32446, -1.18921 )
+z_as_relative = false
 motion_mirroring = Vector2( 500, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
-self_modulate = Color( 0.509804, 0.0196078, 0.0196078, 1 )
-position = Vector2( 481.682, 52.2498 )
-scale = Vector2( 4.42351, 5.52288 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds"]
+self_modulate = Color( 0.988235, 0.937255, 0.937255, 1 )
+position = Vector2( 397.684, 55.5307 )
+scale = Vector2( 3.54799, 5.122 )
 texture = ExtResource( 27 )
 
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Buildings" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( -8.32446, -1.18921 )
-motion_mirroring = Vector2( 400, 0 )
+motion_mirroring = Vector2( 490, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-self_modulate = Color( 0.396078, 0.396078, 0.396078, 1 )
-position = Vector2( 337.482, 110.588 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Buildings"]
+self_modulate = Color( 0.901961, 0.870588, 0.870588, 1 )
+position = Vector2( 314.122, 123.936 )
 scale = Vector2( 2.72064, 3.08834 )
 texture = ExtResource( 26 )
+
+[node name="Player_glow" type="Light2D" parent="."]
+light_mask = 3075
+position = Vector2( 321.146, 127.147 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 23 )
+texture_scale = 2.43
+color = Color( 0.839216, 0.568627, 0.933333, 1 )
+range_height = 2048.0
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_buffer_size = 32
+shadow_gradient_length = 1.0
+shadow_filter = 2
+script = ExtResource( 29 )
+
+[node name="Skull_glow" type="Light2D" parent="."]
+position = Vector2( 270.173, 148.746 )
+rotation = -4.46638e-06
+scale = Vector2( 0.68, 0.302 )
+texture = ExtResource( 23 )
+texture_scale = 0.4
+mode = 2
+range_height = -2048.0
+range_layer_min = -4
+shadow_enabled = true
+script = ExtResource( 30 )
 [connection signal="body_entered" from="Player/AttackRange" to="Player" method="_on_AttackRange_body_entered"]
 [connection signal="animation_finished" from="Enemy/AnimatedSprite" to="Enemy" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Enemy/Head" to="Enemy" method="_on_Head_body_entered"]

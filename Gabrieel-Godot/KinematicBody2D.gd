@@ -20,38 +20,51 @@ func _physics_process(_delta):
 	motion.y += GRAVITY
 	
 	var friction = false
-	
-	if Input.is_action_pressed("move_left"):
-		if Input.is_action_pressed("move_right"):
-			motion.x = 0
-			friction = true
-		else:
-			motion.x -=  ACCELERATION
-			motion.x = max(motion.x, -MAX_SPEED)
-			$AnimatedSprite.flip_h = true
-			$AttackRange.transform.origin.x = -15
-			if is_on_floor():
-				if !isAttacking:
-					$AnimatedSprite.play("player_running")
-					
-		
-	elif Input.is_action_pressed("move_right"):
+	if is_on_floor():
 		if Input.is_action_pressed("move_left"):
-			motion.x = 0
-			friction = true
+			if Input.is_action_pressed("move_right"):
+				motion.x = 0
+				friction = true
+				$AnimatedSprite.play("player_idle")
+			else:
+				motion.x -=  ACCELERATION
+				motion.x = max(motion.x, -MAX_SPEED)
+				$AnimatedSprite.flip_h = true
+				$AttackRange.transform.origin.x = -15
+				if is_on_floor():
+					if !isAttacking && motion.x != 0:
+						$AnimatedSprite.play("player_running")
+						
+			
+		elif Input.is_action_pressed("move_right"):
+			if Input.is_action_pressed("move_left"):
+				motion.x = 0
+				friction = true
+				$AnimatedSprite.play("player_idle")
+			else:
+				motion.x +=  ACCELERATION
+				motion.x = min(motion.x, MAX_SPEED)
+				$AnimatedSprite.flip_h = false
+				$AttackRange.transform.origin.x = 34
+				if is_on_floor():
+					if !isAttacking && motion.x != 0:
+						$AnimatedSprite.play("player_running")
 		else:
-			motion.x +=  ACCELERATION
-			motion.x = min(motion.x, MAX_SPEED)
-			$AnimatedSprite.flip_h = false
-			$AttackRange.transform.origin.x = 34
+			friction = true
 			if is_on_floor():
 				if !isAttacking:
-					$AnimatedSprite.play("player_running")
+					$AnimatedSprite.play("player_idle")
+		
+		
 	else:
-		friction = true
-		if is_on_floor():
-			if !isAttacking:
-				$AnimatedSprite.play("player_idle")
+		if Input.is_action_pressed("move_left"):
+			motion.x -=  ACCELERATION/2
+			motion.x = max(motion.x, -MAX_SPEED*0.8)
+		if Input.is_action_pressed("move_right"):
+			motion.x +=  ACCELERATION/2
+			motion.x = min(motion.x, MAX_SPEED*0.8)
+			
+	
 		
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
@@ -69,13 +82,6 @@ func _physics_process(_delta):
 		attack()
 
 
-func knockback(enemy):
-	if enemy.position.x > position.x:
-		motion.x = -10
-	if enemy.position.x < position.x:
-		motion.x = 10
-
-
 func attack():
 	if($AnimatedSprite.animation == "player_idle" || $AnimatedSprite.animation == "player_running"):
 			isAttacking = true
@@ -91,24 +97,60 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
 	time += delta
 	if time > TIME_PERIOD:
-		
-		# Reset timer
 		time = 0
 	pass
+	
+	
 func smallJump():
 	motion.y = (JUMP_HEIGHT/2)
+	motion.x = motion.x/4
+	
+	
+func knockback():
+	motion.y = JUMP_HEIGHT/2
+	if ($AnimatedSprite.flip_h):
+		motion.x = 150
+	else:
+		motion.x = -150
+		
+func blinkLights():
+	var node = get_tree().get_root().get_node("Node2D/NightLight")
+	var cor = node.color
+	for i in [0,1]:
+		var t2 = Timer.new()
+		t2.set_wait_time(0.1)
+		self.add_child(t2)
+		t2.start()
+		yield(t2, "timeout")
+		node.color = Color(0.6,0.2,0.2,1)
+		var t3 = Timer.new()
+		t3.set_wait_time(0.1)
+		self.add_child(t3)
+		t3.start()
+		yield(t3, "timeout")
+		node.color = Color(0.5,0.5,0.5,1)
+		var t = Timer.new()
+		t.set_wait_time(0.1)
+		self.add_child(t)
+		t.start()
+		yield(t, "timeout")
+		node.color = Color(0.1,0.1,0.1,1)
+	node.color = cor
 	
 func hurt(damageTaken):
+	knockback()
+	blinkLights()
 	LIFE = LIFE - damageTaken
 	if(LIFE <= 0):
 		get_tree().change_scene("res://Node2D.tscn")
+		
 
 func _on_Area2D_body_entered(body):
 	if(body.name == 'Player'):
 		get_tree().change_scene("res://Node2D.tscn")
+		
 		
 func _on_AttackRange_body_entered(body):
 	if(body.is_in_group("Enemy") && isAttacking):
