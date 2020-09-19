@@ -1,6 +1,6 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/PlayerSprites/New Piskel (19).png" type="Texture" id=1]
+[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/SPRITE_SHEET.png" type="Texture" id=1]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/EnemyIdle.png" type="Texture" id=2]
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=3]
 [ext_resource path="res://KinematicBody2D.gd" type="Script" id=4]
@@ -27,7 +27,7 @@ radius = 8.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "player_attacking"
-length = 0.541667
+length = 0.458334
 step = 0.0416667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -36,14 +36,29 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25, 0.291667, 0.333333, 0.375, 0.416667, 0.458333, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25, 0.291667, 0.333333, 0.375, 0.416667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+"values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "player_idle"
+resource_name = "player_hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 15, 16, 17 ]
+}
+
+[sub_resource type="Animation" id=4]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -58,8 +73,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "player_jumping"
+[sub_resource type="Animation" id=5]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -71,12 +85,11 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 36, 35, 37, 38, 39, 40 ]
+"values": [ 34, 33, 35, 36, 37, 38 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "player_running"
-length = 0.5
+[sub_resource type="Animation" id=6]
+length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -84,47 +97,64 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 14, 15, 16, 15, 16 ]
+"values": [ 12, 13, 14 ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 6.84937, 19.4078 )
+[sub_resource type="Animation" id=19]
+resource_name = "player_spawn"
+length = 1.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72 ]
+}
 
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 24 )
-region = Rect2( 0, 0, 41, 41 )
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 6.84937, 19.4078 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 24 )
-region = Rect2( 41, 0, 41, 41 )
+region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 24 )
-region = Rect2( 0, 41, 41, 41 )
+region = Rect2( 41, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 24 )
-region = Rect2( 41, 41, 41, 41 )
+region = Rect2( 0, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 24 )
-region = Rect2( 0, 82, 41, 41 )
+region = Rect2( 41, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 24 )
+region = Rect2( 0, 82, 41, 41 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 24 )
 region = Rect2( 41, 82, 41, 41 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
 "frames": [  ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": false,
 "name": "enemy_death",
 "speed": 15.0
@@ -135,16 +165,16 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 5.80637, 16.6997 )
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 8.11075, 18.6734 )
 
-[sub_resource type="RectangleShape2D" id=16]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 1156.49, 5.60356 )
 
-[sub_resource type="SpriteFrames" id=17]
+[sub_resource type="SpriteFrames" id=18]
 animations = [ {
 "frames": [ ExtResource( 22 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 21 ), ExtResource( 20 ) ],
 "loop": true,
@@ -155,7 +185,7 @@ animations = [ {
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 313.124, 133.282 )
+position = Vector2( 305.385, 147.172 )
 collision_mask = 7
 script = ExtResource( 4 )
 
@@ -169,7 +199,8 @@ smoothing_enabled = true
 smoothing_speed = 8.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
-polygon = PoolVector2Array( 16.842, 10.052, 0.96701, 10.1145, 0.84201, 8.3645, 3.71701, 5.9895, 3.90451, -18.948, 14.592, -18.948, 14.0295, 6.3645, 16.9045, 8.302 )
+position = Vector2( 0.39325, -1.41553 )
+polygon = PoolVector2Array( 16.5834, 10.2537, 0.592133, 10.2585, 0.599945, 8.28197, 3.54526, 6.19603, 3.64627, -18.8933, 13.5091, -18.9524, 13.6234, 6.27415, 16.5687, 8.28197 )
 
 [node name="AttackRange" type="Area2D" parent="Player"]
 position = Vector2( -15.1774, -6.57011 )
@@ -181,21 +212,23 @@ disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 anims/player_attacking = SubResource( 2 )
-anims/player_idle = SubResource( 3 )
-anims/player_jumping = SubResource( 4 )
-anims/player_running = SubResource( 5 )
+anims/player_hurt = SubResource( 3 )
+anims/player_idle = SubResource( 4 )
+anims/player_jumping = SubResource( 5 )
+anims/player_running = SubResource( 6 )
+anims/player_spawn = SubResource( 19 )
 
 [node name="Sprite" type="Sprite" parent="Player"]
 position = Vector2( 8.97913, -6.15071 )
 texture = ExtResource( 1 )
 vframes = 9
 hframes = 9
-frame = 40
+frame = 70
 
 [node name="Enemy" type="KinematicBody2D" parent="." groups=[
 "Enemy",
 ]]
-position = Vector2( 444.762, 151.213 )
+position = Vector2( 357.21, 132.973 )
 input_pickable = true
 collision_layer = 2147483649
 collision_mask = 39
@@ -203,12 +236,12 @@ script = ExtResource( 14 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 position = Vector2( -0.420441, 4.62351 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Enemy"]
 position = Vector2( -0.945995, -1.26135 )
 scale = Vector2( 1.21046, 1.21046 )
-frames = SubResource( 13 )
+frames = SubResource( 14 )
 animation = "enemy_idle"
 
 [node name="Head" type="Area2D" parent="Enemy"]
@@ -218,13 +251,13 @@ scale = Vector2( 1, 0.36 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/Head"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( -0.552582, -10.2487 )
-shape = SubResource( 14 )
+shape = SubResource( 15 )
 
 [node name="Body" type="Area2D" parent="Enemy"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/Body"]
 position = Vector2( -0.210266, 5.57094 )
-shape = SubResource( 15 )
+shape = SubResource( 16 )
 
 [node name="Enemy2" type="KinematicBody2D" parent="." groups=[
 "Enemy",
@@ -237,12 +270,12 @@ script = ExtResource( 14 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2"]
 position = Vector2( -0.420441, 4.62351 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Enemy2"]
 position = Vector2( -0.945995, -1.26135 )
 scale = Vector2( 1.21046, 1.21046 )
-frames = SubResource( 13 )
+frames = SubResource( 14 )
 animation = "enemy_idle"
 
 [node name="Head" type="Area2D" parent="Enemy2"]
@@ -252,13 +285,13 @@ scale = Vector2( 1, 0.36 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/Head"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( -0.552582, -10.2487 )
-shape = SubResource( 14 )
+shape = SubResource( 15 )
 
 [node name="Body" type="Area2D" parent="Enemy2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/Body"]
 position = Vector2( -0.210266, 5.57094 )
-shape = SubResource( 15 )
+shape = SubResource( 16 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -3
@@ -272,22 +305,21 @@ position = Vector2( 448.687, 231.75 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
 position = Vector2( -24.7221, 2.24747 )
-shape = SubResource( 16 )
+shape = SubResource( 17 )
 
 [node name="BurningSkull" type="AnimatedSprite" parent="."]
 position = Vector2( 268.665, 155.725 )
 z_index = -1
-frames = SubResource( 17 )
-frame = 3
+frames = SubResource( 18 )
+frame = 5
 playing = true
 
 [node name="NightLight" type="Light2D" parent="."]
-position = Vector2( 13.687, -13.2352 )
+position = Vector2( 13.687, -13.9423 )
 scale = Vector2( 50, 50 )
 texture = ExtResource( 23 )
 texture_scale = 0.9
-color = Color( 0.458824, 0.329412, 0.329412, 0.866667 )
-energy = 0.8
+color = Color( 0.623529, 0.623529, 0.623529, 0.643137 )
 mode = 2
 range_layer_min = -100
 
@@ -296,6 +328,7 @@ layer = -80
 scroll_base_scale = Vector2( 0.95, 0.95 )
 
 [node name="Buildings" type="ParallaxLayer" parent="Prédio"]
+modulate = Color( 0.643137, 0.643137, 0.643137, 1 )
 position = Vector2( -34.753, -4.02084 )
 motion_mirroring = Vector2( 350, 0 )
 
@@ -307,48 +340,56 @@ texture = ExtResource( 26 )
 
 [node name="Montanha" type="ParallaxBackground" parent="."]
 layer = -90
-scroll_base_scale = Vector2( 0.5, 0.5 )
+scroll_base_scale = Vector2( 0.3, 0.3 )
 
 [node name="Montains" type="ParallaxLayer" parent="Montanha"]
 position = Vector2( -8.32446, -1.18921 )
 motion_mirroring = Vector2( 500, 0 )
 
 [node name="Sprite" type="Sprite" parent="Montanha/Montains"]
-self_modulate = Color( 0.0470588, 0.215686, 0.00392157, 1 )
-position = Vector2( 218.992, 202.156 )
+self_modulate = Color( 0.188235, 0.466667, 0.121569, 1 )
+position = Vector2( 219.242, 177.906 )
 scale = Vector2( 0.166727, 0.27009 )
 texture = ExtResource( 25 )
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="Céu" type="ParallaxBackground" parent="."]
 scroll_base_scale = Vector2( 0.2, 0.2 )
 
-[node name="Clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Clouds" type="ParallaxLayer" parent="Céu"]
 position = Vector2( -8.32446, -1.18921 )
 z_as_relative = false
 motion_mirroring = Vector2( 500, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Clouds"]
+[node name="Sprite" type="Sprite" parent="Céu/Clouds"]
 self_modulate = Color( 0.988235, 0.937255, 0.937255, 1 )
 position = Vector2( 397.684, 55.5307 )
 scale = Vector2( 3.54799, 5.122 )
 texture = ExtResource( 27 )
 
-[node name="Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Sky" type="ParallaxLayer" parent="Céu"]
 motion_mirroring = Vector2( 500, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky"]
+[node name="Sprite" type="Sprite" parent="Céu/Sky"]
 position = Vector2( 214.995, 24.7534 )
 scale = Vector2( 2.55167, 2.11006 )
 texture = ExtResource( 28 )
 
+[node name="Light2D" type="Light2D" parent="Céu/Sky/Sprite"]
+position = Vector2( -18.5066, 17.9005 )
+texture = ExtResource( 23 )
+texture_scale = 50.0
+range_layer_min = -100
+range_layer_max = -100
+
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
-position = Vector2( 321.146, 127.147 )
+position = Vector2( 324.916, 119.408 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 23 )
-texture_scale = 1.5
-color = Color( 0.882353, 0.72549, 0.937255, 1 )
+texture_scale = 11.97
+color = Color( 0.764706, 0.478431, 0.866667, 1 )
 range_height = 2048.0
+range_layer_min = -80
 shadow_enabled = true
 shadow_color = Color( 0, 0, 0, 1 )
 shadow_buffer_size = 32
@@ -361,17 +402,14 @@ position = Vector2( 270.829, 148.559 )
 rotation = -4.46638e-06
 scale = Vector2( 0.68, 0.302 )
 texture = ExtResource( 23 )
-texture_scale = 0.4
-mode = 2
 range_height = -2048.0
 range_layer_min = -4
 shadow_enabled = true
 script = ExtResource( 30 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 31 )
-volume_db = -5.674
-autoplay = true
+volume_db = -15.0
 [connection signal="body_entered" from="Player/AttackRange" to="Player" method="_on_AttackRange_body_entered"]
 [connection signal="animation_finished" from="Enemy/AnimatedSprite" to="Enemy" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Enemy/Head" to="Enemy" method="_on_Head_body_entered"]
