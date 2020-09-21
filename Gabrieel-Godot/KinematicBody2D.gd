@@ -8,7 +8,7 @@ const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
 var damage = 1
-
+var labelnode
 var isAttacking = false
 var isHurt = false
 var time = 0
@@ -96,6 +96,8 @@ func attack():
 			$AttackRange/CollisionShape2D.disabled = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	labelnode = get_tree().get_root().get_node("Node2D/CanvasLayer/Interface/VBoxContainer/Counter/Label")
+	labelnode.text = str(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
 	motion.y = -100
@@ -106,6 +108,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	print(LIFE)
 	time += delta
 	if time > TIME_PERIOD:
 		time = 0
@@ -144,7 +147,9 @@ func blinkLights():
 	node.color = cor
 	
 func hurt(damageTaken):
+	
 	LIFE = LIFE - damageTaken
+	labelnode.text = str(LIFE)
 	if(LIFE <= 0):
 		die()
 	else:
