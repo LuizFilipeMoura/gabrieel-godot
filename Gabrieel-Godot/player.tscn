@@ -5,7 +5,7 @@
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 8.0
+radius = 1.02299
 
 [sub_resource type="Animation" id=2]
 resource_name = "player_attacking"
@@ -24,7 +24,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 resource_name = "player_death"
 step = 0.0666667
 tracks/0/type = "value"
@@ -52,8 +52,7 @@ tracks/1/keys = {
 "values": [ 0.5 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "player_hurt"
+[sub_resource type="Animation" id=4]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -68,7 +67,7 @@ tracks/0/keys = {
 "values": [ 15, 16, 17 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -83,7 +82,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -98,7 +97,7 @@ tracks/0/keys = {
 "values": [ 34, 33, 35, 36, 37, 38 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -113,8 +112,7 @@ tracks/0/keys = {
 "values": [ 12, 13, 14 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "player_spawn"
+[sub_resource type="Animation" id=8]
 length = 1.7
 step = 0.05
 tracks/0/type = "value"
@@ -170,23 +168,23 @@ disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/player_attacking = SubResource( 2 )
-anims/player_death = SubResource( 8 )
-anims/player_hurt = SubResource( 3 )
-anims/player_idle = SubResource( 4 )
-anims/player_jumping = SubResource( 5 )
-anims/player_running = SubResource( 6 )
-anims/player_spawn = SubResource( 7 )
+anims/player_death = SubResource( 3 )
+anims/player_hurt = SubResource( 4 )
+anims/player_idle = SubResource( 5 )
+anims/player_jumping = SubResource( 6 )
+anims/player_running = SubResource( 7 )
+anims/player_spawn = SubResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 8.97913, -6.15071 )
 texture = ExtResource( 3 )
 vframes = 9
 hframes = 9
-frame = 19
+frame = 9
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
-position = Vector2( 8.93652, -3.13135 )
+position = Vector2( 9.49854, -3.0376 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
 texture_scale = 11.97

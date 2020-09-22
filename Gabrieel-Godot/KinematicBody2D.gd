@@ -127,7 +127,7 @@ func knockback():
 		motion.x = -150
 		
 func blinkLights():
-	var node = get_tree().get_root().get_node("Node2D/NightLight")
+	var node = get_tree().get_root().get_node("Node2D/Environment/NightLight")
 	var cor = node.color
 	for i in [0,1]:
 		var t2 = Timer.new()
