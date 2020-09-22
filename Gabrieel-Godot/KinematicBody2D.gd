@@ -19,6 +19,7 @@ var isAlive = false
 
 
 func _physics_process(_delta):
+
 	motion.y += GRAVITY
 	
 	if isAlive:
@@ -76,7 +77,7 @@ func _physics_process(_delta):
 				motion.x = lerp(motion.x, 0, 0.4)
 		else:
 			#if !is_on_floor():
-				#print('a')
+
 			if friction == true:
 				motion.x = lerp(motion.x, 0, 0.05)
 		motion = move_and_slide(motion, UP)
@@ -108,7 +109,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print(LIFE)
+
 	time += delta
 	if time > TIME_PERIOD:
 		time = 0

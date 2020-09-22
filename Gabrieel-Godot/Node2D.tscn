@@ -314,7 +314,6 @@ shape = SubResource( 18 )
 position = Vector2( 268.665, 155.725 )
 z_index = -1
 frames = SubResource( 19 )
-frame = 6
 playing = true
 
 [node name="NightLight" type="Light2D" parent="."]
