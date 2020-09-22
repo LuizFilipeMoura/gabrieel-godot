@@ -13,7 +13,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	move_and_collide(Vector2(0, 1))
+	if !isDead && !is_on_floor():
+		move_and_collide(Vector2(0, 10))
 
 func die():
 	isDead = true
@@ -21,10 +22,12 @@ func die():
 	yield($AnimatedSprite, "animation_finished")
 	$CollisionShape2D.scale = Vector2(2, 0.2)
 	$CollisionShape2D.transform.origin = Vector2(7, 20)
+	
 		
 func _on_Head_body_entered(body):
 	if(body.name == 'Player'):
 		if(!isDead):
+			print()
 			body.smallJump()
 			die()
 
@@ -35,6 +38,8 @@ func hurt(damageTaken):
 
 func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):
+		if(body.position.x - position.x):
+			$AnimatedSprite.flip_h = true
 		body.hurt(damage)
 
 
