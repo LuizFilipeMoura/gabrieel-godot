@@ -34,7 +34,7 @@ func _physics_process(_delta):
 					motion.x -=  ACCELERATION
 					motion.x = max(motion.x, -MAX_SPEED)
 					$Sprite.flip_h = true
-					$AttackRange.transform.origin.x = -15
+					$AttackRange.transform.origin.x = -5
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
 							$AnimationPlayer.play("player_running")
@@ -49,7 +49,7 @@ func _physics_process(_delta):
 					motion.x +=  ACCELERATION
 					motion.x = min(motion.x, MAX_SPEED)
 					$Sprite.flip_h = false
-					$AttackRange.transform.origin.x = 34
+					$AttackRange.transform.origin.x = 20
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
 							$AnimationPlayer.play("player_running")
@@ -128,21 +128,7 @@ func knockback():
 		
 func blinkLights():
 	var node = get_tree().get_root().get_node("Node2D/Environment/NightLight")
-	var cor = node.color
-	for i in [0,1]:
-		var t2 = Timer.new()
-		t2.set_wait_time(0.1)
-		self.add_child(t2)
-		t2.start()
-		yield(t2, "timeout")
-		node.color = Color(1.5,0.8,0.8,1)
-		var t = Timer.new()
-		t.set_wait_time(0.1)
-		self.add_child(t)
-		t.start()
-		yield(t, "timeout")
-		node.color = Color(0.5,0.5,0.5,1)
-	node.color = cor
+	node.blinkLights()
 	
 func hurt(damageTaken):
 	
@@ -161,7 +147,6 @@ func hurt(damageTaken):
 		
 func die(animated = true):
 	isAlive = false
-	print(animated)
 	if(animated):
 		$AnimationPlayer.play("player_death")
 		yield($AnimationPlayer, "animation_finished")

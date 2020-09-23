@@ -4,8 +4,8 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/SPRITE_SHEET.png" type="Texture" id=3]
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=4]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 1.02299
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10.319, 3.9184 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "player_attacking"
@@ -159,10 +159,11 @@ position = Vector2( 0.39325, -1.41553 )
 polygon = PoolVector2Array( 16.5834, 10.2537, 0.592133, 10.2585, 0.599945, 8.28197, 3.54526, 6.19603, 3.64627, -18.8933, 13.5091, -18.9524, 13.6234, 6.27415, 16.5687, 8.28197 )
 
 [node name="AttackRange" type="Area2D" parent="."]
-position = Vector2( -15.1774, -6.57011 )
+position = Vector2( 1.64056, -5.30877 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
 position = Vector2( 0.667419, 0.166855 )
+rotation = -6.28319
 shape = SubResource( 1 )
 disabled = true
 
@@ -180,7 +181,7 @@ position = Vector2( 8.97913, -6.15071 )
 texture = ExtResource( 3 )
 vframes = 9
 hframes = 9
-frame = 9
+frame = 1
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
@@ -188,8 +189,8 @@ position = Vector2( 9.49854, -3.0376 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
 texture_scale = 11.97
-color = Color( 0.764706, 0.478431, 0.866667, 0.607843 )
-energy = 2.0
+color = Color( 0.764706, 0.478431, 0.866667, 0.521569 )
+energy = 1.8
 range_height = 2048.0
 range_layer_min = -80
 shadow_enabled = true
