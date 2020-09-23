@@ -38,22 +38,22 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
-"loop": false,
-"name": "enemy_death",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "enemy_idle",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": false,
+"name": "enemy_death",
+"speed": 15.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 5.80637, 16.6997 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 8.11075, 18.6734 )
+extents = Vector2( 9.73727, 18.6734 )
 
 [node name="Enemy" type="KinematicBody2D" groups=[
 "Enemy",

@@ -12,10 +12,11 @@ var labelnode
 var isAttacking = false
 var isHurt = false
 var time = 0
-var LIFE = 10
+var LIFE = 5
 var motion = Vector2()
 var isAlive = false
 
+var spawnPoint = Vector2(0,0)
 
 
 func _physics_process(_delta):
@@ -49,7 +50,7 @@ func _physics_process(_delta):
 					motion.x +=  ACCELERATION
 					motion.x = min(motion.x, MAX_SPEED)
 					$Sprite.flip_h = false
-					$AttackRange.transform.origin.x = 20
+					$AttackRange.transform.origin.x = 22
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
 							$AnimationPlayer.play("player_running")
@@ -93,20 +94,24 @@ func attack():
 			
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	labelnode = get_tree().get_root().get_node("Node2D/CanvasLayer/Interface/VBoxContainer/Counter/Label")
+	labelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/Counter/Label")
+	spawnPoint = position
 	spawn()
 	pass # Replace with function body.
 
 func spawn():
+	motion = Vector2(0,0)
+	position = spawnPoint
+	LIFE = 5
 	labelnode.text = str(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
 	motion.y = -100
 	isAlive = true
+	
 
 
 func _process(delta):
-
 	time += delta
 	if time > TIME_PERIOD:
 		time = 0
@@ -127,7 +132,7 @@ func knockback():
 		motion.x = -150
 		
 func blinkLights():
-	var node = get_tree().get_root().get_node("Node2D/Environment/NightLight")
+	var node = get_tree().get_root().get_node("Level1/Environment/NightLight")
 	node.blinkLights()
 	
 func hurt(damageTaken):
@@ -135,6 +140,7 @@ func hurt(damageTaken):
 	LIFE = LIFE - damageTaken
 	labelnode.text = str(LIFE)
 	if(LIFE <= 0):
+		labelnode.text = "0"
 		die()
 	else:
 		isHurt = true
@@ -150,9 +156,9 @@ func die(animated = true):
 	if(animated):
 		$AnimationPlayer.play("player_death")
 		yield($AnimationPlayer, "animation_finished")
-		get_tree().change_scene("res://Node2D.tscn")
+		spawn()
 	else:
-		get_tree().change_scene("res://Node2D.tscn")
+		spawn()
 
 	
 		
@@ -166,3 +172,14 @@ func _on_DeathZone_body_entered(body):
 	if(body.name == 'Player'):
 		die(false)
 		
+
+
+func _on_CheckPoint_body_entered(body):
+	if(body.name == 'Player'):
+		spawnPoint = Vector2 (body.position.x, body.position.y - 20)
+
+
+
+func _on_NextLevel_body_entered(body):
+	if(body.name == 'Player'):
+		get_tree().change_scene("res://Boss.tscn")

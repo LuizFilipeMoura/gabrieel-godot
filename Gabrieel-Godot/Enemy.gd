@@ -21,7 +21,10 @@ func die():
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")
 	$CollisionShape2D.scale = Vector2(2, 0.2)
-	$CollisionShape2D.transform.origin = Vector2(7, 20)
+	if($AnimatedSprite.flip_h == true): 
+		$CollisionShape2D.transform.origin = Vector2(-7, 20)
+	else:
+		$CollisionShape2D.transform.origin = Vector2(7, 20)
 	
 		
 func _on_Head_body_entered(body):
@@ -40,6 +43,8 @@ func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):
 		if(body.position.x - position.x):
 			$AnimatedSprite.flip_h = true
+		else:
+			$AnimatedSprite.flip_h = false
 		body.hurt(damage)
 
 
