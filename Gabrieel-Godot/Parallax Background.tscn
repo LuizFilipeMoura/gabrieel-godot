@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Gabrieel-Unity-Sprites/Environment/cloud.png" type="Texture" id=2]
+[ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=3]
+[ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=4]
+[ext_resource path="res://Gabrieel-Unity-Sprites/Environment/mountains.png" type="Texture" id=5]
+
+[node name="Parallax Background" type="Node2D"]
+
+[node name="Montanha" type="ParallaxBackground" parent="."]
+layer = -90
+scroll_base_scale = Vector2( 0.3, 0.3 )
+
+[node name="Montains" type="ParallaxLayer" parent="Montanha"]
+position = Vector2( -8.32446, -1.18921 )
+motion_mirroring = Vector2( 500, 0 )
+
+[node name="Sprite" type="Sprite" parent="Montanha/Montains"]
+self_modulate = Color( 0.188235, 0.466667, 0.121569, 1 )
+position = Vector2( 255.201, 183.899 )
+scale = Vector2( 0.166727, 0.21446 )
+texture = ExtResource( 5 )
+
+[node name="Céu" type="ParallaxBackground" parent="."]
+scroll_base_scale = Vector2( 0.2, 0.2 )
+
+[node name="Clouds" type="ParallaxLayer" parent="Céu"]
+position = Vector2( -8.32446, -1.18921 )
+z_as_relative = false
+motion_mirroring = Vector2( 500, 0 )
+
+[node name="Sprite" type="Sprite" parent="Céu/Clouds"]
+self_modulate = Color( 0.988235, 0.937255, 0.937255, 1 )
+position = Vector2( 397.684, 55.5307 )
+scale = Vector2( 3.54799, 5.122 )
+texture = ExtResource( 2 )
+
+[node name="Sky" type="ParallaxLayer" parent="Céu"]
+motion_mirroring = Vector2( 500, 0 )
+
+[node name="Sprite" type="Sprite" parent="Céu/Sky"]
+position = Vector2( 214.995, 24.7534 )
+scale = Vector2( 2.55167, 2.11006 )
+texture = ExtResource( 4 )
+
+[node name="Light2D" type="Light2D" parent="Céu/Sky/Sprite"]
+position = Vector2( -18.5066, 17.9005 )
+texture = ExtResource( 3 )
+texture_scale = 50.0
+range_layer_min = -100
+range_layer_max = -100
