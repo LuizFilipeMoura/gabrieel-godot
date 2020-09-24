@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "boss_idle"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -23,6 +24,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "boss_run"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -38,6 +40,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "boss_run_FLIP"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -51,8 +54,10 @@ tracks/0/keys = {
 "values": [ 14, 15, 16, 17 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=7]
 resource_name = "boss_turn_turret"
+length = 1.6
+step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -60,19 +65,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+"values": [ 2, 3, 4, 5, 6, 7, 8, 9 ]
 }
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 28.3452, 10.5832 )
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 10, 34.7257 )
+
 [node name="BossScene" type="Node2D"]
 
 [node name="Boss" type="KinematicBody2D" parent="."]
-position = Vector2( 230.065, 187.298 )
+position = Vector2( 120.411, 199.747 )
 scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 5 )
 
@@ -80,23 +88,42 @@ script = ExtResource( 5 )
 texture = ExtResource( 3 )
 vframes = 5
 hframes = 4
+frame = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boss"]
 anims/boss_idle = SubResource( 1 )
 anims/boss_run = SubResource( 2 )
 anims/boss_run_FLIP = SubResource( 3 )
-anims/boss_turn_turret = SubResource( 4 )
+anims/boss_turn_turret = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
 position = Vector2( -0.943237, 19.3865 )
 shape = SubResource( 5 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 272.277, 234.048 )
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 4 )]
+
+[node name="Phisycs and Areas" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Phisycs and Areas"]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 8, 8 )
 format = 1
 tile_data = PoolIntArray( 917511, 7, 0, 917546, 7, 0, 983047, 7, 0, 983082, 7, 0, 1048583, 7, 0, 1048618, 7, 0, 1114119, 7, 0, 1114154, 7, 0, 1179655, 7, 0, 1179690, 7, 0, 1245191, 7, 0, 1245226, 7, 0, 1310727, 7, 0, 1310762, 7, 0, 1376263, 7, 0, 1376298, 7, 0, 1441799, 7, 0, 1441834, 7, 0, 1507335, 7, 0, 1507370, 7, 0, 1572871, 7, 0, 1572906, 7, 0, 1638407, 7, 0, 1638442, 7, 0, 1703943, 7, 0, 1703978, 7, 0, 1769479, 7, 0, 1769514, 7, 0, 1835015, 7, 0, 1835050, 7, 0, 1900551, 7, 0, 1900586, 7, 0, 1966087, 7, 0, 1966122, 7, 0, 2031623, 7, 0, 2031658, 7, 0, 2097159, 7, 0, 2097160, 7, 0, 2097161, 7, 0, 2097162, 7, 0, 2097163, 7, 0, 2097164, 7, 0, 2097165, 7, 0, 2097166, 7, 0, 2097167, 7, 0, 2097168, 7, 0, 2097169, 7, 0, 2097170, 7, 0, 2097171, 7, 0, 2097172, 7, 0, 2097173, 7, 0, 2097174, 7, 0, 2097175, 7, 0, 2097176, 7, 0, 2097177, 7, 0, 2097178, 7, 0, 2097179, 7, 0, 2097180, 7, 0, 2097181, 7, 0, 2097182, 7, 0, 2097183, 7, 0, 2097184, 7, 0, 2097185, 7, 0, 2097186, 7, 0, 2097187, 7, 0, 2097188, 7, 0, 2097189, 7, 0, 2097190, 7, 0, 2097191, 7, 0, 2097192, 7, 0, 2097193, 7, 0, 2097194, 7, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
+[node name="TurningPoint" type="Area2D" parent="Phisycs and Areas"]
 
-[node name="CanvasLayer" parent="." instance=ExtResource( 4 )]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Phisycs and Areas/TurningPoint"]
+position = Vector2( 334.437, 221.27 )
+shape = SubResource( 6 )
+
+[node name="TurningPoint2" type="Area2D" parent="Phisycs and Areas"]
+position = Vector2( -261.626, -2.37839 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Phisycs and Areas/TurningPoint2"]
+position = Vector2( 334.437, 221.27 )
+shape = SubResource( 6 )
+[connection signal="body_entered" from="Phisycs and Areas/TurningPoint" to="Boss" method="_on_TurningPoint_body_entered"]
+[connection signal="body_entered" from="Phisycs and Areas/TurningPoint2" to="Boss" method="_on_TurningPoint2_body_entered"]
