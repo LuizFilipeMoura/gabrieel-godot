@@ -1,8 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://SPRITES_GODOT/Boss1 SPRITE SHEET.png" type="Texture" id=3]
+[ext_resource path="res://SPRITES_GODOT/Boss.png" type="Texture" id=3]
 [ext_resource path="res://CanvasLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Boss.gd" type="Script" id=5]
 [ext_resource path="res://Parallax Background.tscn" type="PackedScene" id=6]
@@ -55,6 +55,34 @@ tracks/0/keys = {
 "values": [ 14, 15, 16, 17 ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "boss_shot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 12, 13, 16 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer:playback_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.5 ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "boss_turn_turret"
 length = 1.6
@@ -89,12 +117,14 @@ script = ExtResource( 5 )
 texture = ExtResource( 3 )
 vframes = 5
 hframes = 4
-frame = 10
+frame = 16
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boss"]
+playback_speed = 0.5
 anims/boss_idle = SubResource( 1 )
 anims/boss_run = SubResource( 2 )
 anims/boss_run_FLIP = SubResource( 3 )
+anims/boss_shot = SubResource( 7 )
 anims/boss_turn_turret = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
@@ -102,8 +132,6 @@ position = Vector2( -0.943237, 19.3865 )
 shape = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="Boss"]
-wait_time = 3.0
-one_shot = true
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 272.277, 234.048 )

@@ -11,7 +11,7 @@ var Player = 0
 var motion = Vector2()
 var isReadyToMove = false
 var isMovingto = "right"
-
+var isShooting = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_node("Player")
@@ -31,7 +31,7 @@ func spawn():
 func _process(delta):
 	motion.y += GRAVITY
 	#print($AnimationPlayer.current_animation)
-	if(isReadyToMove):
+	if(isReadyToMove && !isShooting):
 		if(motion.x > 6):
 			$AnimationPlayer.play("boss_run")
 		elif (motion.x < -6):
@@ -50,10 +50,14 @@ func _process(delta):
 #	pass
 
 func fire(): 
+	isShooting = true
+	$AnimationPlayer.play("boss_shot")
 	var bullet = BULLET_SCENE.instance()
 	bullet.position = get_global_position()
 	bullet.Player = Player
 	get_parent().add_child(bullet)
+	yield($AnimationPlayer, "animation_finished")
+	isShooting = false
 	
 
 func _on_TurningPoint_body_entered(body):
