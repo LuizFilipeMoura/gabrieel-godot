@@ -81,7 +81,7 @@ extents = Vector2( 10, 34.7257 )
 [node name="BossScene" type="Node2D"]
 
 [node name="Boss" type="KinematicBody2D" parent="."]
-position = Vector2( 120.411, 199.747 )
+position = Vector2( 143.031, 199.152 )
 scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 5 )
 
@@ -100,6 +100,10 @@ anims/boss_turn_turret = SubResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
 position = Vector2( -0.943237, 19.3865 )
 shape = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="Boss"]
+wait_time = 3.0
+one_shot = true
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 272.277, 234.048 )
@@ -152,6 +156,7 @@ scale = Vector2( 3.9778, 2.64035 )
 
 [node name="Light2D" parent="Parallax Background/Céu/Sky/Sprite" index="0"]
 position = Vector2( -17.3985, 15.6163 )
+[connection signal="timeout" from="Boss/Timer" to="Boss" method="_on_Timer_timeout"]
 [connection signal="body_entered" from="Phisycs and Areas/TurningPoint" to="Boss" method="_on_TurningPoint_body_entered"]
 [connection signal="body_entered" from="Phisycs and Areas/TurningPoint2" to="Boss" method="_on_TurningPoint2_body_entered"]
 

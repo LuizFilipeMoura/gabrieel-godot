@@ -5,6 +5,7 @@ const GRAVITY = 10
 const ACCELERATION = 2
 const MAX_SPEED = 500
 
+onready var BULLET_SCENE = preload("res://Bullet.tscn")
 
 var Player = 0
 var motion = Vector2()
@@ -20,16 +21,16 @@ func _ready():
 func spawn():
 	$AnimationPlayer.play("boss_turn_turret")
 	yield($AnimationPlayer, "animation_finished")
-
 	print('acabou')
 	isReadyToMove = true
+	$Timer.start()
+
+	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	motion.y += GRAVITY
 	#print($AnimationPlayer.current_animation)
-	
-	
 	if(isReadyToMove):
 		if(motion.x > 6):
 			$AnimationPlayer.play("boss_run")
@@ -48,6 +49,12 @@ func _process(delta):
 	motion = move_and_slide(motion, UP)
 #	pass
 
+func fire(): 
+	var bullet = BULLET_SCENE.instance()
+	bullet.position = get_global_position()
+	bullet.Player = Player
+	get_parent().add_child(bullet)
+	
 
 func _on_TurningPoint_body_entered(body):
 	if(body.name == "Boss"):
@@ -58,4 +65,6 @@ func _on_TurningPoint2_body_entered(body):
 		isMovingto = "right"
 
 
-
+func _on_Timer_timeout():
+	fire()
+	pass # Replace with function body.

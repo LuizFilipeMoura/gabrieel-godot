@@ -15,6 +15,7 @@ var time = 0
 var LIFE = 5
 var motion = Vector2()
 var isAlive = false
+var isSpawning = false
 
 var spawnPoint = Vector2(0,0)
 
@@ -23,7 +24,7 @@ func _physics_process(_delta):
 
 	motion.y += GRAVITY
 	
-	if isAlive:
+	if isAlive && !isSpawning:
 		var friction = false
 		if is_on_floor():
 			if Input.is_action_pressed("move_left"):
@@ -100,18 +101,23 @@ func _ready():
 	pass # Replace with function body.
 
 func spawn():
+	isAlive = true
+	isSpawning = true
 	motion = Vector2(0,0)
 	position = spawnPoint
 	LIFE = 5
 	labelnode.text = str(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
+	isSpawning = false
 	motion.y = -100
-	isAlive = true
+	
 	
 
 
 func _process(delta):
+	if !isAlive && !isSpawning:
+		move_and_collide(Vector2(0, 2))
 	time += delta
 	if time > TIME_PERIOD:
 		time = 0
@@ -136,7 +142,6 @@ func blinkLights():
 	node.blinkLights()
 	
 func hurt(damageTaken):
-	
 	LIFE = LIFE - damageTaken
 	labelnode.text = str(LIFE)
 	if(LIFE <= 0):
@@ -152,6 +157,8 @@ func hurt(damageTaken):
 		
 		
 func die(animated = true):
+	motion.y = 10
+	
 	isAlive = false
 	if(animated):
 		$AnimationPlayer.play("player_death")
@@ -173,12 +180,9 @@ func _on_DeathZone_body_entered(body):
 		die(false)
 		
 
-
 func _on_CheckPoint_body_entered(body):
 	if(body.name == 'Player'):
 		spawnPoint = Vector2 (body.position.x, body.position.y - 20)
-
-
 
 func _on_NextLevel_body_entered(body):
 	if(body.name == 'Player'):
