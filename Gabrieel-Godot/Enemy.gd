@@ -8,7 +8,8 @@ var damage = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimatedSprite.play("enemy_idle")
-	pass # Replace with function body.
+	if self.name == "Enemy2":
+		live = 4 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
