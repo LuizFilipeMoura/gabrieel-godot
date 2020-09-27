@@ -136,9 +136,9 @@ func smallJump():
 func knockback():
 	motion.y = JUMP_HEIGHT/2
 	if ($Sprite.flip_h):
-		motion.x = 150
+		motion.x = 100
 	else:
-		motion.x = -150
+		motion.x = -100
 		
 func blinkLights():
 	if get_parent().get_node("Environment/NightLight"):
