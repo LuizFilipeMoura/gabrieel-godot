@@ -16,21 +16,25 @@ var LIFE = 5
 var motion = Vector2()
 var isAlive = false
 var isSpawning = false
+var willHurtEnemy = false
 
 var spawnPoint = Vector2(0,0)
 
+signal win
 
 func _physics_process(_delta):
 
 	motion.y += GRAVITY
+	if isAttacking:
+		motion.x*=0.8
 	
 	if isAlive && !isSpawning:
 		var friction = false
 		if is_on_floor():
 			if Input.is_action_pressed("move_left"):
 				if Input.is_action_pressed("move_right"):
-					motion.x = 0
-					friction = true
+					motion.x = lerp(motion.x, 0, 0.1)
+					#friction = true
 					$AnimationPlayer.play("player_idle")
 				else:
 					motion.x -=  ACCELERATION
@@ -44,8 +48,8 @@ func _physics_process(_delta):
 				
 			elif Input.is_action_pressed("move_right"):
 				if Input.is_action_pressed("move_left"):
-					motion.x = 0
-					friction = true
+					motion.x = lerp(motion.x, 0, 0.1)
+					#friction = true
 					$AnimationPlayer.play("player_idle")
 				else:
 					motion.x +=  ACCELERATION
@@ -59,6 +63,7 @@ func _physics_process(_delta):
 				friction = true
 				if is_on_floor():
 					if !isAttacking && !isHurt:
+						motion.x = motion.x *0.7
 						$AnimationPlayer.play("player_idle")
 					
 		else:
@@ -72,8 +77,6 @@ func _physics_process(_delta):
 		if is_on_floor():
 			if Input.is_action_just_pressed("jump"):
 				jump()
-			if friction == true:
-				motion.x = lerp(motion.x, 0, 0.4)
 		motion = move_and_slide(motion, UP)
 		
 		if Input.is_action_just_pressed("attack"):
@@ -138,15 +141,17 @@ func knockback():
 		motion.x = -150
 		
 func blinkLights():
-	var node = get_tree().get_root().get_node("Level1/Environment/NightLight")
-	node.blinkLights()
+	if get_parent().get_node("Environment/NightLight"):
+		var node = get_parent().get_node("Environment/NightLight")
+		node.blinkLights()
 	
 func hurt(damageTaken):
 	LIFE = LIFE - damageTaken
 	labelnode.text = str(LIFE)
 	if(LIFE <= 0):
 		labelnode.text = "0"
-		die()
+		if isAlive:
+			die()
 	else:
 		isHurt = true
 		$AnimationPlayer.play("player_hurt")
@@ -155,27 +160,26 @@ func hurt(damageTaken):
 		yield($AnimationPlayer, "animation_finished")
 		isHurt = false
 		
-		
+func hurtEnemy():
+	willHurtEnemy = true
+
 func die(animated = true):
 	motion.y = 10
-	
 	isAlive = false
 	if(animated):
 		$AnimationPlayer.play("player_death")
 		yield($AnimationPlayer, "animation_finished")
-		spawn()
+		$DeathTimer.start(2)
 	else:
 		spawn()
 
-	
-		
 func _on_AttackRange_body_entered(body):
-	if(body.is_in_group("Enemy") && isAttacking):
-		yield($AnimationPlayer, "animation_finished")
+	if(body.is_in_group("Enemy") && willHurtEnemy ):
 		body.hurt(damage)
 
 
 func _on_DeathZone_body_entered(body):
+	
 	if(body.name == 'Player'):
 		die(false)
 		
@@ -187,3 +191,21 @@ func _on_CheckPoint_body_entered(body):
 func _on_NextLevel_body_entered(body):
 	if(body.name == 'Player'):
 		get_tree().change_scene("res://Boss.tscn")
+
+
+func _on_Timer_timeout():
+	spawn()
+
+
+
+func _on_Boss_bossDie():
+	$Camera2D.zoom.x = 0.2
+	$Camera2D.zoom.y = 0.2
+	emit_signal("win")
+	pass # Replace with function body.
+
+
+func _on_RammingArea_body_entered(body):
+	if(body.name == 'Player'):
+		hurt(3)
+	pass # Replace with function body.

@@ -18,14 +18,29 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25, 0.291667, 0.333333, 0.375, 0.416667 ),
+"times": PoolRealArray( 0, 0.0416667, 0.0833334, 0.125, 0.166667, 0.208334, 0.25, 0.291667, 0.333334, 0.375, 0.416667 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "hurtEnemy"
+} ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "player_death"
+length = 0.933334
 step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -168,6 +183,7 @@ shape = SubResource( 1 )
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.5
 anims/player_attacking = SubResource( 2 )
 anims/player_death = SubResource( 3 )
 anims/player_hurt = SubResource( 4 )
@@ -177,11 +193,13 @@ anims/player_running = SubResource( 7 )
 anims/player_spawn = SubResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 8.97913, -6.15071 )
+light_mask = 2
+position = Vector2( 8.97913, -7.31869 )
+z_index = 1
 texture = ExtResource( 3 )
 vframes = 9
 hframes = 9
-frame = 1
+frame = 5
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
@@ -190,13 +208,16 @@ scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
 texture_scale = 11.97
 color = Color( 0.764706, 0.478431, 0.866667, 0.521569 )
-energy = 1.8
+energy = 2.0
 range_height = 2048.0
 range_layer_min = -80
-range_layer_max = -1
 shadow_enabled = true
 shadow_color = Color( 0, 0, 0, 1 )
 shadow_buffer_size = 32
 shadow_gradient_length = 1.0
 shadow_filter = 2
+
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]

@@ -3,7 +3,7 @@ extends Area2D
 var move = Vector2.ZERO
 var look_vec = Vector2.ZERO
 var Player = null
-var speed = 2
+var speed = 2.5
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

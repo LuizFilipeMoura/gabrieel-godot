@@ -18,10 +18,10 @@ animations = [ {
 } ]
 
 [node name="BurningSkull" type="AnimatedSprite"]
+light_mask = 2
 position = Vector2( 268.665, 155.725 )
-z_index = -1
 frames = SubResource( 1 )
-frame = 1
+frame = 5
 playing = true
 
 [node name="Skull_glow" type="Light2D" parent="."]
@@ -29,8 +29,8 @@ position = Vector2( 2.164, -7.166 )
 rotation = -4.46638e-06
 scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 8 )
-color = Color( 0.92549, 0.901961, 0.278431, 0.584314 )
-energy = 1.5
+color = Color( 0.92549, 0.901961, 0.278431, 0.611765 )
+energy = 3.0
 range_height = -2048.0
-range_layer_min = -80
+range_layer_min = -110
 shadow_enabled = true
