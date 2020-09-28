@@ -19,7 +19,7 @@ var pilot = null
 
 signal bossHurt
 signal bossDie
-var life = 4
+var life = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_node("Player")
