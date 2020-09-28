@@ -23,11 +23,8 @@ func die():
 	isDead = true
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")
-	$CollisionShape2D.scale = Vector2(2, 0.2)
-	if($AnimatedSprite.flip_h == true): 
-		$CollisionShape2D.transform.origin = Vector2(-7, 20)
-	else:
-		$CollisionShape2D.transform.origin = Vector2(7, 20)
+	$CollisionShape2D.disabled = true
+	
 		
 	
 		
