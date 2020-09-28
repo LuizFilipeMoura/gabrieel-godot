@@ -122,6 +122,9 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 
 func die():
+	pilot.position = Vector2(315, 52)
+	$AnimationPlayer.play("boss_death")
+	yield($AnimationPlayer, "animation_finished")
 	emit_signal("bossDie")
 	self.queue_free()
 	emit_signal("bossHurt", 0)

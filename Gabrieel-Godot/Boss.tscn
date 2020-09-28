@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -13,7 +13,8 @@
 [ext_resource path="res://Label2.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=1]
-resource_name = "boss_hurt"
+resource_name = "boss_death"
+length = 8.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -22,13 +23,53 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 15 ]
+"values": [ 37, 38, 39, 40, 41, 42, 43, 44 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer:playback_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 8 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 10.0 ]
 }
 
 [sub_resource type="Animation" id=2]
+length = 3.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 35, 36, 37 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer:playback_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 7.0 ]
+}
+
+[sub_resource type="Animation" id=3]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -43,7 +84,7 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -58,7 +99,7 @@ tracks/0/keys = {
 "values": [ 28, 29, 30, 29 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -73,7 +114,7 @@ tracks/0/keys = {
 "values": [ 32, 33, 34, 33 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -100,7 +141,7 @@ tracks/1/keys = {
 "values": [ 0.5, 1.0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 1.6
 step = 0.2
 tracks/0/type = "value"
@@ -116,19 +157,19 @@ tracks/0/keys = {
 "values": [ 2, 3, 4, 5, 6, 7, 8, 9 ]
 }
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 31.4507, 12.5184 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 9.2294, 11.3488 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 10, 34.7257 )
 
 [node name="BossScene" type="Node2D"]
 
 [node name="Boss" type="KinematicBody2D" parent="."]
-position = Vector2( 142.874, 188.285 )
+position = Vector2( 151.292, 201.193 )
 scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 5 )
 
@@ -136,22 +177,23 @@ script = ExtResource( 5 )
 position = Vector2( 6.21733, -6.21733 )
 scale = Vector2( 1.19429, 1.19429 )
 texture = ExtResource( 7 )
-vframes = 6
-hframes = 6
-frame = 31
+vframes = 7
+hframes = 7
+frame = 37
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boss"]
-playback_speed = 0.5
-anims/boss_hurt = SubResource( 1 )
-anims/boss_idle = SubResource( 2 )
-anims/boss_run = SubResource( 3 )
-anims/boss_run_FLIP = SubResource( 4 )
-anims/boss_shot = SubResource( 5 )
-anims/boss_turn_turret = SubResource( 6 )
+playback_speed = 10.0
+anims/boss_death = SubResource( 1 )
+anims/boss_hurt = SubResource( 2 )
+anims/boss_idle = SubResource( 3 )
+anims/boss_run = SubResource( 4 )
+anims/boss_run_FLIP = SubResource( 5 )
+anims/boss_shot = SubResource( 6 )
+anims/boss_turn_turret = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
 position = Vector2( 3.967, 16.9949 )
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="Timer" type="Timer" parent="Boss"]
 one_shot = true
@@ -161,7 +203,7 @@ position = Vector2( -55, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss/RammingArea"]
 position = Vector2( 34.757, 17.9391 )
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 226.869, 191.162 )
@@ -222,14 +264,14 @@ tile_data = PoolIntArray( 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720904, 1, 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Phisycs and Areas/TurningPoint"]
 position = Vector2( 393.62, 223.517 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="TurningPoint2" type="Area2D" parent="Phisycs and Areas"]
 position = Vector2( -261.626, -2.37839 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Phisycs and Areas/TurningPoint2"]
 position = Vector2( 334.437, 221.27 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="Parallax Background" parent="." instance=ExtResource( 6 )]
 position = Vector2( 181.273, 219.205 )

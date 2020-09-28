@@ -104,7 +104,6 @@ func _ready():
 	pass # Replace with function body.
 
 func spawn():
-	isAlive = true
 	isSpawning = true
 	motion = Vector2(0,0)
 	position = spawnPoint
@@ -112,6 +111,7 @@ func spawn():
 	labelnode.text = str(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
+	isAlive = true
 	isSpawning = false
 	motion.y = -100
 	
