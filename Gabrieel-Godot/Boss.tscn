@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -11,11 +11,11 @@
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=9]
 [ext_resource path="res://TextureProgress.gd" type="Script" id=10]
 [ext_resource path="res://Label2.gd" type="Script" id=11]
+[ext_resource path="res://GabrieelSoundtrack.wav" type="AudioStream" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "boss_death"
-length = 8.0
-step = 1.0
+step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -23,27 +23,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"times": PoolRealArray( 0, 0.0666667, 0.133333, 0.2, 0.333333, 0.533333, 0.733333, 0.933333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 37, 38, 39, 40, 41, 42, 43, 44 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationPlayer:playback_speed")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 8 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 10.0 ]
-}
 
 [sub_resource type="Animation" id=2]
-length = 3.0
-step = 1.0
+length = 0.2
+step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -51,22 +39,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
+"times": PoolRealArray( 0, 0.0666667, 0.133333 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 35, 36, 37 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationPlayer:playback_speed")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 7.0 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -128,18 +104,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 10, 11, 12, 13, 16 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationPlayer:playback_speed")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 10.5561 ),
-"update": 0,
-"values": [ 0.5, 1.0 ]
-}
 
 [sub_resource type="Animation" id=7]
 length = 1.6
@@ -160,8 +124,7 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 31.4507, 12.5184 )
 
-[sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 9.2294, 11.3488 )
+[sub_resource type="CircleShape2D" id=11]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 10, 34.7257 )
@@ -182,7 +145,7 @@ hframes = 7
 frame = 37
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boss"]
-playback_speed = 10.0
+playback_speed = 0.5
 anims/boss_death = SubResource( 1 )
 anims/boss_hurt = SubResource( 2 )
 anims/boss_idle = SubResource( 3 )
@@ -192,18 +155,20 @@ anims/boss_shot = SubResource( 6 )
 anims/boss_turn_turret = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
-position = Vector2( 3.967, 16.9949 )
+position = Vector2( 3.1733, 16.8626 )
 shape = SubResource( 8 )
+
+[node name="PilotTimer" type="Timer" parent="Boss"]
 
 [node name="Timer" type="Timer" parent="Boss"]
 one_shot = true
 
 [node name="RammingArea" type="Area2D" parent="Boss"]
-position = Vector2( -55, 0 )
+position = Vector2( -2.08662, 1.32286 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boss/RammingArea"]
-position = Vector2( 34.757, 17.9391 )
-shape = SubResource( 9 )
+position = Vector2( -20.1406, 15.0289 )
+shape = SubResource( 11 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 226.869, 191.162 )
@@ -297,12 +262,17 @@ position = Vector2( 50.1334, -31.4432 )
 scale = Vector2( 3.9778, 2.64035 )
 
 [node name="Light2D" parent="Parallax Background/Céu/Sky/Sprite" index="0"]
-position = Vector2( -18.3626, 16.5631 )
+position = Vector2( -14.9207, 20.5461 )
 
 [node name="Enemy" parent="." instance=ExtResource( 9 )]
 position = Vector2( 315.624, 52.935 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+autoplay = true
 [connection signal="bossDie" from="Boss" to="Player" method="_on_Boss_bossDie"]
 [connection signal="bossHurt" from="Boss" to="CanvasLayer/TextureProgress" method="_on_Boss_bossHurt"]
+[connection signal="timeout" from="Boss/PilotTimer" to="Boss" method="_on_PilotTimer_timeout"]
 [connection signal="timeout" from="Boss/Timer" to="Boss" method="_on_Timer_timeout"]
 [connection signal="body_entered" from="Boss/RammingArea" to="Player" method="_on_RammingArea_body_entered"]
 [connection signal="win" from="Player" to="CanvasLayer/Label2" method="_on_Player_win"]
