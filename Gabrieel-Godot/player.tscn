@@ -1,8 +1,18 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://KinematicBody2D.gd" type="Script" id=1]
+[ext_resource path="res://sounds/jump3.wav" type="AudioStream" id=2]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Characther/SPRITE_SHEET.png" type="Texture" id=3]
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=4]
+[ext_resource path="res://sounds/jump2.wav" type="AudioStream" id=5]
+[ext_resource path="res://sounds/attack1.wav" type="AudioStream" id=6]
+[ext_resource path="res://sounds/jump1.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/death.wav" type="AudioStream" id=8]
+[ext_resource path="res://sounds/attack3.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds/hurt3.wav" type="AudioStream" id=10]
+[ext_resource path="res://sounds/attack2.wav" type="AudioStream" id=11]
+[ext_resource path="res://sounds/hurt1.wav" type="AudioStream" id=12]
+[ext_resource path="res://sounds/hurt2.wav" type="AudioStream" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.319, 3.9184 )
@@ -219,5 +229,47 @@ shadow_filter = 2
 
 [node name="DeathTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Voices" type="Node" parent="."]
+
+[node name="attack1" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 6 )
+volume_db = -5.0
+
+[node name="attack2" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 11 )
+volume_db = -5.0
+
+[node name="attack3" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 9 )
+volume_db = -5.0
+
+[node name="hurt1" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 12 )
+volume_db = -5.0
+
+[node name="hurt2" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 13 )
+volume_db = -5.0
+
+[node name="hurt3" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 10 )
+volume_db = -5.0
+
+[node name="die" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 8 )
+volume_db = 15.0
+
+[node name="jump1" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 7 )
+volume_db = -5.0
+
+[node name="jump2" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 5 )
+volume_db = -5.0
+
+[node name="jump3" type="AudioStreamPlayer" parent="Voices"]
+stream = ExtResource( 2 )
+volume_db = -5.0
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]

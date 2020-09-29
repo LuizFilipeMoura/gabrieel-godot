@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 const UP = Vector2(0,-1)
 const GRAVITY = 10
-const ACCELERATION = 2
-const MAX_SPEED = 500
+var ACCELERATION = 2
+var MAX_SPEED = 300
 
 onready var BULLET_SCENE = preload("res://Bullet.tscn")
-#onready var PILOT_SCENE = preload("res://Enemy.tscn")
+
 var Player = 0
 var motion = Vector2()
 var isReadyToMove = false
@@ -16,6 +16,10 @@ var countTimesThatTurned = 0
 var countFires = 0
 var countTimesThatStopped = 0;
 var pilot = null
+var maxFires = 4
+var inBetweenShots = 0.8
+var maxTurns = 3
+var maxStopps = 3
 
 signal bossHurt
 signal bossDie
@@ -27,7 +31,7 @@ func _ready():
 	pass # Replace with function body.
 
 func spawn():
-	$RammingArea.position.x = 0
+	$RammingArea.position.x = 53
 	$AnimationPlayer.play("boss_turn_turret")
 	yield($AnimationPlayer, "animation_finished")
 	isReadyToMove = true
@@ -39,11 +43,11 @@ func stopAndFire():
 	motion.x = 0
 	isReadyToMove = false
 	lookAtPlayer()
-	if(countTimesThatStopped>=2):
+	if(countTimesThatStopped>= maxStopps):
 		countTimesThatStopped = 0
 		spawnPilot()
 	else:
-		$Timer.start(1)
+		$Timer.start(inBetweenShots)
 	
 func lookAtPlayer():
 	var look_vec = Player.position - position
@@ -54,9 +58,9 @@ func lookAtPlayer():
 		
 		
 func spawnPilot():
-	lookAtPlayer()
+	$PilotTimer.start(4)
 	pilot = get_parent().get_node("Enemy")
-	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y - 10) 
+	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y - 5) 
 	pilot.isPilot()
 
 	
@@ -69,10 +73,10 @@ func _process(delta):
 	if(isReadyToMove && !isShooting):
 		$Sprite.flip_h = false
 		if(motion.x > 6):
-			$RammingArea.position.x = 0
+			$RammingArea.position.x = 53
 			$AnimationPlayer.play("boss_run")
 		elif (motion.x < -6):
-			$RammingArea.position.x = -55
+			$RammingArea.position.x = -2
 			$AnimationPlayer.play("boss_run_FLIP")
 		else:	
 			$AnimationPlayer.play("boss_idle")
@@ -82,7 +86,7 @@ func _process(delta):
 		if isMovingto == "right":
 			motion.x +=  ACCELERATION # RIGHT
 			motion.x = min(motion.x, MAX_SPEED)
-		if(countTimesThatTurned >= 3 && countFires == 0 ):
+		if(countTimesThatTurned >= maxTurns && countFires == 0 ):
 			stopAndFire()
 	motion = move_and_slide(motion, UP)
 #	pass
@@ -98,8 +102,8 @@ func fire():
 	get_parent().add_child(bullet)
 	$AnimationPlayer.play("boss_idle")
 	
-	if countFires < 3:
-		$Timer.start(1.5)
+	if countFires < maxFires:
+		$Timer.start(inBetweenShots)
 	else:
 		isReadyToMove = true
 		countFires = 0
@@ -131,15 +135,28 @@ func die():
 	get_parent().get_node("CanvasLayer/Label").text = ' '
 	get_parent().get_node("Enemy").queue_free()
 	
-	
+func anger():
+	MAX_SPEED +=50
+	ACCELERATION +=1
+	maxFires +=1
+	inBetweenShots -= 0.2
+	$AnimationPlayer.playback_speed +=0.1
+
 func _on_Enemy_hurtTank():
 	life -= 1
 	if(life<=0):
 		die()
 	else:	
+		anger()
 		emit_signal("bossHurt", life)
 		pilot.position = Vector2(315, 52)
 		$AnimationPlayer.play("boss_hurt")
 		yield($AnimationPlayer, "animation_finished")
 		isReadyToMove = true
+	pass # Replace with function body.
+
+
+func _on_PilotTimer_timeout():
+	pilot.position = Vector2(315, 52)
+	isReadyToMove = true
 	pass # Replace with function body.
