@@ -65,7 +65,7 @@ texture = ExtResource( 14 )
 motion_mirroring = Vector2( 500, 0 )
 
 [node name="Sprite" type="Sprite" parent="Parallax Background/Céu/Sky"]
-position = Vector2( 214.995, 24.7534 )
+position = Vector2( 253.179, 24.0463 )
 scale = Vector2( 2.55167, 2.11006 )
 texture = ExtResource( 2 )
 
@@ -181,43 +181,43 @@ shape = SubResource( 3 )
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="BurningSkull" parent="Environment" instance=ExtResource( 8 )]
-frame = 4
+frame = 1
 
 [node name="BurningSkull6" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
-frame = 4
+frame = 1
 
 [node name="BurningSkull2" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 1010.55, 115.138 )
-frame = 4
+frame = 1
 
 [node name="BurningSkull3" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
-frame = 2
+frame = 6
 
 [node name="BurningSkull5" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 3
+frame = 0
 
 [node name="BurningSkull4" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 1818.88, -4.19994 )
-frame = 2
+frame = 6
 
 [node name="BurningSkull7" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 3
+frame = 0
 
 [node name="BurningSkull8" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 3
+frame = 0
 
 [node name="BurningSkull9" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.568 )
-frame = 3
+frame = 0
 
 [node name="BurningSkull10" parent="Environment" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 3
+frame = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Environment"]
 stream = ExtResource( 4 )

@@ -21,6 +21,8 @@ var inBetweenShots = 0.8
 var maxTurns = 3
 var maxStopps = 3
 
+var tankWasHurt = false
+
 signal bossHurt
 signal bossDie
 var life = 4
@@ -41,7 +43,6 @@ func stopAndFire():
 	isReadyToMove = false
 	countTimesThatTurned = 0
 	motion.x = 0
-	isReadyToMove = false
 	lookAtPlayer()
 	if(countTimesThatStopped>= maxStopps):
 		countTimesThatStopped = 0
@@ -58,11 +59,12 @@ func lookAtPlayer():
 		
 		
 func spawnPilot():
+	tankWasHurt = false
 	$PilotTimer.start(4)
 	pilot = get_parent().get_node("Enemy")
-	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y - 5) 
+	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y ) 
 	pilot.isPilot()
-
+	lookAtPlayer()
 	
 	# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -100,12 +102,12 @@ func fire():
 	bullet.Player = Player
 	yield($AnimationPlayer, "animation_finished")
 	get_parent().add_child(bullet)
-	$AnimationPlayer.play("boss_idle")
+	#$AnimationPlayer.play("boss_idle")
 	
 	if countFires < maxFires:
 		$Timer.start(inBetweenShots)
 	else:
-		isReadyToMove = true
+		$Reload.start(1)
 		countFires = 0
 	isShooting = false
 	
@@ -126,13 +128,13 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 
 func die():
+	get_parent().get_node("CanvasLayer/Label").text = ' '
+	emit_signal("bossHurt", 0)
 	pilot.position = Vector2(315, 52)
 	$AnimationPlayer.play("boss_death")
 	yield($AnimationPlayer, "animation_finished")
 	emit_signal("bossDie")
 	self.queue_free()
-	emit_signal("bossHurt", 0)
-	get_parent().get_node("CanvasLayer/Label").text = ' '
 	get_parent().get_node("Enemy").queue_free()
 	
 func anger():
@@ -143,6 +145,7 @@ func anger():
 	$AnimationPlayer.playback_speed +=0.1
 
 func _on_Enemy_hurtTank():
+	tankWasHurt = true
 	life -= 1
 	if(life<=0):
 		die()
@@ -157,6 +160,25 @@ func _on_Enemy_hurtTank():
 
 
 func _on_PilotTimer_timeout():
-	pilot.position = Vector2(315, 52)
+	if !tankWasHurt:
+		pilot.position = Vector2(315, 52)
+		isReadyToMove = true
+	pass # Replace with function body.
+
+
+func _on_Reload_timeout():
 	isReadyToMove = true
+	pass # Replace with function body.
+
+
+func _on_RammingArea_body_entered(body):
+	if(body.name == 'Player'):
+		
+		if body.position.x - position.x > 0 :
+			body.turnSprite(true)
+			#body.$Sprite.flip_h = true
+		else:
+			body.turnSprite(false)
+		body.hurt(3)
+
 	pass # Replace with function body.
