@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/cloud.png" type="Texture" id=14]
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=15]
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/tree.png" type="Texture" id=16]
+[ext_resource path="res://SPRITES_GODOT/skull.png" type="Texture" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 824.856, 5.60356 )
@@ -252,40 +253,43 @@ texture = ExtResource( 5 )
 [node name="BurningSkulls" type="Node2D" parent="Environment"]
 
 [node name="BurningSkull" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
+frame = 3
 
 [node name="BurningSkull6" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
+frame = 3
 
 [node name="BurningSkull2" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1010.55, 115.138 )
+frame = 3
 
 [node name="BurningSkull3" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
-frame = 3
+frame = 1
 
 [node name="BurningSkull5" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 4
+frame = 2
 
 [node name="BurningSkull4" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1818.88, -4.19994 )
-frame = 3
+frame = 1
 
 [node name="BurningSkull7" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 4
+frame = 2
 
 [node name="BurningSkull8" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 4
+frame = 2
 
 [node name="BurningSkull9" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.568 )
-frame = 4
+frame = 2
 
 [node name="BurningSkull10" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 4
+frame = 2
 
 [node name="Fence & Plant & Tree" type="Node2D" parent="Environment"]
 
@@ -300,12 +304,14 @@ light_mask = 0
 position = Vector2( 778.863, 159.973 )
 scale = Vector2( 0.564563, 0.564563 )
 texture = ExtResource( 12 )
+flip_h = true
 
 [node name="Plant3" type="Sprite" parent="Environment/Fence & Plant & Tree"]
 light_mask = 0
 position = Vector2( 1086.36, 167.306 )
 scale = Vector2( 0.564563, 0.564563 )
 texture = ExtResource( 12 )
+flip_h = true
 
 [node name="Tree" type="Sprite" parent="Environment/Fence & Plant & Tree"]
 light_mask = 0
@@ -316,6 +322,7 @@ texture = ExtResource( 16 )
 light_mask = 0
 position = Vector2( 1186.03, 148.341 )
 texture = ExtResource( 16 )
+flip_h = true
 
 [node name="Tree3" type="Sprite" parent="Environment/Fence & Plant & Tree"]
 light_mask = 0
@@ -331,11 +338,75 @@ texture = ExtResource( 13 )
 light_mask = 0
 position = Vector2( 1969.41, 270.483 )
 texture = ExtResource( 13 )
+flip_h = true
 
 [node name="Fence3" type="Sprite" parent="Environment/Fence & Plant & Tree"]
 light_mask = 0
 position = Vector2( 2236.29, 245.137 )
 texture = ExtResource( 13 )
+flip_h = true
+
+[node name="Skull" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 363.518, 162.908 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+
+[node name="Skull2" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 923.337, 166.178 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_h = true
+
+[node name="Skull4" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 1250.67, 197.99 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+
+[node name="Skull5" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 1360.67, 262.802 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_h = true
+
+[node name="Skull6" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 1639.54, 263.991 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_h = true
+
+[node name="Skull7" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 2429.17, 247.045 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_v = true
+
+[node name="Skull8" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 2760.66, 224.747 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_h = true
+flip_v = true
+
+[node name="Skull9" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 2992.56, 135.854 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
+flip_h = true
+flip_v = true
+
+[node name="Skull3" type="Sprite" parent="Environment/Fence & Plant & Tree"]
+position = Vector2( 606.711, 161.719 )
+scale = Vector2( 0.364583, 0.364583 )
+z_index = -100
+texture = ExtResource( 17 )
 [connection signal="body_entered" from="Physics & Zones/DeathZone" to="Player" method="_on_DeathZone_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/DeathZone2" to="Player" method="_on_DeathZone_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/CheckPoint" to="Player" method="_on_CheckPoint_body_entered"]
