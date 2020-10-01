@@ -17,6 +17,5 @@ func _ready():
 
 
 func _on_Boss_bossHurt(life):
-	print('SINAL')
 	value = life
 	pass # Replace with function body.

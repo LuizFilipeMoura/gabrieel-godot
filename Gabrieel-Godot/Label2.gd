@@ -17,5 +17,5 @@ func _ready():
 
 
 func _on_Player_win():
-	text = 'YOU FUCKIN WON\nversion 0.0.1'
+	text = 'YOU FUCKIN WON\nversion 0.0.2'
 	pass # Replace with function body.
