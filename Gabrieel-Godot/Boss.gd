@@ -25,7 +25,7 @@ var tankWasHurt = false
 
 signal bossHurt
 signal bossDie
-var life = 1
+var life = 4
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_node("Player")

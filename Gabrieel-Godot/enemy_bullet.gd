@@ -3,11 +3,12 @@ extends Area2D
 var move = Vector2.ZERO
 var look_vec = Vector2.ZERO
 var Player = null
-var speed = 4
-var damage = 5
+var speed = 2
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$sprite.scale = 0.5
 	look_vec = Player.position - get_global_position()
 	$Sprite.rotate(look_vec.angle())
 	pass # Replace with function body.
@@ -23,9 +24,7 @@ func _physics_process(delta):
 #func _process(delta):
 #	pass
 func _on_Bullet_body_entered(body):
-	if( body.name ==  "TileMap"|| body.name == "Player"):
-		if(body.name == "Player"):
-			body.hurt(damage)
-		self.queue_free()
-
+	if(body.name == "Player"):
+		body.hurt(5)
+		$Sprite.region_enabled = true
 	pass # Replace with function body.

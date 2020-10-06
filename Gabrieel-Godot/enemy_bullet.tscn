@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://enemy_bullet.gd" type="Script" id=1]
+[ext_resource path="res://.import/BULLET SPRITE.png-ad8669fb3e44026e7a88c5dde6d588ad.stex" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 3.13258
+height = 6.31252
+
+[node name="enemy_bullet" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.148659, 0.157107 )
+rotation = -1.57087
+shape = SubResource( 1 )

@@ -1,22 +1,36 @@
 extends KinematicBody2D
 
+var Player = null
+onready var BULLET_SCENE = preload("res://bullet.tscn")
 var isDead = false;
 var life = 2
 var damage = 2
 var isPilot = false
+var fire_rate = 1.7
 signal hurtTank
-
+var inRange = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	$AnimatedSprite.play("enemy_idle")
-	if self.name == "Enemy2":
-		life = 4 
+	Player = get_parent().get_parent().get_node("Player")
+	shot()
+	$Timer.start(fire_rate)
+	$AnimatedSprite.play("idle")
 
 func _on_Timer_timeout():
-	$AnimatedSprite.play("enemy_shot")
+	if (!isDead && inRange):
+		shot()
+		$Timer.start(fire_rate)
 
-
+func _on_AttackRange_body_entered(body):
+	if body.name == "Player":
+		inRange = true
+func shot():
+	$AnimatedSprite.play("shooting")
+	var bullet = BULLET_SCENE.instance()
+	bullet.position = get_global_position()
+	bullet.Player = Player
+	get_parent().add_child(bullet)
+	bullet.damage = 3
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -69,3 +83,10 @@ func isPilot():
 
 
 	pass # Replace with function body.
+
+
+
+
+
+func _on_AttackRange_body_exited(body):
+	inRange = false
