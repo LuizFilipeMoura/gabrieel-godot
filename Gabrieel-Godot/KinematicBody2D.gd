@@ -23,7 +23,7 @@ var isAlive = false
 var isSpawning = false
 var willHurtEnemy = false
 
-var trys = 3
+var trys = 30
 
 var volume = -10
 
@@ -167,8 +167,8 @@ func smallJump():
 	$AnimationPlayer.play("player_jumping")
 	
 	
-func knockback():
-	motion.y = JUMP_HEIGHT/2
+func knockback(amount):
+	motion.y = JUMP_HEIGHT*amount
 	if ($Sprite.flip_h):
 		motion.x = 100
 	else:
@@ -180,37 +180,36 @@ func blinkLights():
 		node.blinkLights()
 	
 func hurt(damageTaken):
-	
-	LIFE = LIFE - damageTaken
-	lifelabelnode.text = str(LIFE)
-	if(LIFE <= 0):
-		lifelabelnode.text = "0"
-		if isAlive:
-			die()
-	else:
-		isHurt = true
-		var my_random_number = rng.randi_range(1, 3)
-		match my_random_number:
-			1: 
-				$Voices/hurt1.volume_db =  volume
-				$Voices/hurt1.play()
-			2: 
-				$Voices/hurt2.volume_db = volume
-				$Voices/hurt2.play()
-			3: 
-				$Voices/hurt3.volume_db = volume
-				$Voices/hurt3.play()
-		$AnimationPlayer.play("player_hurt")
-		knockback()
-		blinkLights()
-		yield($AnimationPlayer, "animation_finished")
-		isHurt = false
+	if isAlive:
+		LIFE = LIFE - damageTaken
+		lifelabelnode.text = str(LIFE)
+		if(LIFE <= 0):
+			lifelabelnode.text = "0"
+			if isAlive:
+				die()
+		else:
+			isHurt = true
+			var my_random_number = rng.randi_range(1, 3)
+			match my_random_number:
+				1: 
+					$Voices/hurt1.volume_db =  volume
+					$Voices/hurt1.play()
+				2: 
+					$Voices/hurt2.volume_db = volume
+					$Voices/hurt2.play()
+				3: 
+					$Voices/hurt3.volume_db = volume
+					$Voices/hurt3.play()
+			$AnimationPlayer.play("player_hurt")
+			knockback(0.5)
+			blinkLights()
+			yield($AnimationPlayer, "animation_finished")
+			isHurt = false
 		
 func hurtEnemy():
 	willHurtEnemy = true
 
 func die(animated = true):
-	
 	motion.y = 10
 	isAlive = false
 	trys-=1
@@ -246,6 +245,11 @@ func _on_NextLevel_body_entered(body):
 	if(body.name == 'Player'):
 		get_tree().change_scene("res://Boss.tscn")
 
+func turnSprite(flip):
+	if flip:
+		$Sprite.flip_h = true
+	else:
+		$Sprite.flip_h = false
 
 func _on_Timer_timeout():
 	spawn()
@@ -257,7 +261,3 @@ func _on_Boss_bossDie():
 	pass # Replace with function body.
 
 
-func _on_RammingArea_body_entered(body):
-	if(body.name == 'Player'):
-		hurt(3)
-	pass # Replace with function body.

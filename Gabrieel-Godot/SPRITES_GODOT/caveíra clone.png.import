@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tree.png-4ac5a583395bf0c1b71996532dcdb749.stex"
+path="res://.import/caveíra clone.png-5d932cbe212a38c75f9a5e7f7dd3250b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Gabrieel-Unity-Sprites/Environment/tree.png"
-dest_files=[ "res://.import/tree.png-4ac5a583395bf0c1b71996532dcdb749.stex" ]
+source_file="res://SPRITES_GODOT/caveíra clone.png"
+dest_files=[ "res://.import/caveíra clone.png-5d932cbe212a38c75f9a5e7f7dd3250b.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

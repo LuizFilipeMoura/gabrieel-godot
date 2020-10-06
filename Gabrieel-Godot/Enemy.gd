@@ -23,8 +23,7 @@ func die():
 	isDead = true
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")
-	$CollisionShape2D.disabled = true
-	
+	self.queue_free()
 		
 	
 		

@@ -21,6 +21,8 @@ var inBetweenShots = 0.8
 var maxTurns = 3
 var maxStopps = 3
 
+var tankWasHurt = false
+
 signal bossHurt
 signal bossDie
 var life = 1
@@ -37,11 +39,11 @@ func spawn():
 	isReadyToMove = true
 	
 func stopAndFire():
+	$PilotTimer.stop()
 	countTimesThatStopped+=1
 	isReadyToMove = false
 	countTimesThatTurned = 0
 	motion.x = 0
-	isReadyToMove = false
 	lookAtPlayer()
 	if(countTimesThatStopped>= maxStopps):
 		countTimesThatStopped = 0
@@ -58,11 +60,12 @@ func lookAtPlayer():
 		
 		
 func spawnPilot():
+	tankWasHurt = false
 	$PilotTimer.start(4)
 	pilot = get_parent().get_node("Enemy")
-	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y - 5) 
+	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y ) 
 	pilot.isPilot()
-
+	lookAtPlayer()
 	
 	# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -71,13 +74,14 @@ func _process(delta):
 	if !isReadyToMove:
 		motion.x = lerp(motion.x, 0, 0.4)
 	if(isReadyToMove && !isShooting):
-		$Sprite.flip_h = false
 		if(motion.x > 6):
 			$RammingArea.position.x = 53
+			$Sprite.flip_h = false
 			$AnimationPlayer.play("boss_run")
 		elif (motion.x < -6):
 			$RammingArea.position.x = -2
-			$AnimationPlayer.play("boss_run_FLIP")
+			$Sprite.flip_h = true
+			$AnimationPlayer.play("boss_run")
 		else:	
 			$AnimationPlayer.play("boss_idle")
 		if isMovingto == "left":
@@ -92,20 +96,15 @@ func _process(delta):
 #	pass
 
 func fire(): 
-	countFires +=1
+	
 	isShooting = true
 	$AnimationPlayer.play("boss_shot")
-	var bullet = BULLET_SCENE.instance()
-	bullet.position = get_global_position()
-	bullet.Player = Player
-	yield($AnimationPlayer, "animation_finished")
-	get_parent().add_child(bullet)
-	$AnimationPlayer.play("boss_idle")
+	#$AnimationPlayer.play("boss_idle")
 	
 	if countFires < maxFires:
 		$Timer.start(inBetweenShots)
 	else:
-		isReadyToMove = true
+		$Reload.start(2)
 		countFires = 0
 	isShooting = false
 	
@@ -125,14 +124,21 @@ func _on_Timer_timeout():
 	fire()
 	pass # Replace with function body.
 
+func releaseBullet():
+	countFires +=1
+	var bullet = BULLET_SCENE.instance()
+	bullet.position = get_global_position()
+	bullet.Player = Player
+	get_parent().add_child(bullet)
+
 func die():
+	get_parent().get_node("CanvasLayer/Label").text = ' '
+	emit_signal("bossHurt", 0)
 	pilot.position = Vector2(315, 52)
 	$AnimationPlayer.play("boss_death")
 	yield($AnimationPlayer, "animation_finished")
 	emit_signal("bossDie")
 	self.queue_free()
-	emit_signal("bossHurt", 0)
-	get_parent().get_node("CanvasLayer/Label").text = ' '
 	get_parent().get_node("Enemy").queue_free()
 	
 func anger():
@@ -143,6 +149,7 @@ func anger():
 	$AnimationPlayer.playback_speed +=0.1
 
 func _on_Enemy_hurtTank():
+	tankWasHurt = true
 	life -= 1
 	if(life<=0):
 		die()
@@ -152,11 +159,32 @@ func _on_Enemy_hurtTank():
 		pilot.position = Vector2(315, 52)
 		$AnimationPlayer.play("boss_hurt")
 		yield($AnimationPlayer, "animation_finished")
-		isReadyToMove = true
+		if(countFires == 0):
+			isReadyToMove = true
 	pass # Replace with function body.
 
 
 func _on_PilotTimer_timeout():
-	pilot.position = Vector2(315, 52)
+	if !tankWasHurt && countFires == 0:
+		pilot.position = Vector2(315, 52)
+		isReadyToMove = true
+	pass # Replace with function body.
+
+
+func _on_Reload_timeout():
+
 	isReadyToMove = true
+	pass # Replace with function body.
+
+
+func _on_RammingArea_body_entered(body):
+	if(body.name == 'Player'):
+		
+		if body.position.x - position.x > 0 :
+			body.turnSprite(true)
+			#body.$Sprite.flip_h = true
+		else:
+			body.turnSprite(false)
+		body.hurt(3)
+
 	pass # Replace with function body.

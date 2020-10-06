@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tree.png-4ac5a583395bf0c1b71996532dcdb749.stex"
+path="res://.import/skull.png-7b583813ce3527cbb9c5939d26297e2e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Gabrieel-Unity-Sprites/Environment/tree.png"
-dest_files=[ "res://.import/tree.png-4ac5a583395bf0c1b71996532dcdb749.stex" ]
+source_file="res://SPRITES_GODOT/skull.png"
+dest_files=[ "res://.import/skull.png-7b583813ce3527cbb9c5939d26297e2e.stex" ]
 
 [params]
 
