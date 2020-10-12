@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://Gabrieel-Unity-Sprites/Environment/tree.png" type="Texture" id=16]
 [ext_resource path="res://SPRITES_GODOT/skull.png" type="Texture" id=17]
 [ext_resource path="res://ShootingEnemy.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Patrolenemy.tscn" type="PackedScene" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 824.856, 5.60356 )
@@ -28,6 +29,9 @@ extents = Vector2( 3.77667, 38.5368 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16.6294, 152.407 )
 
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 3.25104, 25.6119 )
+
 [node name="Level1" type="Node2D"]
 __meta__ = {
 "_edit_vertical_guides_": [ 221.75 ]
@@ -35,7 +39,7 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 light_mask = 524288
-position = Vector2( 1809.73, -20.4411 )
+position = Vector2( 951.12, 136.232 )
 z_index = 1
 z_as_relative = false
 collision_mask = 2147483655
@@ -135,9 +139,6 @@ position = Vector2( 899.322, 100.01 )
 [node name="Enemy8" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 808.608, 142.847 )
 
-[node name="Enemy9" parent="Enemys" instance=ExtResource( 7 )]
-position = Vector2( 1014.6, 175.605 )
-
 [node name="Enemy10" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 1284.86, 166.156 )
 
@@ -165,6 +166,9 @@ position = Vector2( 2673.92, 206.473 )
 [node name="Enemy20" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 2927.8, 115.759 )
 
+[node name="Patrolenemy" parent="Enemys" instance=ExtResource( 19 )]
+position = Vector2( 993.585, 151.282 )
+
 [node name="Enemy21" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 3065.76, 251.83 )
 
@@ -182,7 +186,7 @@ position = Vector2( 334.878, 144.717 )
 position = Vector2( 577.174, 142.098 )
 
 [node name="ShootingEnemy" parent="Enemys" instance=ExtResource( 18 )]
-position = Vector2( 1733.77, 5.02398 )
+position = Vector2( 1734.07, 1.42687 )
 
 [node name="ShootingEnemy2" parent="Enemys" instance=ExtResource( 18 )]
 position = Vector2( 2539.2, 218.492 )
@@ -233,6 +237,24 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics & Zones/NextLevel"]
 position = Vector2( 3201.51, 147.147 )
 shape = SubResource( 3 )
+
+[node name="TurnPointR" type="Area2D" parent="Physics & Zones" groups=[
+"TurningPointRight",
+]]
+position = Vector2( 1041.9, 188.164 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics & Zones/TurnPointR"]
+position = Vector2( 2.52271, -9.67032 )
+shape = SubResource( 4 )
+
+[node name="TurnPointL" type="Area2D" parent="Physics & Zones" groups=[
+"TurnPointLeft",
+]]
+position = Vector2( 976.15, 183.664 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics & Zones/TurnPointL"]
+position = Vector2( -0.125977, 4.10268 )
+shape = SubResource( 4 )
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -419,3 +441,5 @@ texture = ExtResource( 17 )
 [connection signal="body_entered" from="Physics & Zones/CheckPoint" to="Player" method="_on_CheckPoint_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/CheckPoint2" to="Player" method="_on_CheckPoint_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/NextLevel" to="Player" method="_on_NextLevel_body_entered"]
+[connection signal="body_entered" from="Physics & Zones/TurnPointR" to="Enemys/Patrolenemy" method="_on_TurnPointR_body_entered"]
+[connection signal="body_entered" from="Physics & Zones/TurnPointL" to="Enemys/Patrolenemy" method="_on_TurnPointL_body_entered"]
