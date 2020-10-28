@@ -13,7 +13,7 @@
 [ext_resource path="res://sounds/hurt1.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/hurt2.wav" type="AudioStream" id=13]
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
 const UP = Vector2(0,-1)
@@ -283,11 +283,10 @@ func _on_Boss_bossDie():
 
 "
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 13.8273, 3.9184 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "player_attacking"
+[sub_resource type="Animation" id=3]
 length = 0.458334
 step = 0.0416667
 tracks/0/type = "value"
@@ -317,8 +316,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "player_death"
+[sub_resource type="Animation" id=4]
 length = 0.933334
 step = 0.0666667
 tracks/0/type = "value"
@@ -346,7 +344,7 @@ tracks/1/keys = {
 "values": [ 0.5 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -361,7 +359,7 @@ tracks/0/keys = {
 "values": [ 15, 16, 17 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -376,7 +374,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -391,7 +389,7 @@ tracks/0/keys = {
 "values": [ 34, 33, 35, 36, 37, 38 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -406,7 +404,7 @@ tracks/0/keys = {
 "values": [ 12, 13, 14 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 1.7
 step = 0.05
 tracks/0/type = "value"
@@ -434,13 +432,13 @@ tracks/1/keys = {
 "values": [ 1.0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 8.44684, 15.9194 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 305.385, 147.172 )
 collision_mask = 7
-script = SubResource( 10 )
+script = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2( -0.726763, 1.10608 )
@@ -459,18 +457,18 @@ collision_mask = 524288
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
 position = Vector2( 0.667419, 0.166855 )
 rotation = -6.28319
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
-anims/player_attacking = SubResource( 2 )
-anims/player_death = SubResource( 3 )
-anims/player_hurt = SubResource( 4 )
-anims/player_idle = SubResource( 5 )
-anims/player_jumping = SubResource( 6 )
-anims/player_running = SubResource( 7 )
-anims/player_spawn = SubResource( 8 )
+anims/player_attacking = SubResource( 3 )
+anims/player_death = SubResource( 4 )
+anims/player_hurt = SubResource( 5 )
+anims/player_idle = SubResource( 6 )
+anims/player_jumping = SubResource( 7 )
+anims/player_running = SubResource( 8 )
+anims/player_spawn = SubResource( 9 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
@@ -544,6 +542,6 @@ volume_db = -5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8.91339, -7.34991 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]
