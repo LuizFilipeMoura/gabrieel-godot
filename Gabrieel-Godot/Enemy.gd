@@ -46,7 +46,6 @@ func _on_Head_body_entered(body):
 			
 
 func hurt(damageTaken):
-	print('ai')
 	if(!isDead):
 		$AnimatedSprite.play("enemy_hurt")
 		yield($AnimatedSprite, "animation_finished")
