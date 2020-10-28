@@ -6,7 +6,7 @@ var isDead = false;
 var life = 2
 var damage = 2
 var isPilot = false
-var fire_delay = 5
+var fire_delay = 2
 signal hurtTank
 var inRange = false
 # Called when the node enters the scene tree for the first time.
@@ -31,7 +31,7 @@ func shot():
 	bullet.Player = Player
 	bullet.speed = 2
 	bullet.damage = 3
-	#get_parent().add_child(bullet)
+	get_parent().add_child(bullet)
 	
 	
 func turnToPlayer():
