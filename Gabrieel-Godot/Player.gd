@@ -21,7 +21,7 @@ var LIFE = 5
 var motion = Vector2()
 var isAlive = false
 var isSpawning = false
-var willHurtEnemy = false
+var willHurtEnemy = true
 
 var trys = 30
 
@@ -233,6 +233,7 @@ func die(animated = true):
 	
 
 func _on_AttackRange_body_entered(body):
+	print(body.name)
 	if(body.is_in_group("Enemy") && willHurtEnemy ):
 		body.hurt(damage)
 

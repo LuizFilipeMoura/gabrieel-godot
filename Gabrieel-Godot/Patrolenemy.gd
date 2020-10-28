@@ -7,7 +7,7 @@ var MAX_SPEED = 300
 var motion = Vector2()
 var isReadyToMove = false
 var isMovingto = "right"
-var lookingTime = 2
+var lookingTime = 0.5
 var isDead = false;
 var life = 2
 var damage = 2
@@ -22,7 +22,6 @@ func _ready():
 		life = 4 
 
 func stop():
-	print('entrou estop')
 	$AnimatedSprite.play("enemy_idle")
 	isReadyToMove = false
 

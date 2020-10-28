@@ -40,7 +40,7 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 light_mask = 524288
-position = Vector2( 672.543, 89.1122 )
+position = Vector2( 339.919, 135.56 )
 z_index = 1
 z_as_relative = false
 collision_mask = 2147483655
@@ -185,13 +185,13 @@ position = Vector2( 2927.8, 115.759 )
 position = Vector2( 3065.76, 251.83 )
 
 [node name="Patrolenemy" parent="Enemys" instance=ExtResource( 19 )]
-position = Vector2( 980.872, 397.077 )
+position = Vector2( 1008.87, 169.196 )
 
 [node name="Patrolenemy2" parent="Enemys" instance=ExtResource( 19 )]
 position = Vector2( 579.146, 74.5781 )
 
 [node name="ShootingEnemy" parent="Enemys" instance=ExtResource( 18 )]
-position = Vector2( 1443.25, 251.99 )
+position = Vector2( 1573.03, 218.087 )
 
 [node name="ShootingEnemy2" parent="Enemys" instance=ExtResource( 18 )]
 position = Vector2( 2539.2, 218.492 )
@@ -295,43 +295,41 @@ texture = ExtResource( 5 )
 [node name="BurningSkulls" type="Node2D" parent="Environment"]
 
 [node name="BurningSkull" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
-frame = 2
+frame = 0
 
 [node name="BurningSkull6" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
-frame = 2
+frame = 0
 
 [node name="BurningSkull2" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1010.55, 115.138 )
-frame = 2
+frame = 0
 
 [node name="BurningSkull3" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
-frame = 6
 
 [node name="BurningSkull5" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 1
+frame = 6
 
 [node name="BurningSkull4" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1819.41, -4.19994 )
-frame = 6
 
 [node name="BurningSkull7" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 1
+frame = 6
 
 [node name="BurningSkull8" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 1
+frame = 6
 
 [node name="BurningSkull9" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.568 )
-frame = 1
+frame = 6
 
 [node name="BurningSkull10" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 1
+frame = 6
 
 [node name="Fence & Plant & Tree" type="Node2D" parent="Environment"]
 
