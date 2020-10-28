@@ -22,6 +22,7 @@ func _ready():
 		life = 4 
 
 func stop():
+	print('entrou estop')
 	$AnimatedSprite.play("enemy_idle")
 	isReadyToMove = false
 
@@ -53,9 +54,6 @@ func _process(delta):
 			motion.x = min(motion.x, MAX_SPEED)
 	motion = move_and_slide(motion, UP)
 #	pass
-
-
-
 
 func _physics_process(delta):
 	if !isDead && !is_on_floor() && !isPilot:
@@ -105,21 +103,11 @@ func isPilot():
 	isPilot = true
 	$CollisionShape2D.disabled = true
 
-
-
-	pass 
-
-
-
-
-
 func _on_TurnPointR_body_entered(body):
 	if(body.is_in_group("Enemy")):
 		stop()
 		$Timer.start(lookingTime)
 		isMovingto = "left"
-
-
 
 func _on_TurnPointL_body_entered(body):
 	if(body.is_in_group("Enemy")):

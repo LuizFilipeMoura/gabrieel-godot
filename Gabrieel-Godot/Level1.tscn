@@ -40,7 +40,7 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 light_mask = 524288
-position = Vector2( 2273.01, 117.732 )
+position = Vector2( 672.543, 89.1122 )
 z_index = 1
 z_as_relative = false
 collision_mask = 2147483655
@@ -135,14 +135,27 @@ range_layer_max = -100
 
 [node name="Enemys" type="Node2D" parent="."]
 
+[node name="Enemy2" parent="Enemys" instance=ExtResource( 7 )]
+position = Vector2( 680.681, 135.644 )
+scale = Vector2( 1.3, 1.3 )
+
 [node name="Enemy3" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 899.322, 100.01 )
+
+[node name="Enemy5" parent="Enemys" instance=ExtResource( 7 )]
+position = Vector2( 857.877, 33.1613 )
+
+[node name="Enemy6" parent="Enemys" instance=ExtResource( 7 )]
+position = Vector2( 577.174, 142.098 )
 
 [node name="Enemy8" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 808.608, 142.847 )
 
 [node name="Enemy10" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 1284.86, 166.156 )
+
+[node name="Enemy11" parent="Enemys" instance=ExtResource( 7 )]
+position = Vector2( 1732.75, -1.02306 )
 
 [node name="Enemy12" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 1762.37, 214.663 )
@@ -168,27 +181,17 @@ position = Vector2( 2673.92, 206.473 )
 [node name="Enemy20" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 2927.8, 115.759 )
 
-[node name="Patrolenemy" parent="Enemys" instance=ExtResource( 19 )]
-position = Vector2( 993.585, 151.282 )
-
 [node name="Enemy21" parent="Enemys" instance=ExtResource( 7 )]
 position = Vector2( 3065.76, 251.83 )
 
-[node name="Enemy11" parent="Enemys" instance=ExtResource( 7 )]
-position = Vector2( 1406.44, 247.421 )
+[node name="Patrolenemy" parent="Enemys" instance=ExtResource( 19 )]
+position = Vector2( 980.872, 397.077 )
 
-[node name="Enemy2" parent="Enemys" instance=ExtResource( 7 )]
-position = Vector2( 680.681, 135.644 )
-scale = Vector2( 1.3, 1.3 )
-
-[node name="Enemy5" parent="Enemys" instance=ExtResource( 7 )]
-position = Vector2( 334.878, 144.717 )
-
-[node name="Enemy6" parent="Enemys" instance=ExtResource( 7 )]
-position = Vector2( 577.174, 142.098 )
+[node name="Patrolenemy2" parent="Enemys" instance=ExtResource( 19 )]
+position = Vector2( 579.146, 74.5781 )
 
 [node name="ShootingEnemy" parent="Enemys" instance=ExtResource( 18 )]
-position = Vector2( 1734.07, 1.42687 )
+position = Vector2( 1443.25, 251.99 )
 
 [node name="ShootingEnemy2" parent="Enemys" instance=ExtResource( 18 )]
 position = Vector2( 2539.2, 218.492 )
@@ -249,6 +252,10 @@ position = Vector2( 1041.9, 188.164 )
 position = Vector2( 2.52271, -9.67032 )
 shape = SubResource( 4 )
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Physics & Zones/TurnPointR"]
+position = Vector2( -434.806, -108.883 )
+shape = SubResource( 4 )
+
 [node name="TurnPointL" type="Area2D" parent="Physics & Zones" groups=[
 "TurnPointLeft",
 ]]
@@ -256,6 +263,10 @@ position = Vector2( 976.15, 183.664 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics & Zones/TurnPointL"]
 position = Vector2( -0.125977, 4.10268 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Physics & Zones/TurnPointL"]
+position = Vector2( -421.581, -102.253 )
 shape = SubResource( 4 )
 
 [node name="Environment" type="Node2D" parent="."]
@@ -267,7 +278,7 @@ autoplay = true
 
 [node name="NightLight" type="Light2D" parent="Environment"]
 light_mask = 5
-position = Vector2( 3180.22, -114.786 )
+position = Vector2( 3180.69, -114.786 )
 scale = Vector2( 50, 50 )
 texture = ExtResource( 15 )
 texture_scale = 0.9
@@ -284,41 +295,43 @@ texture = ExtResource( 5 )
 [node name="BurningSkulls" type="Node2D" parent="Environment"]
 
 [node name="BurningSkull" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
-frame = 0
+frame = 2
 
 [node name="BurningSkull6" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
-frame = 0
+frame = 2
 
 [node name="BurningSkull2" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1010.55, 115.138 )
-frame = 0
+frame = 2
 
 [node name="BurningSkull3" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
+frame = 6
 
 [node name="BurningSkull5" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 6
+frame = 1
 
 [node name="BurningSkull4" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
-position = Vector2( 1818.88, -4.19994 )
+position = Vector2( 1819.41, -4.19994 )
+frame = 6
 
 [node name="BurningSkull7" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 6
+frame = 1
 
 [node name="BurningSkull8" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 6
+frame = 1
 
 [node name="BurningSkull9" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.568 )
-frame = 6
+frame = 1
 
 [node name="BurningSkull10" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 6
+frame = 1
 
 [node name="Fence & Plant & Tree" type="Node2D" parent="Environment"]
 
@@ -442,4 +455,6 @@ texture = ExtResource( 17 )
 [connection signal="body_entered" from="Physics & Zones/CheckPoint2" to="Player" method="_on_CheckPoint_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/NextLevel" to="Player" method="_on_NextLevel_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/TurnPointR" to="Enemys/Patrolenemy" method="_on_TurnPointR_body_entered"]
+[connection signal="body_entered" from="Physics & Zones/TurnPointR" to="Enemys/Patrolenemy2" method="_on_TurnPointR_body_entered"]
 [connection signal="body_entered" from="Physics & Zones/TurnPointL" to="Enemys/Patrolenemy" method="_on_TurnPointL_body_entered"]
+[connection signal="body_entered" from="Physics & Zones/TurnPointL" to="Enemys/Patrolenemy2" method="_on_TurnPointL_body_entered"]

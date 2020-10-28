@@ -21,7 +21,7 @@ animations = [ {
 light_mask = 2
 position = Vector2( 268.665, 155.725 )
 frames = SubResource( 1 )
-frame = 5
+frame = 4
 playing = true
 
 [node name="Skull_glow" type="Light2D" parent="."]

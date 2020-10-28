@@ -173,10 +173,8 @@ func smallJump():
 func knockback(amount):
 	motion.y = JUMP_HEIGHT*amount
 	if ($Sprite.flip_h):
-		print('entou if')
 		motion.x = 100
 	else:
-		print('entou else')
 		motion.x = -100
 		
 func blinkLights():
