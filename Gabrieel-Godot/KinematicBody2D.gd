@@ -162,7 +162,7 @@ func _process(delta):
 	
 	
 func smallJump():
-	motion.y = (JUMP_HEIGHT/2)
+	motion.y = (JUMP_HEIGHT/4)
 	motion.x = motion.x/4
 	$AnimationPlayer.play("player_jumping")
 	

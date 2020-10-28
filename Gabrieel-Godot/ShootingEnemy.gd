@@ -1,43 +1,53 @@
 extends KinematicBody2D
 
 var Player = null
-onready var BULLET_SCENE = preload("res://bullet.tscn")
+onready var BULLET_SCENE = preload("res://Bullet.tscn")
 var isDead = false;
 var life = 2
 var damage = 2
 var isPilot = false
-var fire_rate = 1.7
+var fire_delay = 5
 signal hurtTank
 var inRange = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_parent().get_node("Player")
-	shot()
-	$Timer.start(fire_rate)
+	$Timer.start(fire_delay)
 	$AnimatedSprite.play("idle")
 
 func _on_Timer_timeout():
 	if (!isDead && inRange):
 		shot()
-		$Timer.start(fire_rate)
+		$Timer.start(fire_delay)
 
 func _on_AttackRange_body_entered(body):
 	if body.name == "Player":
 		inRange = true
+		
 func shot():
 	$AnimatedSprite.play("shooting")
 	var bullet = BULLET_SCENE.instance()
 	bullet.position = get_global_position()
 	bullet.Player = Player
-	get_parent().add_child(bullet)
+	bullet.speed = 2
 	bullet.damage = 3
-
+	#get_parent().add_child(bullet)
+	
+	
+func turnToPlayer():
+	var look_vec = Player.position - position
+	if look_vec.x > 0:
+		$AnimatedSprite.flip_h = false
+	else:
+		$AnimatedSprite.flip_h = true
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if !isDead && !is_on_floor() && !isPilot:
 		move_and_collide(Vector2(0, 10))
 
 func die():
+	get_node("CollisionShape2D").queue_free()
 	isDead = true
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")
@@ -59,7 +69,6 @@ func _on_Head_body_entered(body):
 			
 
 func hurt(damageTaken):
-	
 	if(!isDead):
 		$AnimatedSprite.play("enemy_hurt")
 		yield($AnimatedSprite, "animation_finished")
@@ -80,13 +89,10 @@ func isPilot():
 	isPilot = true
 	$CollisionShape2D.disabled = true
 
-
-
 	pass # Replace with function body.
 
-
-
-
-
+func _process(delta):
+	if !isDead && !is_on_floor() && !isPilot:
+		turnToPlayer()
 func _on_AttackRange_body_exited(body):
 	inRange = false

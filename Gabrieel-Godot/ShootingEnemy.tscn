@@ -90,10 +90,10 @@ script = ExtResource( 2 )
 position = Vector2( -2.33669, -1.91273 )
 scale = Vector2( 1.21, 1.21 )
 frames = SubResource( 12 )
-animation = "enemy_death"
+animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -2.13742, 5.25264 )
+position = Vector2( -4.25874, 2.86615 )
 shape = SubResource( 13 )
 
 [node name="Head" type="Area2D" parent="."]

@@ -24,6 +24,7 @@ func _physics_process(delta):
 		move_and_collide(Vector2(0, 10))
 
 func die():
+	get_node("CollisionShape2D").queue_free()
 	isDead = true
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")

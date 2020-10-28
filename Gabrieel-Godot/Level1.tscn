@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://DIFERENTE_tile.tres" type="TileSet" id=1]
 [ext_resource path="res://SPRITES_GODOT/image (1).png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://SPRITES_GODOT/skull.png" type="Texture" id=17]
 [ext_resource path="res://ShootingEnemy.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Patrolenemy.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Player.gd" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 824.856, 5.60356 )
@@ -39,10 +40,11 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 light_mask = 524288
-position = Vector2( 951.12, 136.232 )
+position = Vector2( 2273.01, 117.732 )
 z_index = 1
 z_as_relative = false
 collision_mask = 2147483655
+script = ExtResource( 20 )
 
 [node name="Parallax Background" type="Node2D" parent="."]
 
@@ -282,43 +284,41 @@ texture = ExtResource( 5 )
 [node name="BurningSkulls" type="Node2D" parent="Environment"]
 
 [node name="BurningSkull" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
-frame = 1
+frame = 0
 
 [node name="BurningSkull6" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
-frame = 1
+frame = 0
 
 [node name="BurningSkull2" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1010.55, 115.138 )
-frame = 1
+frame = 0
 
 [node name="BurningSkull3" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
-frame = 6
 
 [node name="BurningSkull5" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 0
+frame = 6
 
 [node name="BurningSkull4" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1818.88, -4.19994 )
-frame = 6
 
 [node name="BurningSkull7" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 0
+frame = 6
 
 [node name="BurningSkull8" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 0
+frame = 6
 
 [node name="BurningSkull9" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.568 )
-frame = 0
+frame = 6
 
 [node name="BurningSkull10" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 0
+frame = 6
 
 [node name="Fence & Plant & Tree" type="Node2D" parent="Environment"]
 

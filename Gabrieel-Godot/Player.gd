@@ -148,8 +148,6 @@ func spawn():
 	isAlive = true
 	isSpawning = false
 	motion.y = -100
-	
-	
 
 
 func _process(delta):
@@ -159,10 +157,15 @@ func _process(delta):
 	if time > TIME_PERIOD:
 		time = 0
 	pass
-	
+
+func turnSprite(flip):
+	if flip: 
+		$Sprite.flip_h = true
+	else:
+		$Sprite.flip_h = false
 	
 func smallJump():
-	motion.y = (JUMP_HEIGHT/2)
+	motion.y = (JUMP_HEIGHT/1.5 )
 	motion.x = motion.x/4
 	$AnimationPlayer.play("player_jumping")
 	
@@ -170,8 +173,10 @@ func smallJump():
 func knockback(amount):
 	motion.y = JUMP_HEIGHT*amount
 	if ($Sprite.flip_h):
+		print('entou if')
 		motion.x = 100
 	else:
+		print('entou else')
 		motion.x = -100
 		
 func blinkLights():
@@ -203,9 +208,7 @@ func hurt(damageTaken):
 			$AnimationPlayer.play("player_hurt")
 			knockback(0.5)
 			blinkLights()
-			isAlive = false
 			yield($AnimationPlayer, "animation_finished")
-			isAlive = true
 			isHurt = false
 		
 func hurtEnemy():
