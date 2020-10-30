@@ -17,15 +17,11 @@ signal hurtTank
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	isReadyToMove = true
-	$AnimatedSprite.play("enemy_idle")
 	if self.name == "Enemy2":
 		life = 4 
 
 func stop():
-	$AnimatedSprite.play("enemy_idle")
 	isReadyToMove = false
-
-
 
 func  _on_Timer_timeout():
 	if !isDead:
@@ -34,17 +30,17 @@ func  _on_Timer_timeout():
 func _process(delta):
 	#motion.y += GRAVITY
 	move_and_collide(Vector2(0,10))
+	if !isReadyToMove && !isDead:
+		$AnimatedSprite.play("enemy_idle")
 	if !isReadyToMove:
 		motion.x = lerp(motion.x, 0, 0.4)
-	if(isReadyToMove):
+	if(isReadyToMove && !isDead):
 		if(motion.x > 6):
 			$AnimatedSprite.flip_h = false
 			$AnimatedSprite.play("Enemy_Walk")
 		elif (motion.x < -6):
 			$AnimatedSprite.flip_h = true
 			$AnimatedSprite.play("Enemy_Walk")
-		else:
-			$AnimatedSprite.play("enemy_idle")
 		if isMovingto == "left":
 			motion.x -=  ACCELERATION # LEFT
 			motion.x = max(motion.x, -MAX_SPEED)
@@ -59,9 +55,9 @@ func _physics_process(delta):
 		move_and_collide(Vector2(0, 10))
 
 func die():
-	isDead = true
-	stop()
+
 	$AnimatedSprite.play("enemy_death")
+	isDead = true
 	yield($AnimatedSprite, "animation_finished")
 	self.queue_free()
 		
@@ -74,21 +70,20 @@ func _on_Head_body_entered(body):
 			emit_signal("hurtTank")
 			$AnimatedSprite.play("enemy_death")
 			yield($AnimatedSprite, "animation_finished")
-			$AnimatedSprite.play("enemy_idle")
 		elif(!isDead):
 			body.smallJump()
 			die()
 			
 
 func hurt(damageTaken):
-	
-	if(!isDead):
-		$AnimatedSprite.play("enemy_hurt")
-		yield($AnimatedSprite, "animation_finished")
-		$AnimatedSprite.play("enemy_idle")
 	life = life - damageTaken
 	if(life <= 0):
 		die()
+	else:
+		if(!isDead):
+			$AnimatedSprite.play("enemy_hurt")
+			yield($AnimatedSprite, "animation_finished")
+	
 
 func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):

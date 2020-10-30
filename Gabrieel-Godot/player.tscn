@@ -23,6 +23,8 @@ const MAX_SPEED = 150
 const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
+var coyoteTime = false
+
 var rng = RandomNumberGenerator.new()
 onready var FIREBALL_SCENE = preload(\"res://Fireball.tscn\")
 
@@ -73,8 +75,13 @@ func spawn():
 	
 	
 func _physics_process(_delta):
+	
+	if(!is_on_floor()):
+		$CoyoteTime.start(1)
+	
 	if Input.is_action_pressed(\"special\"):
 		throw_fireball()
+		
 		
 	motion.y += GRAVITY
 	if isAttacking:
@@ -296,7 +303,9 @@ func _on_Boss_bossDie():
 	emit_signal(\"win\")
 	pass # Replace with function body.
 
-
+func _on_CoyoteTime_timeout():
+	coyoteTime = false
+	pass # Replace with function body.
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -450,6 +459,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=10]
 resource_name = "throw_fireball"
+length = 0.8
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("AnimationPlayer:playback_speed")
 tracks/0/interp = 1
@@ -481,10 +491,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 74, 75, 76, 77, 78, 79, 80, 80, 80, 80 ]
+"values": [ 74, 75, 76, 77, 78, 79, 80 ]
 }
 
 [sub_resource type="RectangleShape2D" id=11]
@@ -532,7 +542,7 @@ z_index = 1
 texture = ExtResource( 1 )
 vframes = 9
 hframes = 9
-frame = 80
+frame = 74
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075

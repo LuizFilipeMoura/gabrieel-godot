@@ -6,6 +6,11 @@ var damage = 2
 var isPilot = false
 signal hurtTank
 
+const UP = Vector2(0,-1)
+const GRAVITY = 10
+const JUMP_HEIGHT = -245
+var motion = Vector2()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -16,12 +21,20 @@ func _ready():
 func _on_Timer_timeout():
 	$AnimatedSprite.play("enemy_shot")
 
-
+func knockback(amount):
+	motion.y = JUMP_HEIGHT*amount
+	if ($AnimatedSprite.flip_h):
+		motion.x = 100
+	else:
+		motion.x = -100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if !isDead && !is_on_floor() && !isPilot:
-		move_and_collide(Vector2(0, 10))
+	motion.y += GRAVITY
+	if !isDead && is_on_floor() && !isPilot:
+		motion.x = motion.x *0.7
+	if !isDead:
+		motion = move_and_slide(motion, UP)
 
 func die():
 	get_node("CollisionShape2D").queue_free()

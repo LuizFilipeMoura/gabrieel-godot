@@ -24,6 +24,7 @@ func _physics_process(delta):
 func _on_Fireball_body_entered(body):
 	if(body.is_in_group("Enemy") || body.name ==  "TileMap"):
 		if(body.is_in_group("Enemy")):
+			body.knockback(0.5)
 			body.hurt(damage)
 		self.queue_free()
 

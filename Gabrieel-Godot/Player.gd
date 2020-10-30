@@ -2,16 +2,18 @@ extends KinematicBody2D
 
 const UP = Vector2(0,-1)
 const GRAVITY = 10
-const ACCELERATION = 10
+const ACCELERATION = 7
 const MAX_SPEED = 150
 const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
+var canJump= true
 var rng = RandomNumberGenerator.new()
 onready var FIREBALL_SCENE = preload("res://Fireball.tscn")
 
 var maxLIFE = 5
 
+var isJumping = false
 var damage = 1
 var lifelabelnode
 var trylabelnode
@@ -53,56 +55,55 @@ func spawn():
 	isAlive = true
 	isSpawning = false
 	motion.y = -100
-	
-	
-	
-func _physics_process(_delta):
-	if Input.is_action_pressed("special"):
-		throw_fireball()
+
+
+func _physics_process(delta):
+	if is_on_floor():
+		isJumping = false		
+		canJump = true
+	if !is_on_floor():
+		coyoteTimer()
+
+	if Input.is_action_just_pressed("jump"):
+		if canJump:
+			jump()
 		
+	if(is_on_floor() && !isJumping && !isAttacking ):
+		if(motion.x < -1 || motion.x > 1):
+			$AnimationPlayer.play("player_running")
+		else:
+			$AnimationPlayer.play("player_idle")
+	
 	motion.y += GRAVITY
 	if isAttacking:
 		motion.x*=0.8
 	
 	if isAlive && !isSpawning:
-		var friction = false
 		if is_on_floor():
 			if Input.is_action_pressed("move_left"):
 				if Input.is_action_pressed("move_right"):
 					motion.x = lerp(motion.x, 0, 0.1)
-					#friction = true
-					$AnimationPlayer.play("player_idle")
 				else:
 					motion.x -=  ACCELERATION
 					motion.x = max(motion.x, -MAX_SPEED)
 					$Sprite.flip_h = true
 					flip = -1
 					$AttackRange.transform.origin.x = -5
-					if is_on_floor():
-						if !isAttacking && !isHurt && motion.x != 0:
-							$AnimationPlayer.play("player_running")
 							
 				
 			elif Input.is_action_pressed("move_right"):
 				if Input.is_action_pressed("move_left"):
 					motion.x = lerp(motion.x, 0, 0.1)
-					#friction = true
-					$AnimationPlayer.play("player_idle")
 				else:
 					motion.x +=  ACCELERATION
 					motion.x = min(motion.x, MAX_SPEED)
 					$Sprite.flip_h = false
 					flip = 1
 					$AttackRange.transform.origin.x = 22
-					if is_on_floor():
-						if !isAttacking && !isHurt && motion.x != 0:
-							$AnimationPlayer.play("player_running")
 			else:
-				friction = true
 				if is_on_floor():
 					if !isAttacking && !isHurt:
 						motion.x = motion.x *0.7
-						$AnimationPlayer.play("player_idle")
 					
 		else:
 			if Input.is_action_pressed("move_left"):
@@ -112,16 +113,18 @@ func _physics_process(_delta):
 				motion.x +=  ACCELERATION/2
 				motion.x = min(motion.x, MAX_SPEED*0.8)
 
-		if is_on_floor():
-			if Input.is_action_just_pressed("jump"):
-				jump()
 		motion = move_and_slide(motion, UP)
 		
 		if Input.is_action_just_pressed("attack"):
 			attack()
+			
+	if Input.is_action_pressed("special"):
+		throw_fireball()
 
 
 func jump():
+	canJump = false
+	isJumping = true
 	var my_random_number = rng.randi_range(1, 3)
 	match my_random_number:
 		1: 
@@ -160,8 +163,6 @@ func attack():
 
 
 func throw_fireball():
-	
-	print("pressed")
 	isAttacking = true
 	$AnimationPlayer.play("throw_fireball")
 	yield($AnimationPlayer, "animation_finished")
@@ -169,7 +170,7 @@ func throw_fireball():
 
 func fire_fireball():
 	var fireball = FIREBALL_SCENE.instance()
-	fireball.position = get_global_position()
+	fireball.position = Vector2(get_global_position().x+20, get_global_position().y-10)
 	fireball.look_vec = Vector2(flip, 0)
 	fireball.flip_h = $Sprite.flip_h
 	get_parent().add_child(fireball)
@@ -282,4 +283,6 @@ func _on_Boss_bossDie():
 	emit_signal("win")
 	pass # Replace with function body.
 
-
+func coyoteTimer():
+	yield(get_tree().create_timer(.3), "timeout")
+	canJump = false
