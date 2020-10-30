@@ -1,7 +1,7 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
+[ext_resource path="res://SPRITES_GODOT/SPRITE_SHEET.png" type="Texture" id=1]
 [ext_resource path="res://sounds/jump3.wav" type="AudioStream" id=2]
-[ext_resource path="res://Gabrieel-Unity-Sprites/Characther/SPRITE_SHEET.png" type="Texture" id=3]
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=4]
 [ext_resource path="res://sounds/jump2.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/attack1.wav" type="AudioStream" id=6]
@@ -24,6 +24,7 @@ const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
 var rng = RandomNumberGenerator.new()
+onready var FIREBALL_SCENE = preload(\"res://Fireball.tscn\")
 
 var maxLIFE = 5
 
@@ -38,7 +39,7 @@ var motion = Vector2()
 var isAlive = false
 var isSpawning = false
 var willHurtEnemy = true
-
+var flip = 1;
 var trys = 30
 
 var volume = -10
@@ -47,8 +48,34 @@ var spawnPoint = Vector2(0,0)
 
 signal win
 
-func _physics_process(_delta):
+	
+func _ready():
+	rng.randomize()
+	lifelabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/Counter/Label\")
+	trylabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/TryCounter/Label\")
+	trylabelnode.text = str(trys)
+	spawnPoint = position
+	spawn()
+	pass # Replace with function body.
 
+func spawn():
+	isSpawning = true
+	motion = Vector2(0,0)
+	position = spawnPoint
+	LIFE = maxLIFE
+	lifelabelnode.text = str(LIFE)
+	$AnimationPlayer.play(\"player_spawn\")
+	yield($AnimationPlayer, \"animation_finished\")
+	isAlive = true
+	isSpawning = false
+	motion.y = -100
+	
+	
+	
+func _physics_process(_delta):
+	if Input.is_action_pressed(\"special\"):
+		throw_fireball()
+		
 	motion.y += GRAVITY
 	if isAttacking:
 		motion.x*=0.8
@@ -65,6 +92,7 @@ func _physics_process(_delta):
 					motion.x -=  ACCELERATION
 					motion.x = max(motion.x, -MAX_SPEED)
 					$Sprite.flip_h = true
+					flip = -1
 					$AttackRange.transform.origin.x = -5
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
@@ -80,6 +108,7 @@ func _physics_process(_delta):
 					motion.x +=  ACCELERATION
 					motion.x = min(motion.x, MAX_SPEED)
 					$Sprite.flip_h = false
+					flip = 1
 					$AttackRange.transform.origin.x = 22
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
@@ -138,36 +167,26 @@ func attack():
 					$Voices/attack3.play()
 			isAttacking = true
 			$AttackRange/CollisionShape2D.disabled = false
-			print('aqui')
 			$AnimationPlayer.play(\"player_attacking\")
 			yield($AnimationPlayer, \"animation_finished\")
 			isAttacking = false
 			$AttackRange/CollisionShape2D.disabled = true
 			
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	rng.randomize()
-	lifelabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/Counter/Label\")
-	trylabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/TryCounter/Label\")
-	trylabelnode.text = str(trys)
-	spawnPoint = position
-	spawn()
-	pass # Replace with function body.
 
-func spawn():
-	isSpawning = true
-	motion = Vector2(0,0)
-	position = spawnPoint
-	LIFE = maxLIFE
-	lifelabelnode.text = str(LIFE)
-	$AnimationPlayer.play(\"player_spawn\")
+
+func throw_fireball():
+	isAttacking = true
+	$AnimationPlayer.play(\"throw_fireball\")
 	yield($AnimationPlayer, \"animation_finished\")
-	isAlive = true
-	isSpawning = false
-	motion.y = -100
-	
-	
+	isAttacking = false
 
+func fire_fireball():
+	var fireball = FIREBALL_SCENE.instance()
+	fireball.position = Vector2(get_global_position().x+20, get_global_position().y-10)
+	fireball.look_vec = Vector2(flip, 0)
+	fireball.flip_h = $Sprite.flip_h
+	get_parent().add_child(fireball)
 
 func _process(delta):
 	if !isAlive && !isSpawning:
@@ -246,10 +265,7 @@ func die(animated = true):
 	
 
 func _on_AttackRange_body_entered(body):
-	
 	if(body.is_in_group(\"Enemy\") && willHurtEnemy ):
-		print(willHurtEnemy)
-		print(body)
 		body.hurt(damage)
 
 
@@ -432,7 +448,46 @@ tracks/1/keys = {
 "values": [ 1.0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="Animation" id=10]
+resource_name = "throw_fireball"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("AnimationPlayer:playback_speed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.7 )
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "fire_fireball"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 74, 75, 76, 77, 78, 79, 80, 80, 80, 80 ]
+}
+
+[sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 8.44684, 15.9194 )
 
 [node name="Player" type="KinematicBody2D"]
@@ -461,7 +516,6 @@ shape = SubResource( 2 )
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 0.5
 anims/player_attacking = SubResource( 3 )
 anims/player_death = SubResource( 4 )
 anims/player_hurt = SubResource( 5 )
@@ -469,15 +523,16 @@ anims/player_idle = SubResource( 6 )
 anims/player_jumping = SubResource( 7 )
 anims/player_running = SubResource( 8 )
 anims/player_spawn = SubResource( 9 )
+anims/throw_fireball = SubResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
 position = Vector2( 8.97913, -7.31869 )
 z_index = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 vframes = 9
 hframes = 9
-frame = 1
+frame = 80
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
@@ -542,6 +597,6 @@ volume_db = -5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8.91339, -7.34991 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]

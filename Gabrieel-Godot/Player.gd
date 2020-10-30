@@ -8,6 +8,7 @@ const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
 var rng = RandomNumberGenerator.new()
+onready var FIREBALL_SCENE = preload("res://Fireball.tscn")
 
 var maxLIFE = 5
 
@@ -22,7 +23,7 @@ var motion = Vector2()
 var isAlive = false
 var isSpawning = false
 var willHurtEnemy = true
-
+var flip = 1;
 var trys = 30
 
 var volume = -10
@@ -31,8 +32,34 @@ var spawnPoint = Vector2(0,0)
 
 signal win
 
-func _physics_process(_delta):
+	
+func _ready():
+	rng.randomize()
+	lifelabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/Counter/Label")
+	trylabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/TryCounter/Label")
+	trylabelnode.text = str(trys)
+	spawnPoint = position
+	spawn()
+	pass # Replace with function body.
 
+func spawn():
+	isSpawning = true
+	motion = Vector2(0,0)
+	position = spawnPoint
+	LIFE = maxLIFE
+	lifelabelnode.text = str(LIFE)
+	$AnimationPlayer.play("player_spawn")
+	yield($AnimationPlayer, "animation_finished")
+	isAlive = true
+	isSpawning = false
+	motion.y = -100
+	
+	
+	
+func _physics_process(_delta):
+	if Input.is_action_pressed("special"):
+		throw_fireball()
+		
 	motion.y += GRAVITY
 	if isAttacking:
 		motion.x*=0.8
@@ -49,6 +76,7 @@ func _physics_process(_delta):
 					motion.x -=  ACCELERATION
 					motion.x = max(motion.x, -MAX_SPEED)
 					$Sprite.flip_h = true
+					flip = -1
 					$AttackRange.transform.origin.x = -5
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
@@ -64,6 +92,7 @@ func _physics_process(_delta):
 					motion.x +=  ACCELERATION
 					motion.x = min(motion.x, MAX_SPEED)
 					$Sprite.flip_h = false
+					flip = 1
 					$AttackRange.transform.origin.x = 22
 					if is_on_floor():
 						if !isAttacking && !isHurt && motion.x != 0:
@@ -128,27 +157,22 @@ func attack():
 			$AttackRange/CollisionShape2D.disabled = true
 			
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	rng.randomize()
-	lifelabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/Counter/Label")
-	trylabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/TryCounter/Label")
-	trylabelnode.text = str(trys)
-	spawnPoint = position
-	spawn()
-	pass # Replace with function body.
 
-func spawn():
-	isSpawning = true
-	motion = Vector2(0,0)
-	position = spawnPoint
-	LIFE = maxLIFE
-	lifelabelnode.text = str(LIFE)
-	$AnimationPlayer.play("player_spawn")
+
+func throw_fireball():
+	
+	print("pressed")
+	isAttacking = true
+	$AnimationPlayer.play("throw_fireball")
 	yield($AnimationPlayer, "animation_finished")
-	isAlive = true
-	isSpawning = false
-	motion.y = -100
+	isAttacking = false
 
+func fire_fireball():
+	var fireball = FIREBALL_SCENE.instance()
+	fireball.position = get_global_position()
+	fireball.look_vec = Vector2(flip, 0)
+	fireball.flip_h = $Sprite.flip_h
+	get_parent().add_child(fireball)
 
 func _process(delta):
 	if !isAlive && !isSpawning:
@@ -157,15 +181,10 @@ func _process(delta):
 	if time > TIME_PERIOD:
 		time = 0
 	pass
-
-func turnSprite(flip):
-	if flip: 
-		$Sprite.flip_h = true
-	else:
-		$Sprite.flip_h = false
+	
 	
 func smallJump():
-	motion.y = (JUMP_HEIGHT/1.5 )
+	motion.y = (JUMP_HEIGHT/4)
 	motion.x = motion.x/4
 	$AnimationPlayer.play("player_jumping")
 	
@@ -213,7 +232,6 @@ func hurtEnemy():
 	willHurtEnemy = true
 
 func die(animated = true):
-	
 	motion.y = 10
 	isAlive = false
 	trys-=1
@@ -233,7 +251,6 @@ func die(animated = true):
 	
 
 func _on_AttackRange_body_entered(body):
-	print(body.name)
 	if(body.is_in_group("Enemy") && willHurtEnemy ):
 		body.hurt(damage)
 
@@ -250,6 +267,11 @@ func _on_NextLevel_body_entered(body):
 	if(body.name == 'Player'):
 		get_tree().change_scene("res://Boss.tscn")
 
+func turnSprite(flip):
+	if flip:
+		$Sprite.flip_h = true
+	else:
+		$Sprite.flip_h = false
 
 func _on_Timer_timeout():
 	spawn()
@@ -261,7 +283,3 @@ func _on_Boss_bossDie():
 	pass # Replace with function body.
 
 
-func _on_RammingArea_body_entered(body):
-	if(body.name == 'Player'):
-		hurt(3)
-	pass # Replace with function body.
