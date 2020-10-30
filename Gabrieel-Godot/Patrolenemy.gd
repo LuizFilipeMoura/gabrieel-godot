@@ -13,12 +13,19 @@ var life = 2
 var damage = 2
 var isPilot = false
 signal hurtTank
-
+const JUMP_HEIGHT = -245
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	isReadyToMove = true
 	if self.name == "Enemy2":
 		life = 4 
+
+func knockback(amount):
+	motion.y = JUMP_HEIGHT*amount
+	if ($AnimatedSprite.flip_h):
+		motion.x = 100
+	else:
+		motion.x = -100
 
 func stop():
 	isReadyToMove = false

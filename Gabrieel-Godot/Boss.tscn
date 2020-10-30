@@ -13,7 +13,6 @@
 [ext_resource path="res://Label2.gd" type="Script" id=11]
 [ext_resource path="res://GabrieelSoundtrack.wav" type="AudioStream" id=12]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "boss_death"
 step = 0.0666667

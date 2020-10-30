@@ -9,25 +9,37 @@ var isPilot = false
 var fire_delay = 2
 signal hurtTank
 var inRange = false
+const UP = Vector2(0,-1)
+const GRAVITY = 10
+const JUMP_HEIGHT = -245
+var motion = Vector2()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_parent().get_node("Player")
 	$Timer.start(fire_delay)
 	$AnimatedSprite.play("idle")
 
+func knockback(amount):
+	motion.y = JUMP_HEIGHT*amount
+	if ($AnimatedSprite.flip_h):
+		motion.x = 100
+	else:
+		motion.x = -100
+
 func _on_Timer_timeout():
-	if (!isDead && inRange):
+	$Timer.start(fire_delay)
+	if ( inRange):
 		shot()
-		$Timer.start(fire_delay)
 
 func _on_AttackRange_body_entered(body):
 	if body.name == "Player":
 		inRange = true
-		
 func shot():
-	$AnimatedSprite.play("shooting")
+	$AnimatedSprite.play("Shoot")
+	yield($AnimatedSprite, "animation_finished")
+	$AnimatedSprite.play("idle")
 	var bullet = BULLET_SCENE.instance()
-	bullet.position = get_global_position()
+	bullet.position = Vector2(get_global_position().x+20, get_global_position().y-10)
 	bullet.Player = Player
 	bullet.speed = 2
 	bullet.damage = 3
@@ -69,11 +81,11 @@ func _on_Head_body_entered(body):
 			
 
 func hurt(damageTaken):
+	life = life - damageTaken
 	if(!isDead):
 		$AnimatedSprite.play("enemy_hurt")
 		yield($AnimatedSprite, "animation_finished")
 		$AnimatedSprite.play("enemy_idle")
-	life = life - damageTaken
 	if(life <= 0):
 		die()
 
@@ -95,4 +107,5 @@ func _process(delta):
 	if !isDead && !is_on_floor() && !isPilot:
 		turnToPlayer()
 func _on_AttackRange_body_exited(body):
-	inRange = false
+	if(body.name == "Player"):
+		inRange = false

@@ -42,7 +42,6 @@ func _ready():
 	trylabelnode.text = str(trys)
 	spawnPoint = position
 	spawn()
-	pass # Replace with function body.
 
 func spawn():
 	isSpawning = true
@@ -56,10 +55,9 @@ func spawn():
 	isSpawning = false
 	motion.y = -100
 
-
 func _physics_process(delta):
-	if is_on_floor():
-		isJumping = false		
+	if is_on_floor() && !isAttacking:
+		isJumping = false
 		canJump = true
 	if !is_on_floor():
 		coyoteTimer()
@@ -68,7 +66,7 @@ func _physics_process(delta):
 		if canJump:
 			jump()
 		
-	if(is_on_floor() && !isJumping && !isAttacking ):
+	if(is_on_floor() && !isJumping && !isAttacking && isAlive ):
 		if(motion.x < -1 || motion.x > 1):
 			$AnimationPlayer.play("player_running")
 		else:
@@ -163,10 +161,12 @@ func attack():
 
 
 func throw_fireball():
+	print(isAlive)
 	isAttacking = true
-	$AnimationPlayer.play("throw_fireball")
-	yield($AnimationPlayer, "animation_finished")
-	isAttacking = false
+	if isAlive :
+		$AnimationPlayer.play("throw_fireball")
+		yield($AnimationPlayer, "animation_finished")
+		isAttacking = false
 
 func fire_fireball():
 	var fireball = FIREBALL_SCENE.instance()
@@ -185,9 +185,10 @@ func _process(delta):
 	
 	
 func smallJump():
-	motion.y = (JUMP_HEIGHT/4)
-	motion.x = motion.x/4
-	$AnimationPlayer.play("player_jumping")
+	if isAlive:
+		motion.y = (JUMP_HEIGHT/4)
+		motion.x = motion.x/4
+		$AnimationPlayer.play("player_jumping")
 	
 	
 func knockback(amount):
@@ -236,7 +237,6 @@ func die(animated = true):
 	motion.y = 10
 	isAlive = false
 	trys-=1
-
 	trylabelnode.text = str(trys)
 	if(animated):
 		$Voices/die.play()
