@@ -214,6 +214,8 @@ max_value = 4.0
 value = 4.0
 rounded = true
 texture_progress = ExtResource( 8 )
+tint_under = Color( 1, 0.0117647, 0.0117647, 1 )
+tint_progress = Color( 1, 0, 0, 1 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false

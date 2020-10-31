@@ -172,7 +172,6 @@ func _on_PilotTimer_timeout():
 
 
 func _on_Reload_timeout():
-
 	isReadyToMove = true
 	pass # Replace with function body.
 

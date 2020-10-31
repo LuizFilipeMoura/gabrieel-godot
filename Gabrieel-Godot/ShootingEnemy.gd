@@ -28,16 +28,15 @@ func knockback(amount):
 
 func _on_Timer_timeout():
 	$Timer.start(fire_delay)
-	if ( inRange):
+	if ( inRange && !isDead):
 		shot()
 
 func _on_AttackRange_body_entered(body):
 	if body.name == "Player":
 		inRange = true
+		
 func shot():
 	$AnimatedSprite.play("Shoot")
-	yield($AnimatedSprite, "animation_finished")
-	$AnimatedSprite.play("idle")
 	var bullet = BULLET_SCENE.instance()
 	bullet.position = Vector2(get_global_position().x+20, get_global_position().y-10)
 	bullet.Player = Player
@@ -59,6 +58,7 @@ func _physics_process(delta):
 		move_and_collide(Vector2(0, 10))
 
 func die():
+	$AnimatedSprite.stop()
 	get_node("CollisionShape2D").queue_free()
 	isDead = true
 	$AnimatedSprite.play("enemy_death")
@@ -106,6 +106,7 @@ func isPilot():
 func _process(delta):
 	if !isDead && !is_on_floor() && !isPilot:
 		turnToPlayer()
+		
 func _on_AttackRange_body_exited(body):
 	if(body.name == "Player"):
 		inRange = false

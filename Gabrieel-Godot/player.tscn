@@ -17,7 +17,7 @@
 script/source = "extends KinematicBody2D
 
 const UP = Vector2(0,-1)
-const GRAVITY = 10
+var GRAVITY = 10
 const ACCELERATION = 7
 const MAX_SPEED = 150
 const JUMP_HEIGHT = -245
@@ -44,12 +44,15 @@ var willHurtEnemy = true
 var flip = 1;
 var trys = 30
 
+var maxAnger = 5
+var anger = 0
+
 var volume = -10
 
 var spawnPoint = Vector2(0,0)
 
 signal win
-
+signal refreshAnger
 	
 func _ready():
 	rng.randomize()
@@ -132,7 +135,9 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed(\"attack\"):
 			attack()
 			
-	if Input.is_action_pressed(\"special\"):
+	if Input.is_action_pressed(\"special\") && anger >= 5:
+		anger = 0
+		emit_signal(\"refreshAnger\", anger)
 		throw_fireball()
 
 
@@ -180,7 +185,11 @@ func throw_fireball():
 	isAttacking = true
 	if isAlive :
 		$AnimationPlayer.play(\"throw_fireball\")
+		GRAVITY = 5
+		motion.y /=1.1 
 		yield($AnimationPlayer, \"animation_finished\")
+		$AnimationPlayer.play(\"player_idle\")
+		GRAVITY = 10
 		isAttacking = false
 
 func fire_fireball():
@@ -248,6 +257,7 @@ func hurtEnemy():
 	willHurtEnemy = true
 
 func die(animated = true):
+	$AnimationPlayer.stop()
 	motion.y = 10
 	isAlive = false
 	trys-=1
@@ -300,6 +310,18 @@ func _on_Boss_bossDie():
 func coyoteTimer():
 	yield(get_tree().create_timer(.3), \"timeout\")
 	canJump = false
+
+
+func _on_AngerCooldown_timeout():
+	if anger < maxAnger:
+		anger+=1
+		emit_signal(\"refreshAnger\", anger)
+		
+	pass # Replace with function body.
+
+
+func _on_Player_refreshAnger():
+	pass # Replace with function body.
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -461,7 +483,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 3, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 0.7 )
 }
 tracks/1/type = "method"
@@ -520,6 +542,7 @@ shape = SubResource( 2 )
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 3.0
 anims/player_attacking = SubResource( 3 )
 anims/player_death = SubResource( 4 )
 anims/player_hurt = SubResource( 5 )
@@ -602,5 +625,9 @@ volume_db = -5.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8.91339, -7.34991 )
 shape = SubResource( 11 )
+
+[node name="AngerCooldown" type="Timer" parent="."]
+autostart = true
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="AngerCooldown" to="." method="_on_AngerCooldown_timeout"]
