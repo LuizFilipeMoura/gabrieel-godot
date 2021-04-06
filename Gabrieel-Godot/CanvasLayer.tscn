@@ -1,13 +1,309 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Interface.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Interface.gd" type="Script" id=2]
+[ext_resource path="res://font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://CanvasLayer.gd" type="Script" id=4]
+[ext_resource path="res://SPRITES_GODOT/vest.png" type="Texture" id=5]
+[ext_resource path="res://SPRITES_GODOT/MasterPatch.png" type="Texture" id=6]
+[ext_resource path="res://SPRITES_GODOT/GAME OVER BACKGROUND.png" type="Texture" id=7]
+[ext_resource path="res://SPRITES_GODOT/Money.png" type="Texture" id=8]
+[ext_resource path="res://Buy.gd" type="Script" id=9]
+[ext_resource path="res://MoneyCounter.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Buy2.gd" type="Script" id=11]
+[ext_resource path="res://close.gd" type="Script" id=12]
+[ext_resource path="res://lifeBuy.gd" type="Script" id=13]
 
 [node name="CanvasLayer" type="CanvasLayer"]
+pause_mode = 2
+script = ExtResource( 4 )
 
 [node name="Interface" parent="." instance=ExtResource( 1 )]
-margin_left = 70.7411
-margin_top = -1.67465
-margin_right = -403.259
-margin_bottom = -267.675
-script = ExtResource( 2 )
+margin_right = 1.0
+margin_bottom = 4.0
+
+[node name="PauseMenu" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_right = 3.0
+margin_bottom = 303.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Vest" type="Sprite" parent="PauseMenu"]
+position = Vector2( 510.009, 324.908 )
+scale = Vector2( 8.70692, 8.70692 )
+texture = ExtResource( 5 )
+
+[node name="Button" type="Button" parent="PauseMenu/Vest"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -49.0
+margin_top = -30.0
+margin_right = -32.0
+margin_bottom = -10.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MasterPatch" type="Sprite" parent="PauseMenu/Vest/Button"]
+position = Vector2( 8.45145, 9.59326 )
+scale = Vector2( 0.242592, 0.242592 )
+texture = ExtResource( 6 )
+
+[node name="Button2" type="Button" parent="PauseMenu/Vest"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -22.7685
+margin_top = -29.9188
+margin_right = -5.76852
+margin_bottom = -9.91879
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MasterPatch" type="Sprite" parent="PauseMenu/Vest/Button2"]
+position = Vector2( 8.45145, 9.59326 )
+scale = Vector2( 0.242592, 0.242592 )
+texture = ExtResource( 6 )
+
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
+margin_right = 1024.0
+margin_bottom = 117.0
+size_flags_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PauseMenu/CenterContainer"]
+margin_left = 454.0
+margin_top = 18.0
+margin_right = 569.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "PAUSE"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shop" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="Sprite" parent="Shop"]
+position = Vector2( 652.489, 428.698 )
+scale = Vector2( 1.21888, 1.27618 )
+texture = ExtResource( 7 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Shop"]
+margin_right = 1024.0
+margin_bottom = 146.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Shop/CenterContainer"]
+margin_left = 468.0
+margin_top = 33.0
+margin_right = 556.0
+margin_bottom = 113.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "SHOP"
+
+[node name="MoneyCounter" parent="Shop" instance=ExtResource( 10 )]
+margin_left = 35.8672
+margin_top = -1.66324
+margin_right = 1013.87
+margin_bottom = -1.66324
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop"]
+margin_left = 0.327393
+margin_top = 184.865
+margin_right = 1020.33
+margin_bottom = 646.865
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="life" type="CenterContainer" parent="Shop/VBoxContainer"]
+margin_right = 1020.0
+margin_bottom = 90.0
+
+[node name="Life" type="HBoxContainer" parent="Shop/VBoxContainer/life"]
+margin_left = 260.0
+margin_right = 760.0
+margin_bottom = 90.0
+
+[node name="Label" type="Label" parent="Shop/VBoxContainer/life/Life"]
+margin_top = 5.0
+margin_right = 151.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+text = "+1 LIFE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Shop/VBoxContainer/life/Life"]
+margin_left = 155.0
+margin_right = 245.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 90, 90 )
+texture = ExtResource( 8 )
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="Shop/VBoxContainer/life/Life"]
+margin_left = 249.0
+margin_top = 5.0
+margin_right = 286.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.384314, 0.568627, 0.0470588, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lifeBuy" type="Button" parent="Shop/VBoxContainer/life/Life"]
+margin_left = 290.0
+margin_right = 500.0
+margin_bottom = 90.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "I NEED IT"
+flat = true
+script = ExtResource( 13 )
+
+[node name="anger" type="CenterContainer" parent="Shop/VBoxContainer"]
+margin_top = 94.0
+margin_right = 1020.0
+margin_bottom = 184.0
+
+[node name="Anger" type="HBoxContainer" parent="Shop/VBoxContainer/anger"]
+margin_left = 220.0
+margin_right = 800.0
+margin_bottom = 90.0
+
+[node name="Label" type="Label" parent="Shop/VBoxContainer/anger/Anger"]
+margin_top = 5.0
+margin_right = 232.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+text = "+20% ANGER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Shop/VBoxContainer/anger/Anger"]
+margin_left = 236.0
+margin_right = 326.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 90, 90 )
+texture = ExtResource( 8 )
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="Shop/VBoxContainer/anger/Anger"]
+margin_left = 330.0
+margin_top = 5.0
+margin_right = 366.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.384314, 0.568627, 0.0470588, 1 )
+text = "60"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buy2" type="Button" parent="Shop/VBoxContainer/anger/Anger"]
+margin_left = 370.0
+margin_right = 580.0
+margin_bottom = 90.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "I NEED IT"
+flat = true
+script = ExtResource( 11 )
+
+[node name="speed" type="CenterContainer" parent="Shop/VBoxContainer"]
+margin_top = 188.0
+margin_right = 1020.0
+margin_bottom = 278.0
+
+[node name="Speed" type="HBoxContainer" parent="Shop/VBoxContainer/speed"]
+margin_left = 215.0
+margin_right = 804.0
+margin_bottom = 90.0
+
+[node name="Label" type="Label" parent="Shop/VBoxContainer/speed/Speed"]
+margin_top = 5.0
+margin_right = 241.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+text = "+10% SPEED"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Shop/VBoxContainer/speed/Speed"]
+margin_left = 245.0
+margin_right = 335.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 90, 90 )
+texture = ExtResource( 8 )
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="Shop/VBoxContainer/speed/Speed"]
+margin_left = 339.0
+margin_top = 5.0
+margin_right = 375.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.384314, 0.568627, 0.0470588, 1 )
+text = "70"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buy" type="Button" parent="Shop/VBoxContainer/speed/Speed"]
+margin_left = 379.0
+margin_right = 589.0
+margin_bottom = 90.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "I NEED IT"
+flat = true
+script = ExtResource( 9 )
+
+[node name="close" type="CenterContainer" parent="Shop/VBoxContainer"]
+margin_top = 282.0
+margin_right = 1020.0
+margin_bottom = 368.0
+
+[node name="Buy" type="Button" parent="Shop/VBoxContainer/close"]
+margin_left = 392.0
+margin_right = 627.0
+margin_bottom = 86.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.360784, 0, 1, 1 )
+text = "close shop"
+flat = true
+script = ExtResource( 12 )
+[connection signal="pressed" from="Shop/VBoxContainer/life/Life/lifeBuy" to="Shop/VBoxContainer/life/Life/lifeBuy" method="_on_lifeBuy_pressed"]
+[connection signal="pressed" from="Shop/VBoxContainer/anger/Anger/Buy2" to="Shop/VBoxContainer/anger/Anger/Buy2" method="_on_Buy2_pressed"]
+[connection signal="pressed" from="Shop/VBoxContainer/speed/Speed/Buy" to="Shop/VBoxContainer/speed/Speed/Buy" method="_on_Buy_pressed"]
+[connection signal="pressed" from="Shop/VBoxContainer/close/Buy" to="Shop/VBoxContainer/close/Buy" method="_on_Buy_pressed"]

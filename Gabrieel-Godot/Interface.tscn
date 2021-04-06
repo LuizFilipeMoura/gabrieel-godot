@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Counter.tscn" type="PackedScene" id=1]
 [ext_resource path="res://font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://PlayerIdle.png" type="Texture" id=3]
+[ext_resource path="res://AngerBar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MoneyCounter.tscn" type="PackedScene" id=5]
 
 [node name="Interface" type="Control"]
 anchor_right = 1.0
@@ -12,39 +14,66 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 50.0
+margin_right = 1028.0
+margin_bottom = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Counter" parent="VBoxContainer" instance=ExtResource( 1 )]
-margin_right = 40.0
-margin_bottom = 0.0
+margin_left = 0.0
+margin_right = 978.0
 
-[node name="TryCounter" type="NinePatchRect" parent="VBoxContainer"]
-margin_top = 4.0
-margin_right = 40.0
-margin_bottom = 4.0
+[node name="MoneyCounter" parent="VBoxContainer" instance=ExtResource( 5 )]
 
-[node name="Label" type="Label" parent="VBoxContainer/TryCounter"]
-margin_left = 119.0
-margin_top = 486.0
-margin_right = 298.0
-margin_bottom = 566.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -1024.0
+margin_top = 477.0
+margin_right = -50.0
+margin_bottom = 578.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TryCounter" type="NinePatchRect" parent="HBoxContainer"]
+size_flags_horizontal = 2
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer/TryCounter"]
+margin_left = 81.3348
+margin_top = 12.9074
+margin_right = 260.335
+margin_bottom = 92.9074
 custom_fonts/font = ExtResource( 2 )
 text = "TENTATIVAS"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TryCounter"]
-margin_left = 48.0
-margin_top = 492.0
-margin_right = 112.0
-margin_bottom = 556.0
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/TryCounter"]
+margin_top = 6.0
+margin_right = 75.0
+margin_bottom = 90.0
+rect_scale = Vector2( 1.184, 1 )
 texture = ExtResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AngerBar" parent="HBoxContainer" instance=ExtResource( 4 )]
+visible = false
+margin_left = 697.0
+margin_right = 974.0
+margin_bottom = 97.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.0
+
+[editable path="VBoxContainer/Counter"]

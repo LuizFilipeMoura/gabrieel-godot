@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://SPRITES_GODOT/SPRITE_SHEET.png" type="Texture" id=1]
+[ext_resource path="res://SPRITES_GODOT/SPRITE_SHEET (1).png" type="Texture" id=1]
 [ext_resource path="res://sounds/jump3.wav" type="AudioStream" id=2]
+[ext_resource path="res://font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://SPRITES_GODOT/TEXTURE.png" type="Texture" id=4]
 [ext_resource path="res://sounds/jump2.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/attack1.wav" type="AudioStream" id=6]
@@ -12,320 +13,39 @@
 [ext_resource path="res://sounds/attack2.wav" type="AudioStream" id=11]
 [ext_resource path="res://sounds/hurt1.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/hurt2.wav" type="AudioStream" id=13]
+[ext_resource path="res://Camera2D.gd" type="Script" id=14]
+[ext_resource path="res://Player.gd" type="Script" id=15]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends KinematicBody2D
-
-const UP = Vector2(0,-1)
-var GRAVITY = 10
-const ACCELERATION = 7
-const MAX_SPEED = 150
-const JUMP_HEIGHT = -245
-const TIME_PERIOD = 0.1 # 500ms
-
-var canJump= true
-var rng = RandomNumberGenerator.new()
-onready var FIREBALL_SCENE = preload(\"res://Fireball.tscn\")
-
-var maxLIFE = 5
-
-var isJumping = false
-var damage = 1
-var lifelabelnode
-var trylabelnode
-var isAttacking = false
-var isHurt = false
-var time = 0
-var LIFE = 5
-var motion = Vector2()
-var isAlive = false
-var isSpawning = false
-var willHurtEnemy = true
-var flip = 1;
-var trys = 30
-
-var maxAnger = 5
-var anger = 0
-
-var volume = -10
-
-var spawnPoint = Vector2(0,0)
-
-signal win
-signal refreshAnger
-	
-func _ready():
-	rng.randomize()
-	lifelabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/Counter/Label\")
-	trylabelnode = get_parent().get_node(\"CanvasLayer/Interface/VBoxContainer/TryCounter/Label\")
-	trylabelnode.text = str(trys)
-	spawnPoint = position
-	spawn()
-
-func spawn():
-	isSpawning = true
-	motion = Vector2(0,0)
-	position = spawnPoint
-	LIFE = maxLIFE
-	lifelabelnode.text = str(LIFE)
-	$AnimationPlayer.play(\"player_spawn\")
-	yield($AnimationPlayer, \"animation_finished\")
-	isAlive = true
-	isSpawning = false
-	motion.y = -100
-
-func _physics_process(delta):
-	if is_on_floor():
-		isJumping = false		
-		canJump = true
-	if !is_on_floor():
-		coyoteTimer()
-
-	if Input.is_action_just_pressed(\"jump\"):
-		if canJump:
-			jump()
-		
-	if(is_on_floor() && !isJumping && !isAttacking && isAlive ):
-		if(motion.x < -1 || motion.x > 1):
-			$AnimationPlayer.play(\"player_running\")
-		else:
-			$AnimationPlayer.play(\"player_idle\")
-	
-	motion.y += GRAVITY
-	if isAttacking:
-		motion.x*=0.8
-	
-	if isAlive && !isSpawning:
-		if is_on_floor():
-			if Input.is_action_pressed(\"move_left\"):
-				if Input.is_action_pressed(\"move_right\"):
-					motion.x = lerp(motion.x, 0, 0.1)
-				else:
-					motion.x -=  ACCELERATION
-					motion.x = max(motion.x, -MAX_SPEED)
-					$Sprite.flip_h = true
-					flip = -1
-					$AttackRange.transform.origin.x = -5
-							
-				
-			elif Input.is_action_pressed(\"move_right\"):
-				if Input.is_action_pressed(\"move_left\"):
-					motion.x = lerp(motion.x, 0, 0.1)
-				else:
-					motion.x +=  ACCELERATION
-					motion.x = min(motion.x, MAX_SPEED)
-					$Sprite.flip_h = false
-					flip = 1
-					$AttackRange.transform.origin.x = 22
-			else:
-				if is_on_floor():
-					if !isAttacking && !isHurt:
-						motion.x = motion.x *0.7
-					
-		else:
-			if Input.is_action_pressed(\"move_left\"):
-				motion.x -=  ACCELERATION/2
-				motion.x = max(motion.x, -MAX_SPEED*0.8)
-			if Input.is_action_pressed(\"move_right\"):
-				motion.x +=  ACCELERATION/2
-				motion.x = min(motion.x, MAX_SPEED*0.8)
-
-		motion = move_and_slide(motion, UP)
-		
-		if Input.is_action_just_pressed(\"attack\"):
-			attack()
-			
-	if Input.is_action_pressed(\"special\") && anger >= 5:
-		anger = 0
-		emit_signal(\"refreshAnger\", anger)
-		throw_fireball()
-
-
-func jump():
-	canJump = false
-	isJumping = true
-	var my_random_number = rng.randi_range(1, 3)
-	match my_random_number:
-		1: 
-			$Voices/jump1.volume_db = volume
-			$Voices/jump1.play()
-		2: 
-			$Voices/jump2.volume_db = volume
-			$Voices/jump2.play()
-		3: 
-			$Voices/jump3.volume_db = volume
-			$Voices/jump3.play()
-	$AnimationPlayer.play(\"player_jumping\")
-	motion.y = JUMP_HEIGHT
-
-func attack():
-	if($AnimationPlayer.current_animation == \"player_idle\" || $AnimationPlayer.current_animation == \"player_running\"):
-			var my_random_number = rng.randi_range(1, 3)
-			match my_random_number:
-				1: 
-					$Voices/attack1.volume_db = volume
-					$Voices/attack1.play()
-				2: 
-					$Voices/attack2.volume_db = volume
-					$Voices/attack2.play()
-				3: 
-					$Voices/attack3.volume_db = volume
-					$Voices/attack3.play()
-			isAttacking = true
-			$AttackRange/CollisionShape2D.disabled = false
-			$AnimationPlayer.play(\"player_attacking\")
-			yield($AnimationPlayer, \"animation_finished\")
-			isAttacking = false
-			$AttackRange/CollisionShape2D.disabled = true
-			
-# Called when the node enters the scene tree for the first time.
-
-
-func throw_fireball():
-	isAttacking = true
-	if isAlive :
-		$AnimationPlayer.play(\"throw_fireball\")
-		GRAVITY = 5
-		motion.y /=1.1 
-		yield($AnimationPlayer, \"animation_finished\")
-		$AnimationPlayer.play(\"player_idle\")
-		GRAVITY = 10
-		isAttacking = false
-
-func fire_fireball():
-	var fireball = FIREBALL_SCENE.instance()
-	fireball.position = Vector2(get_global_position().x+20, get_global_position().y-10)
-	fireball.look_vec = Vector2(flip, 0)
-	fireball.flip_h = $Sprite.flip_h
-	get_parent().add_child(fireball)
-
-func _process(delta):
-	if !isAlive && !isSpawning:
-		move_and_collide(Vector2(0, 2))
-	time += delta
-	if time > TIME_PERIOD:
-		time = 0
-	pass
-	
-	
-func smallJump():
-	motion.y = (JUMP_HEIGHT/4)
-	motion.x = motion.x/4
-	$AnimationPlayer.play(\"player_jumping\")
-	
-	
-func knockback(amount):
-	motion.y = JUMP_HEIGHT*amount
-	if ($Sprite.flip_h):
-		motion.x = 100
-	else:
-		motion.x = -100
-		
-func blinkLights():
-	if get_parent().get_node(\"Environment/NightLight\"):
-		var node = get_parent().get_node(\"Environment/NightLight\")
-		node.blinkLights()
-	
-func hurt(damageTaken):
-	if isAlive:
-		LIFE = LIFE - damageTaken
-		lifelabelnode.text = str(LIFE)
-		if(LIFE <= 0):
-			lifelabelnode.text = \"0\"
-			if isAlive:
-				die()
-		else:
-			isHurt = true
-			var my_random_number = rng.randi_range(1, 3)
-			match my_random_number:
-				1: 
-					$Voices/hurt1.volume_db =  volume
-					$Voices/hurt1.play()
-				2: 
-					$Voices/hurt2.volume_db = volume
-					$Voices/hurt2.play()
-				3: 
-					$Voices/hurt3.volume_db = volume
-					$Voices/hurt3.play()
-			$AnimationPlayer.play(\"player_hurt\")
-			knockback(0.5)
-			blinkLights()
-			yield($AnimationPlayer, \"animation_finished\")
-			isHurt = false
-		
-func hurtEnemy():
-	willHurtEnemy = true
-
-func die(animated = true):
-	$AnimationPlayer.stop()
-	motion.y = 10
-	isAlive = false
-	trys-=1
-	trylabelnode.text = str(trys)
-	if(animated):
-		$Voices/die.play()
-		$AnimationPlayer.play(\"player_death\")
-		yield($AnimationPlayer, \"animation_finished\")
-		if(trys<=0):
-			get_tree().change_scene(\"res://GameOver.tscn\")
-		$DeathTimer.start(2)
-	else:
-		if(trys<=0):
-			get_tree().change_scene(\"res://GameOver.tscn\")
-		spawn()
-	
-
-func _on_AttackRange_body_entered(body):
-	if(body.is_in_group(\"Enemy\") && willHurtEnemy ):
-		body.hurt(damage)
-
-
-func _on_DeathZone_body_entered(body):
-	if(body.name == 'Player'):
-		die(false)
-
-func _on_CheckPoint_body_entered(body):
-	if(body.name == 'Player'):
-		spawnPoint = Vector2 (body.position.x, body.position.y - 20)
-
-func _on_NextLevel_body_entered(body):
-	if(body.name == 'Player'):
-		get_tree().change_scene(\"res://Boss.tscn\")
-
-func turnSprite(flip):
-	if flip:
-		$Sprite.flip_h = true
-	else:
-		$Sprite.flip_h = false
-
-func _on_Timer_timeout():
-	spawn()
-
-func _on_Boss_bossDie():
-	$Camera2D.zoom.x = 0.2
-	$Camera2D.zoom.y = 0.2
-	emit_signal(\"win\")
-	pass # Replace with function body.
-
-func coyoteTimer():
-	yield(get_tree().create_timer(.3), \"timeout\")
-	canJump = false
-
-
-func _on_AngerCooldown_timeout():
-	if anger < maxAnger:
-		anger+=1
-		emit_signal(\"refreshAnger\", anger)
-		
-	pass # Replace with function body.
-
-
-func _on_Player_refreshAnger():
-	pass # Replace with function body.
-"
-
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13.8273, 3.9184 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "break_guitar"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CheckpointLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=3]
 length = 0.458334
@@ -398,6 +118,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 15, 16, 17 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "makeUnvunerable"
+}, {
+"args": [  ],
+"method": "makeVunerable"
+} ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -472,9 +209,20 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 1.0 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("CheckpointLabel:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=10]
-resource_name = "throw_fireball"
 length = 0.8
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("AnimationPlayer:playback_speed")
@@ -507,10 +255,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 74, 75, 76, 77, 78, 79, 80 ]
+"values": [ 74, 75, 76, 77, 78, 79, 80, 81 ]
 }
 
 [sub_resource type="RectangleShape2D" id=11]
@@ -519,16 +267,17 @@ extents = Vector2( 8.44684, 15.9194 )
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 305.385, 147.172 )
 collision_mask = 7
-script = SubResource( 1 )
+script = ExtResource( 15 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2( -0.726763, 1.10608 )
 current = true
-zoom = Vector2( 0.3, 0.3 )
+zoom = Vector2( 0.4, 0.4 )
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
 smoothing_speed = 8.0
+script = ExtResource( 14 )
 
 [node name="AttackRange" type="Area2D" parent="."]
 position = Vector2( 1.64056, -5.30877 )
@@ -538,11 +287,11 @@ collision_mask = 524288
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
 position = Vector2( 0.667419, 0.166855 )
 rotation = -6.28319
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 3.0
+anims/break_guitar = SubResource( 2 )
 anims/player_attacking = SubResource( 3 )
 anims/player_death = SubResource( 4 )
 anims/player_hurt = SubResource( 5 )
@@ -557,9 +306,9 @@ light_mask = 2
 position = Vector2( 8.97913, -7.31869 )
 z_index = 1
 texture = ExtResource( 1 )
-vframes = 9
+vframes = 11
 hframes = 9
-frame = 74
+frame = 39
 
 [node name="Player_glow" type="Light2D" parent="."]
 light_mask = 3075
@@ -627,7 +376,21 @@ position = Vector2( 8.91339, -7.34991 )
 shape = SubResource( 11 )
 
 [node name="AngerCooldown" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
+
+[node name="CheckpointLabel" type="Label" parent="."]
+visible = false
+margin_left = -19.3499
+margin_top = -44.2598
+margin_right = 192.65
+margin_bottom = 35.7402
+rect_scale = Vector2( 0.25, 0.25 )
+custom_fonts/font = ExtResource( 3 )
+text = "CHECKPOINT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="AttackRange" to="." method="_on_AttackRange_body_entered"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="AngerCooldown" to="." method="_on_AngerCooldown_timeout"]

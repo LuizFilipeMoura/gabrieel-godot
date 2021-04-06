@@ -6,7 +6,7 @@ var ACCELERATION = 2
 var MAX_SPEED = 300
 
 onready var BULLET_SCENE = preload("res://Bullet.tscn")
-
+onready var PILOT_SCENE = preload("res://Enemy.tscn")
 var Player = 0
 var motion = Vector2()
 var isReadyToMove = false
@@ -15,7 +15,7 @@ var isShooting = false
 var countTimesThatTurned = 0
 var countFires = 0
 var countTimesThatStopped = 0;
-var pilot = null
+var pilot
 var maxFires = 4
 var inBetweenShots = 0.8
 var maxTurns = 3
@@ -37,6 +37,7 @@ func spawn():
 	$AnimationPlayer.play("boss_turn_turret")
 	yield($AnimationPlayer, "animation_finished")
 	isReadyToMove = true
+
 	
 func stopAndFire():
 	$PilotTimer.stop()
@@ -61,10 +62,12 @@ func lookAtPlayer():
 		
 func spawnPilot():
 	tankWasHurt = false
-	$PilotTimer.start(4)
-	pilot = get_parent().get_node("Enemy")
-	pilot.position = Vector2(get_global_position().x + 10, get_global_position().y ) 
-	pilot.isPilot()
+	$PilotTimer.start(6)
+	pilot = PILOT_SCENE.instance()
+	pilot.position = Vector2(get_global_position().x , get_global_position().y ) 
+	pilot.get_node("CollisionShape2D").disabled = true
+	pilot.connect("hurtTank", self, "_on_Enemy_hurtTank")
+	get_parent().add_child(pilot)
 	lookAtPlayer()
 	
 	# Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -96,11 +99,9 @@ func _process(delta):
 #	pass
 
 func fire(): 
-	
 	isShooting = true
 	$AnimationPlayer.play("boss_shot")
 	#$AnimationPlayer.play("boss_idle")
-	
 	if countFires < maxFires:
 		$Timer.start(inBetweenShots)
 	else:
@@ -128,18 +129,18 @@ func releaseBullet():
 	countFires +=1
 	var bullet = BULLET_SCENE.instance()
 	bullet.position = get_global_position()
+	bullet.damage = 2
 	bullet.Player = Player
+	bullet.shakeAmout = [1, 50, 3]
 	get_parent().add_child(bullet)
 
 func die():
-	get_parent().get_node("CanvasLayer/Label").text = ' '
 	emit_signal("bossHurt", 0)
-	pilot.position = Vector2(315, 52)
+	$AnimationPlayer.stop()
 	$AnimationPlayer.play("boss_death")
 	yield($AnimationPlayer, "animation_finished")
 	emit_signal("bossDie")
 	self.queue_free()
-	get_parent().get_node("Enemy").queue_free()
 	
 func anger():
 	MAX_SPEED +=50
@@ -149,6 +150,8 @@ func anger():
 	$AnimationPlayer.playback_speed +=0.1
 
 func _on_Enemy_hurtTank():
+	if (pilot):
+		pilot.queue_free()
 	tankWasHurt = true
 	life -= 1
 	if(life<=0):
@@ -156,7 +159,6 @@ func _on_Enemy_hurtTank():
 	else:	
 		anger()
 		emit_signal("bossHurt", life)
-		pilot.position = Vector2(315, 52)
 		$AnimationPlayer.play("boss_hurt")
 		yield($AnimationPlayer, "animation_finished")
 		if(countFires == 0):
@@ -165,8 +167,9 @@ func _on_Enemy_hurtTank():
 
 
 func _on_PilotTimer_timeout():
+	if(pilot):
+		pilot.queue_free()
 	if !tankWasHurt && countFires == 0:
-		pilot.position = Vector2(315, 52)
 		isReadyToMove = true
 	pass # Replace with function body.
 
@@ -178,7 +181,6 @@ func _on_Reload_timeout():
 
 func _on_RammingArea_body_entered(body):
 	if(body.name == 'Player'):
-		
 		if body.position.x - position.x > 0 :
 			body.turnSprite(true)
 			#body.$Sprite.flip_h = true

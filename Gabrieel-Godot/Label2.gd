@@ -1,4 +1,4 @@
-extends Label
+xtends Label
 
 
 # Declare member variables here. Examples:

@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 var Player = null
 onready var BULLET_SCENE = preload("res://Bullet.tscn")
+onready var MONEY_SCENE = preload("res://Money.tscn")
 var isDead = false;
 var life = 2
 var damage = 2
@@ -19,8 +20,12 @@ func _ready():
 	$Timer.start(fire_delay)
 	$AnimatedSprite.play("idle")
 
-func knockback(amount):
+func knockback(amount, positionX):
 	motion.y = JUMP_HEIGHT*amount
+	if positionX > self.position.x:
+		$AnimatedSprite.flip_h = false
+	if positionX < self.position.x:
+		$AnimatedSprite.flip_h = true
 	if ($AnimatedSprite.flip_h):
 		motion.x = 100
 	else:
@@ -41,7 +46,8 @@ func shot():
 	bullet.position = Vector2(get_global_position().x+20, get_global_position().y-10)
 	bullet.Player = Player
 	bullet.speed = 2
-	bullet.damage = 3
+	bullet.damage = 2
+	bullet.shakeAmout = [0.5, 5, 2]
 	get_parent().add_child(bullet)
 	
 	
@@ -64,11 +70,13 @@ func die():
 	$AnimatedSprite.play("enemy_death")
 	yield($AnimatedSprite, "animation_finished")
 	self.queue_free()
-		
+	var money = MONEY_SCENE.instance()
+	money.position = Vector2(get_global_position().x+20, get_global_position().y)
+	get_parent().add_child(money)	
 	
 		
 func _on_Head_body_entered(body):
-	if(body.name == 'Player'):
+	if(body.name == 'Player'):if(body.name == 'Player'):
 		if(isPilot):
 			body.smallJump()
 			emit_signal("hurtTank")
@@ -82,12 +90,15 @@ func _on_Head_body_entered(body):
 
 func hurt(damageTaken):
 	life = life - damageTaken
+
+	if(life <= 0):
+		die()
+	
 	if(!isDead):
 		$AnimatedSprite.play("enemy_hurt")
 		yield($AnimatedSprite, "animation_finished")
 		$AnimatedSprite.play("enemy_idle")
-	if(life <= 0):
-		die()
+	
 
 func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):
@@ -95,6 +106,7 @@ func _on_Body_body_entered(body):
 			$AnimatedSprite.flip_h = true
 		else:
 			$AnimatedSprite.flip_h = false
+		body.knockback(100, self.position.x)
 		body.hurt(damage)
 		
 func isPilot():

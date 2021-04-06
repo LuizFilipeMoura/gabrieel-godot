@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
 const UP = Vector2(0,-1)
-const GRAVITY = 10
+var GRAVITY = 10
 const ACCELERATION = 7
-const MAX_SPEED = 150
+
 const JUMP_HEIGHT = -245
 const TIME_PERIOD = 0.1 # 500ms
 
@@ -11,12 +11,13 @@ var canJump= true
 var rng = RandomNumberGenerator.new()
 onready var FIREBALL_SCENE = preload("res://Fireball.tscn")
 
-var maxLIFE = 5
 
 var isJumping = false
 var damage = 1
 var lifelabelnode
 var trylabelnode
+var hud
+var angerNode
 var isAttacking = false
 var isHurt = false
 var time = 0
@@ -26,47 +27,61 @@ var isAlive = false
 var isSpawning = false
 var willHurtEnemy = true
 var flip = 1;
-var trys = 30
-
+var hurtable = false
+var maxAnger = 50
+var fireballAngerNeed = 50
+var anger = 0
 var volume = -10
-
 var spawnPoint = Vector2(0,0)
 
-signal win
 
+
+signal pickupKey1
+signal pickupKey2
+signal win
+signal refreshAnger
 	
 func _ready():
 	rng.randomize()
-	lifelabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/Counter/Label")
-	trylabelnode = get_parent().get_node("CanvasLayer/Interface/VBoxContainer/TryCounter/Label")
-	trylabelnode.text = str(trys)
+	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/Counter/Label")
+	trylabelnode = get_parent().get_node("HUD/Interface/HBoxContainer/TryCounter/Label")
+	angerNode = get_parent().get_node("HUD/Interface/HBoxContainer/AngerBar")
+	hud = get_parent().get_node("HUD/Interface")
+	trylabelnode.text = str(Global.trys)
 	spawnPoint = position
 	spawn()
 
 func spawn():
+	hurtable = false
+	if(Global.hasPatch):
+		angerNode.visible = true
+		connect("refreshAnger", angerNode.get_node('TextureProgress'),  "_on_Player_refreshAnger" )
 	isSpawning = true
 	motion = Vector2(0,0)
 	position = spawnPoint
-	LIFE = maxLIFE
+	LIFE = Global.maxLIFE
 	lifelabelnode.text = str(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
 	isAlive = true
 	isSpawning = false
-	motion.y = -100
+	motion.y = -10
+	
 
 func _physics_process(delta):
-	if is_on_floor() && !isAttacking:
+	if is_on_floor():
 		isJumping = false
 		canJump = true
+		hurtable = true
+		
 	if !is_on_floor():
 		coyoteTimer()
 
 	if Input.is_action_just_pressed("jump"):
-		if canJump:
+		if canJump && isAlive && !isHurt:
 			jump()
 		
-	if(is_on_floor() && !isJumping && !isAttacking && isAlive ):
+	if(is_on_floor() && !isJumping && !isAttacking && isAlive && !isHurt):
 		if(motion.x < -1 || motion.x > 1):
 			$AnimationPlayer.play("player_running")
 		else:
@@ -78,46 +93,54 @@ func _physics_process(delta):
 	
 	if isAlive && !isSpawning:
 		if is_on_floor():
-			if Input.is_action_pressed("move_left"):
+			if Input.is_action_pressed("move_left") && !isHurt:
 				if Input.is_action_pressed("move_right"):
-					motion.x = lerp(motion.x, 0, 0.1)
+					motion.x = lerp(motion.x, 0, 0.5)
 				else:
+					if(motion.x > 0):
+						motion.x = 0
 					motion.x -=  ACCELERATION
-					motion.x = max(motion.x, -MAX_SPEED)
+					motion.x = max(motion.x, -Global.MAX_SPEED)
 					$Sprite.flip_h = true
 					flip = -1
 					$AttackRange.transform.origin.x = -5
 							
 				
-			elif Input.is_action_pressed("move_right"):
+			elif Input.is_action_pressed("move_right") && !isHurt:
 				if Input.is_action_pressed("move_left"):
-					motion.x = lerp(motion.x, 0, 0.1)
+					motion.x = lerp(motion.x, 0, 0.5)
 				else:
+					if(motion.x < 0):
+						motion.x = 0
 					motion.x +=  ACCELERATION
-					motion.x = min(motion.x, MAX_SPEED)
+					motion.x = min(motion.x, Global.MAX_SPEED)
 					$Sprite.flip_h = false
 					flip = 1
 					$AttackRange.transform.origin.x = 22
 			else:
 				if is_on_floor():
 					if !isAttacking && !isHurt:
-						motion.x = motion.x *0.7
+						motion.x = motion.x *0.6
 					
 		else:
 			if Input.is_action_pressed("move_left"):
 				motion.x -=  ACCELERATION/2
-				motion.x = max(motion.x, -MAX_SPEED*0.8)
+				motion.x = max(motion.x, -Global.MAX_SPEED*0.8)
 			if Input.is_action_pressed("move_right"):
 				motion.x +=  ACCELERATION/2
-				motion.x = min(motion.x, MAX_SPEED*0.8)
+				motion.x = min(motion.x, Global.MAX_SPEED*0.8)
 
-		motion = move_and_slide(motion, UP)
+		var snap = Vector2.DOWN  if !isJumping else Vector2.ZERO
+		motion = move_and_slide_with_snap(motion, snap, UP)
 		
-		if Input.is_action_just_pressed("attack"):
+		if Input.is_action_just_pressed("attack") && !isHurt:
 			attack()
 			
-	if Input.is_action_pressed("special"):
-		throw_fireball()
+	if Input.is_action_pressed("special") && anger >= fireballAngerNeed && !isHurt:
+		anger -= fireballAngerNeed
+		emit_signal("refreshAnger", anger)
+		if Global.fireballEquiped:
+			throw_fireball()
 
 
 func jump():
@@ -161,11 +184,14 @@ func attack():
 
 
 func throw_fireball():
-	print(isAlive)
 	isAttacking = true
 	if isAlive :
 		$AnimationPlayer.play("throw_fireball")
+		GRAVITY = 5
+		motion.y /=1.1 
 		yield($AnimationPlayer, "animation_finished")
+		$AnimationPlayer.play("player_idle")
+		GRAVITY = 10
 		isAttacking = false
 
 func fire_fireball():
@@ -185,18 +211,22 @@ func _process(delta):
 	
 	
 func smallJump():
-	if isAlive:
-		motion.y = (JUMP_HEIGHT/4)
-		motion.x = motion.x/4
-		$AnimationPlayer.play("player_jumping")
+	motion.y = (JUMP_HEIGHT/4)
+	motion.x = motion.x/4
+	$AnimationPlayer.play("player_jumping")
 	
 	
-func knockback(amount):
-	motion.y = JUMP_HEIGHT*amount
+func knockback(amount, positionX):
+	motion.x = 0
+	motion.y = -amount/2
+	if positionX > self.position.x:
+		$Sprite.flip_h = false
+	if positionX < self.position.x:
+		$Sprite.flip_h = true
 	if ($Sprite.flip_h):
-		motion.x = 100
+		motion.x = amount
 	else:
-		motion.x = -100
+		motion.x = -amount
 		
 func blinkLights():
 	if get_parent().get_node("Environment/NightLight"):
@@ -204,8 +234,9 @@ func blinkLights():
 		node.blinkLights()
 	
 func hurt(damageTaken):
-	if isAlive:
+	if isAlive && hurtable:
 		LIFE = LIFE - damageTaken
+		$Camera2D.shake(1, 10, 5)
 		lifelabelnode.text = str(LIFE)
 		if(LIFE <= 0):
 			lifelabelnode.text = "0"
@@ -225,7 +256,6 @@ func hurt(damageTaken):
 					$Voices/hurt3.volume_db = volume
 					$Voices/hurt3.play()
 			$AnimationPlayer.play("player_hurt")
-			knockback(0.5)
 			blinkLights()
 			yield($AnimationPlayer, "animation_finished")
 			isHurt = false
@@ -233,26 +263,35 @@ func hurt(damageTaken):
 func hurtEnemy():
 	willHurtEnemy = true
 
+func makeUnvunerable():
+	hurtable = false
+	
+func makeVunerable():
+	hurtable = true
+
+
 func die(animated = true):
+	$AnimationPlayer.stop()
 	motion.y = 10
 	isAlive = false
-	trys-=1
-	trylabelnode.text = str(trys)
+	Global.trys-=1
+	trylabelnode.text = str(Global.trys)
 	if(animated):
 		$Voices/die.play()
 		$AnimationPlayer.play("player_death")
 		yield($AnimationPlayer, "animation_finished")
-		if(trys<=0):
+		if(Global.trys<=0):
 			get_tree().change_scene("res://GameOver.tscn")
 		$DeathTimer.start(2)
 	else:
-		if(trys<=0):
+		if(Global.trys<=0):
 			get_tree().change_scene("res://GameOver.tscn")
 		spawn()
 	
 
 func _on_AttackRange_body_entered(body):
 	if(body.is_in_group("Enemy") && willHurtEnemy ):
+		$Camera2D.shake(0.5, 10, 2)
 		body.hurt(damage)
 
 
@@ -262,6 +301,10 @@ func _on_DeathZone_body_entered(body):
 
 func _on_CheckPoint_body_entered(body):
 	if(body.name == 'Player'):
+		isAlive = false
+		$AnimationPlayer.play("break_guitar")
+		yield($AnimationPlayer, "animation_finished")
+		isAlive = true
 		spawnPoint = Vector2 (body.position.x, body.position.y - 20)
 
 func _on_NextLevel_body_entered(body):
@@ -278,11 +321,26 @@ func _on_Timer_timeout():
 	spawn()
 
 func _on_Boss_bossDie():
-	$Camera2D.zoom.x = 0.2
-	$Camera2D.zoom.y = 0.2
-	emit_signal("win")
-	pass # Replace with function body.
+	Global.hasPatch = true
+	Global.fireballEquiped = true
 
 func coyoteTimer():
 	yield(get_tree().create_timer(.3), "timeout")
 	canJump = false
+
+
+func _on_AngerCooldown_timeout():
+	if anger < maxAnger:
+		anger+=Global.angerRate
+		emit_signal("refreshAnger", anger)
+		
+	pass # Replace with function body.
+
+
+func _on_Key1_body_entered(body):
+	emit_signal("pickupKey1")
+
+
+func _on_Key2_body_entered(body):
+	emit_signal("pickupKey2")
+	pass # Replace with function body.

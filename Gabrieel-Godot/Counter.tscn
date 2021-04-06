@@ -16,17 +16,15 @@ Label/fonts/font = null
 Label/styles/normal = null
 
 [node name="LifeCounter" type="NinePatchRect"]
-margin_right = 1234.0
-margin_bottom = 558.0
+margin_left = 1.05945
+margin_right = 1.05945
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = 47.0
-margin_top = 46.0
-margin_right = 171.0
-margin_bottom = 188.0
+margin_right = 124.0
+margin_bottom = 142.0
 texture = ExtResource( 2 )
 expand = true
 __meta__ = {
@@ -34,10 +32,10 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = -5.31305
-margin_top = 88.7421
-margin_right = 227.687
-margin_bottom = 588.742
+margin_left = 51.9137
+margin_top = 34.9623
+margin_right = 70.9137
+margin_bottom = 114.962
 theme = SubResource( 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "4"

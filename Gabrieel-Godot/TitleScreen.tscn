@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://SPRITES_GODOT/BOSS_LIFE_BAR.png" type="Texture" id=1]
+[ext_resource path="res://font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Button.gd" type="Script" id=3]
+[ext_resource path="res://sounds/Gabrieel_title_theme.wav" type="AudioStream" id=4]
+[ext_resource path="res://Button2.gd" type="Script" id=5]
+[ext_resource path="res://Global.gd" type="Script" id=6]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 638, 372 )
+scale = Vector2( 5.90627, 77.2308 )
+texture = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 259.0
+margin_top = 1.0
+margin_right = 779.0
+margin_bottom = 413.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "WASD - MOVE GABRIEEL
+K - ATTACK
+SPACE - JUMP
+j - usE PATCH
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 878.0
+margin_top = 497.0
+margin_right = 1398.0
+margin_bottom = 743.0
+rect_scale = Vector2( 0.4, 0.4 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "v 0.0.3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hard" type="Button" parent="CanvasLayer"]
+margin_left = 474.0
+margin_top = 413.0
+margin_right = 765.0
+margin_bottom = 499.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "MOTHERFUCKER"
+flat = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Easy" type="Button" parent="CanvasLayer"]
+margin_left = 203.0
+margin_top = 369.0
+margin_right = 329.0
+margin_bottom = 455.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "NICE NEIGHBOUR"
+flat = true
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+[connection signal="pressed" from="CanvasLayer/Hard" to="CanvasLayer/Hard" method="_on_Button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Easy" to="CanvasLayer/Easy" method="_on_Button2_pressed"]

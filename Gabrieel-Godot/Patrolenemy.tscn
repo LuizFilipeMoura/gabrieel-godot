@@ -13,44 +13,44 @@ atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
-region = Rect2( 41, 0, 41, 41 )
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 41, 41, 41 )
+atlas = ExtResource( 4 )
+region = Rect2( 41, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
-region = Rect2( 41, 41, 41, 41 )
+atlas = ExtResource( 4 )
+region = Rect2( 0, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 41, 41 )
+atlas = ExtResource( 4 )
+region = Rect2( 41, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 41, 41 )
+region = Rect2( 0, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 4 )
-region = Rect2( 41, 0, 41, 41 )
+region = Rect2( 41, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 41, 41, 41 )
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 4 )
-region = Rect2( 41, 41, 41, 41 )
+atlas = ExtResource( 1 )
+region = Rect2( 41, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 82, 41, 41 )
+atlas = ExtResource( 1 )
+region = Rect2( 0, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 4 )
-region = Rect2( 41, 82, 41, 41 )
+atlas = ExtResource( 1 )
+region = Rect2( 41, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 3 )
@@ -78,19 +78,19 @@ region = Rect2( 41, 82, 41, 41 )
 
 [sub_resource type="SpriteFrames" id=19]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
-"loop": true,
-"name": "Enemy_Walk",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ) ],
+"frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "enemy_idle",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": false,
 "name": "enemy_hurt",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "Enemy_Walk",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
