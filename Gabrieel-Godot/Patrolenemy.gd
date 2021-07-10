@@ -20,8 +20,12 @@ func _ready():
 	if self.name == "Enemy2":
 		life = 4 
 
-func knockback(amount):
+func knockback(amount, positionX):
 	motion.y = JUMP_HEIGHT*amount
+	if positionX > self.position.x:
+		$AnimatedSprite.flip_h = false
+	if positionX < self.position.x:
+		$AnimatedSprite.flip_h = true
 	if ($AnimatedSprite.flip_h):
 		motion.x = 100
 	else:
