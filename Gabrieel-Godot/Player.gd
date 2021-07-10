@@ -139,7 +139,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("special") && anger >= fireballAngerNeed && !isHurt:
 		anger -= fireballAngerNeed
 		emit_signal("refreshAnger", anger)
-		if Global.fireballEquiped:
+		if Global.patchEquiped == 'fireball':
 			throw_fireball()
 
 
@@ -322,7 +322,7 @@ func _on_Timer_timeout():
 
 func _on_Boss_bossDie():
 	Global.hasPatch = true
-	Global.fireballEquiped = true
+	Global.patchEquiped = 'fireball'
 
 func coyoteTimer():
 	yield(get_tree().create_timer(.3), "timeout")

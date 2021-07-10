@@ -249,8 +249,8 @@ script = ExtResource( 5 )
 position = Vector2( 6.21733, -6.21733 )
 scale = Vector2( 1.19429, 1.19429 )
 texture = ExtResource( 7 )
-vframes = 7
 hframes = 7
+vframes = 7
 frame = 38
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boss"]
@@ -392,11 +392,12 @@ position = Vector2( 50.1334, -31.4432 )
 scale = Vector2( 3.9778, 2.64035 )
 
 [node name="Light2D" parent="Parallax Background/Céu/Sky/Sprite" index="0"]
-position = Vector2( -14.9207, 20.5461 )
+position = Vector2( -11.4366, 23.4092 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
 autoplay = true
+
 [connection signal="bossDie" from="Boss" to="Player" method="_on_Boss_bossDie"]
 [connection signal="bossHurt" from="Boss" to="HUD/LifeBar" method="_on_Boss_bossHurt"]
 [connection signal="timeout" from="Boss/PilotTimer" to="Boss" method="_on_PilotTimer_timeout"]
@@ -408,5 +409,4 @@ autoplay = true
 [connection signal="body_entered" from="Phisycs and Areas/TurningPoint2" to="Boss" method="_on_TurningPoint2_body_entered"]
 
 [editable path="HUD"]
-
 [editable path="Parallax Background"]

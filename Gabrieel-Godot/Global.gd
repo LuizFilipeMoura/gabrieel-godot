@@ -5,8 +5,8 @@ extends Node
 # var a = 
 # var b = "text"
 var trys = 30
-var hasPatch = true
-var fireballEquiped = true
+var hasPatch = false
+var patchEquiped = ''
 var money = 0
 var isInShop = false
 var current_scene = null

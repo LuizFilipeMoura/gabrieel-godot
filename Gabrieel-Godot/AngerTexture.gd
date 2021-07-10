@@ -9,6 +9,8 @@ signal not_full
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if not Global.hasPatch :
+		self.visible = false
 	pass # Replace with function body.
 
 

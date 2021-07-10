@@ -18,8 +18,8 @@ var countTimesThatStopped = 0;
 var pilot
 var maxFires = 4
 var inBetweenShots = 0.8
-var maxTurns = 3
-var maxStopps = 3
+var maxTurns = 1
+var maxStopps = 1
 
 var tankWasHurt = false
 
@@ -167,6 +167,7 @@ func _on_Enemy_hurtTank():
 
 
 func _on_PilotTimer_timeout():
+	print(pilot)
 	if(pilot):
 		pilot.queue_free()
 	if !tankWasHurt && countFires == 0:
