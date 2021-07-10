@@ -318,43 +318,43 @@ texture = ExtResource( 5 )
 [node name="BurningSkulls" type="Node2D" parent="Environment"]
 
 [node name="BurningSkull" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
-frame = 3
+frame = 6
 
 [node name="BurningSkull6" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 656.816, 154.583 )
-frame = 3
+frame = 6
 
 [node name="BurningSkull2" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1010.67, 123.769 )
-frame = 3
+frame = 6
 
 [node name="BurningSkull3" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1155.61, 81.6122 )
-frame = 0
+frame = 3
 
 [node name="BurningSkull5" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1384.03, 260.719 )
-frame = 2
+frame = 5
 
 [node name="BurningSkull4" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 1819.41, -4.19994 )
-frame = 0
+frame = 3
 
 [node name="BurningSkull7" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2059.48, -11.3352 )
-frame = 2
+frame = 5
 
 [node name="BurningSkull8" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2399.8, 243.375 )
-frame = 2
+frame = 5
 
 [node name="BurningSkull9" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 2740.18, 218.171 )
-frame = 2
+frame = 5
 
 [node name="BurningSkull10" parent="Environment/BurningSkulls" instance=ExtResource( 8 )]
 position = Vector2( 3113.94, 267.958 )
-frame = 2
+frame = 5
 
 [node name="Fence & Plant & Tree" type="Node2D" parent="Environment"]
 
@@ -472,7 +472,6 @@ position = Vector2( 606.711, 161.719 )
 scale = Vector2( 0.364583, 0.364583 )
 z_index = -100
 texture = ExtResource( 17 )
-
 [connection signal="full" from="HUD/AngerBar/TextureProgress" to="HUD/AngerBar/Label" method="_on_TextureProgress_full"]
 [connection signal="not_full" from="HUD/AngerBar/TextureProgress" to="HUD/AngerBar/Label" method="_on_TextureProgress_not_full"]
 [connection signal="body_entered" from="Physics & Zones/DeathZone" to="Player" method="_on_DeathZone_body_entered"]
@@ -487,4 +486,5 @@ texture = ExtResource( 17 )
 [connection signal="finished" from="Environment/AudioStreamPlayer" to="Environment/AudioStreamPlayer" method="_on_AudioStreamPlayer_finished"]
 
 [editable path="Physics & Zones/CheckPoint"]
+
 [editable path="Physics & Zones/CheckPoint2"]

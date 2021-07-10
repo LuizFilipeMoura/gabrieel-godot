@@ -64,7 +64,10 @@ func spawnPilot():
 	tankWasHurt = false
 	$PilotTimer.start(6)
 	pilot = PILOT_SCENE.instance()
-	pilot.position = Vector2(get_global_position().x , get_global_position().y ) 
+	if $Sprite.flip_h:
+		pilot.position = Vector2(get_global_position().x + 15 , get_global_position().y ) 
+	else: 
+		pilot.position = Vector2(get_global_position().x - 5 , get_global_position().y ) 
 	pilot.get_node("CollisionShape2D").disabled = true
 	pilot.connect("hurtTank", self, "_on_Enemy_hurtTank")
 	get_parent().add_child(pilot)
@@ -167,7 +170,6 @@ func _on_Enemy_hurtTank():
 
 
 func _on_PilotTimer_timeout():
-	print(pilot)
 	if(pilot):
 		pilot.queue_free()
 	if !tankWasHurt && countFires == 0:
