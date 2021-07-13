@@ -29,7 +29,7 @@ func _ready():
 	var timer = Timer.new()
 
 	# Set timer interval	
-	timer.set_wait_time(1)
+	timer.set_wait_time(0.5)
 
 	# Set it as repeat
 	timer.set_one_shot(false)
