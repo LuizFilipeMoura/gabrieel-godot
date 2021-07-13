@@ -67,7 +67,7 @@ func _on_data():
 	var data = (JSON.parse(_client.get_peer(1).get_packet().get_string_from_utf8()).get_result())
 	if data != null:
 		print(data.id)
-		if data.id == id:
+		if data.id != id:
 			get_node("Heleena").position.x = data.positionX
 			get_node("Heleena").position.y = data.positionY
 	print("Got data from server: ", _client.get_peer(1).get_packet().get_string_from_utf8())
