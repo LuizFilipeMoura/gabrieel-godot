@@ -6,7 +6,7 @@ export var websocket_url = "ws://127.0.0.1:8001"
 # Our WebSocketClient instance
 var _client = WebSocketClient.new()
 var rng = RandomNumberGenerator.new()
-var id = 0;
+var id = 2;
 func _ready():
 	
 	# Connect base signals to get notified of connection open, close, and errors.
@@ -29,7 +29,7 @@ func _ready():
 	var timer = Timer.new()
 
 	# Set timer interval	
-	timer.set_wait_time(0.5)
+	timer.set_wait_time(2)
 
 	# Set it as repeat
 	timer.set_one_shot(false)
@@ -39,7 +39,7 @@ func _ready():
 
 	# Add to the tree as child of the current node
 	add_child(timer)
-	id = rng.randi_range(0, 100)
+
 	timer.start()
 
 func _closed(was_clean = false):
@@ -65,6 +65,7 @@ func _on_data():
 	# to receive data from server, and not get_packet directly when not
 	# using the MultiplayerAPI.
 	var data = (JSON.parse(_client.get_peer(1).get_packet().get_string_from_utf8()).get_result())
+	print(data)
 	if data != null:
 		print(data.id)
 		if data.id != id:
