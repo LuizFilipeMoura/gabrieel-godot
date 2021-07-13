@@ -303,6 +303,7 @@ custom_colors/font_color = Color( 0.360784, 0, 1, 1 )
 text = "close shop"
 flat = true
 script = ExtResource( 12 )
+
 [connection signal="pressed" from="Shop/VBoxContainer/life/Life/lifeBuy" to="Shop/VBoxContainer/life/Life/lifeBuy" method="_on_lifeBuy_pressed"]
 [connection signal="pressed" from="Shop/VBoxContainer/anger/Anger/Buy2" to="Shop/VBoxContainer/anger/Anger/Buy2" method="_on_Buy2_pressed"]
 [connection signal="pressed" from="Shop/VBoxContainer/speed/Speed/Buy" to="Shop/VBoxContainer/speed/Speed/Buy" method="_on_Buy_pressed"]

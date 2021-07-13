@@ -53,7 +53,7 @@ func _ready():
 
 func spawn():
 	hurtable = false
-	if(Global.hasPatch):
+	if(Global.patchEquiped != ''):
 		angerNode.visible = true
 		connect("refreshAnger", angerNode.get_node('TextureProgress'),  "_on_Player_refreshAnger" )
 	isSpawning = true

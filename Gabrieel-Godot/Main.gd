@@ -1,12 +1,12 @@
 extends Node
 
 # The URL we will connect to
-export var websocket_url = "ws://127.0.0.1:8001"
+export var websocket_url = "ws://192.168.43.49:8001"
 
 # Our WebSocketClient instance
 var _client = WebSocketClient.new()
 var rng = RandomNumberGenerator.new()
-var id = 2;
+var id = 145;
 func _ready():
 	
 	# Connect base signals to get notified of connection open, close, and errors.
