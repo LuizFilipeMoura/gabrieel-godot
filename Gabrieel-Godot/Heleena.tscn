@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://SPRITES_GODOT/SPRITE_SHEET (1).png" type="Texture" id=1]
 [ext_resource path="res://sounds/jump3.wav" type="AudioStream" id=2]
@@ -13,8 +13,7 @@
 [ext_resource path="res://sounds/attack2.wav" type="AudioStream" id=11]
 [ext_resource path="res://sounds/hurt1.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/hurt2.wav" type="AudioStream" id=13]
-[ext_resource path="res://Camera2D.gd" type="Script" id=14]
-[ext_resource path="res://Player.gd" type="Script" id=15]
+[ext_resource path="res://Heleena.gd" type="Script" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13.8273, 3.9184 )
@@ -264,21 +263,11 @@ tracks/2/keys = {
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 8.44684, 15.9194 )
 
-[node name="Player" type="KinematicBody2D" groups=[
+[node name="Heleena" type="KinematicBody2D" groups=[
 "Player",
 ]]
 position = Vector2( 305.385, 147.172 )
 collision_mask = 7
-script = ExtResource( 15 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-scale = Vector2( -0.726763, 1.10608 )
-current = true
-zoom = Vector2( 0.4, 0.4 )
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-smoothing_enabled = true
-smoothing_speed = 8.0
 script = ExtResource( 14 )
 
 [node name="AttackRange" type="Area2D" parent="."]
@@ -304,6 +293,8 @@ anims/player_spawn = SubResource( 9 )
 anims/throw_fireball = SubResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 0.984314, 0, 1 )
+self_modulate = Color( 1, 0.984314, 0, 1 )
 light_mask = 2
 position = Vector2( 8.97913, -7.31869 )
 z_index = 1
