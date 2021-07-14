@@ -88,15 +88,15 @@ animations = [ {
 "name": "enemy_death",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "enemy_idle",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "enemy_hurt",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "enemy_idle",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": true,
@@ -145,5 +145,6 @@ shape = SubResource( 21 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 position = Vector2( -0.210266, 5.57094 )
 shape = SubResource( 22 )
+
 [connection signal="body_entered" from="Head" to="." method="_on_Head_body_entered"]
 [connection signal="body_entered" from="Body" to="." method="_on_Body_body_entered"]

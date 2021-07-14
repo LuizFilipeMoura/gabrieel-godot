@@ -359,35 +359,35 @@ region = Rect2( 0, 0, 25, 16 )
 
 [sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 11 )
-region = Rect2( 25, 0, 25, 16 )
+region = Rect2( 0, 0, 25, 16 )
 
 [sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 11 )
-region = Rect2( 0, 16, 25, 16 )
+region = Rect2( 25, 0, 25, 16 )
 
 [sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 11 )
-region = Rect2( 25, 16, 25, 16 )
+region = Rect2( 0, 16, 25, 16 )
 
 [sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 11 )
-region = Rect2( 0, 32, 25, 16 )
+region = Rect2( 25, 16, 25, 16 )
 
 [sub_resource type="AtlasTexture" id=40]
 atlas = ExtResource( 11 )
-region = Rect2( 0, 0, 25, 16 )
+region = Rect2( 0, 32, 25, 16 )
 
 [sub_resource type="SpriteFrames" id=41]
 animations = [ {
-"frames": [ SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
-"loop": false,
-"name": "target_hit",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 40 ) ],
+"frames": [ SubResource( 35 ) ],
 "loop": true,
 "name": "target_idle",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"loop": false,
+"name": "target_hit",
+"speed": 20.0
 } ]
 
 [sub_resource type="CircleShape2D" id=42]
@@ -474,8 +474,8 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Enemies/Cop"]
 texture = ExtResource( 8 )
-vframes = 3
 hframes = 4
+vframes = 3
 frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemies/Cop"]
@@ -729,12 +729,13 @@ flip_h = true
 
 [node name="Money" parent="Itens" instance=ExtResource( 26 )]
 position = Vector2( -254.966, 263.404 )
+
 [connection signal="pickupKey1" from="Player" to="HUD/Itens/Key1_Sprite" method="_on_Player_pickupKey1"]
 [connection signal="pickupKey1" from="Player" to="Mechanics/Doors/Door3" method="_on_Player_pickupKey1"]
 [connection signal="pickupKey1" from="Player" to="Mechanics/Keys/Key1" method="_on_Player_pickupKey1"]
 [connection signal="pickupKey2" from="Player" to="HUD/Itens/Key2_Sprite" method="_on_Player_pickupKey2"]
-[connection signal="pickupKey2" from="Player" to="Mechanics/Keys/Key2" method="_on_Player_pickupKey2"]
 [connection signal="pickupKey2" from="Player" to="Mechanics/Doors/Door3" method="_on_Player_pickupKey2"]
+[connection signal="pickupKey2" from="Player" to="Mechanics/Keys/Key2" method="_on_Player_pickupKey2"]
 [connection signal="timeout" from="Enemies/Cop/RecoverTimer" to="Enemies/Cop" method="_on_RecoverTimer_timeout"]
 [connection signal="body_entered" from="Enemies/Cop/PlayerDetector" to="Enemies/Cop" method="_on_PlayerDetector_body_entered"]
 [connection signal="body_entered" from="Enemies/Cop/PlayerDetector2" to="Enemies/Cop" method="_on_PlayerDetector2_body_entered"]
@@ -744,8 +745,8 @@ position = Vector2( -254.966, 263.404 )
 [connection signal="body_entered" from="Physics And Zones/CheckPoint2" to="Player" method="_on_CheckPoint_body_entered"]
 [connection signal="body_entered" from="Physics And Zones/CheckPoint3" to="Player" method="_on_CheckPoint_body_entered"]
 [connection signal="body_entered" from="Plataforms/Plataform5/PlayerDetector" to="Plataforms/Plataform5" method="_on_PlayerDetector_body_entered"]
-[connection signal="consumeKeys" from="Mechanics/Doors/Door3" to="HUD/Itens/Key2_Sprite" method="_on_Door3_consumeKeys"]
 [connection signal="consumeKeys" from="Mechanics/Doors/Door3" to="HUD/Itens/Key1_Sprite" method="_on_Door3_consumeKeys"]
+[connection signal="consumeKeys" from="Mechanics/Doors/Door3" to="HUD/Itens/Key2_Sprite" method="_on_Door3_consumeKeys"]
 [connection signal="body_entered" from="Mechanics/Doors/Door3/Area2D" to="Mechanics/Doors/Door3" method="_on_Area2D_body_entered"]
 [connection signal="area_shape_entered" from="Mechanics/Targets/Target_1" to="Mechanics/Targets/Target_1" method="_on_Area2D_area_shape_entered"]
 [connection signal="wasHit" from="Mechanics/Targets/Target_1" to="Mechanics/Doors/Door1" method="_on_Target_1_wasHit"]
@@ -757,13 +758,9 @@ position = Vector2( -254.966, 263.404 )
 [connection signal="body_entered" from="Mechanics/Keys/Key2" to="Player" method="_on_Key2_body_entered"]
 
 [editable path="HUD"]
-
 [editable path="HUD/Interface"]
-
+[editable path="HUD/Interface/VBoxContainer/Counter"]
 [editable path="Enemies/ShootingEnemy3"]
-
 [editable path="Physics And Zones/CheckPoint"]
-
 [editable path="Physics And Zones/CheckPoint2"]
-
 [editable path="Physics And Zones/CheckPoint3"]

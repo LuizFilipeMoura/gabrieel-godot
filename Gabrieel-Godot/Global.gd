@@ -6,6 +6,7 @@ extends Node
 # var b = "text"
 var trys = 30
 var patchEquiped = 'fireball'
+var isMultiplayer = false
 var money = 0
 var isInShop = false
 var current_scene = null

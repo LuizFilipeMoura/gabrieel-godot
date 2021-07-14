@@ -5,7 +5,7 @@ export var websocket_url = "ws://192.168.43.49:8001"
 
 # Our WebSocketClient instance
 var _client = WebSocketClient.new()
-var rng = RandomNumberGenerator.new()
+var rng = RandomNumberGenerator.new() 
 var id = 145;
 func _ready():
 	
@@ -21,9 +21,7 @@ func _ready():
 	# Initiate connection to the given URL.
 	var err = _client.connect_to_url(websocket_url)
 	if err != OK:
-		print("Unable to connect")
 		set_process(false)
-	print(_client.connect_to_url(websocket_url))
 		# Create a timer node
 		
 	var timer = Timer.new()
@@ -45,7 +43,6 @@ func _ready():
 func _closed(was_clean = false):
 	# was_clean will tell you if the disconnection was correctly notified
 	# by the remote peer before closing the socket.
-	print("Closed, clean: ", was_clean)
 	set_process(false)
 
 func _connected(proto = ""):
@@ -57,7 +54,7 @@ func _connected(proto = ""):
 
 func repeat_me():
 
-	print('loop')
+	#print('loop')
 	_client.get_peer(1).put_packet(JSON.print({"id": id, "positionX": get_node("Player").position.x, "positionY": get_node("Player").position.y }).to_utf8())
 	
 func _on_data():
@@ -65,13 +62,13 @@ func _on_data():
 	# to receive data from server, and not get_packet directly when not
 	# using the MultiplayerAPI.
 	var data = (JSON.parse(_client.get_peer(1).get_packet().get_string_from_utf8()).get_result())
-	print(data)
+	#print(data)
 	if data != null:
-		print(data.id)
+		#print(data.id)
 		if data.id != id:
 			get_node("Heleena").position.x = data.positionX
 			get_node("Heleena").position.y = data.positionY
-	print("Got data from server: ", _client.get_peer(1).get_packet().get_string_from_utf8())
+	#print("Got data from server: ", _client.get_peer(1).get_packet().get_string_from_utf8())
 
 func _process(delta):
 	# Call this in _process or _physics_process. Data transfer, and signals

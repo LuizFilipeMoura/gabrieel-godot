@@ -108,13 +108,14 @@ func isPilot():
 	isPilot = true
 	$CollisionShape2D.disabled = true
 
-func _on_TurnPointR_body_entered(body):
+func _on_TurningPointR_body_entered(body):
 	if(body.is_in_group("Enemy")):
 		stop()
 		$Timer.start(lookingTime)
 		isMovingto = "left"
 
-func _on_TurnPointL_body_entered(body):
+
+func _on_TurningPointL_body_entered(body):
 	if(body.is_in_group("Enemy")):
 		stop()
 		$Timer.start(lookingTime)

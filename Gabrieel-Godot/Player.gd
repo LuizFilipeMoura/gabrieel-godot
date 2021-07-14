@@ -290,6 +290,8 @@ func die(animated = true):
 	
 
 func _on_AttackRange_body_entered(body):
+	print('a')
+	print(body)
 	if(body.is_in_group("Enemy") && willHurtEnemy ):
 		$Camera2D.shake(0.5, 10, 2)
 		body.hurt(damage)

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Patrolenemy.tscn" type="PackedScene" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6.82089, 33.0169 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Patrolenemy" parent="." instance=ExtResource( 1 )]
+collision_layer = 524289
+collision_mask = 524289
+
+[node name="TurningPointR" type="Area2D" parent="."]
+position = Vector2( 50, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurningPointR"]
+shape = SubResource( 1 )
+
+[node name="TurningPointL" type="Area2D" parent="."]
+position = Vector2( -50, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurningPointL"]
+shape = SubResource( 1 )

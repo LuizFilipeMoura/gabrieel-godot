@@ -40,6 +40,8 @@ signal win
 signal refreshAnger
 	
 func _ready():
+	if !Global.isMultiplayer :
+		self.queue_free()
 	rng.randomize()
 	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/Counter/Label")
 	trylabelnode = get_parent().get_node("HUD/Interface/HBoxContainer/TryCounter/Label")

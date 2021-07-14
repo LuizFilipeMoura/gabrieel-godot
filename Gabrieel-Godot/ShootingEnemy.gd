@@ -43,13 +43,14 @@ func _on_AttackRange_body_entered(body):
 func shot():
 	$AnimatedSprite.play("Shoot")
 	var bullet = BULLET_SCENE.instance()
-	bullet.position = Vector2(get_global_position().x+20, get_global_position().y-10)
+	bullet.position = Vector2($Gun.get_global_position().x, $Gun.get_global_position().y)
 	bullet.Player = Player
 	bullet.speed = 2
 	bullet.damage = 2
 	bullet.shakeAmout = [0.5, 5, 2]
 	get_parent().add_child(bullet)
-	
+	yield(get_node("AnimatedSprite"), "animation_finished")
+	$AnimatedSprite.play("idle")
 	
 func turnToPlayer():
 	var look_vec = Player.position - position
