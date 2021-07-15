@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Interface.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Vest.gd" type="Script" id=2]
 [ext_resource path="res://font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://CanvasLayer.gd" type="Script" id=4]
 [ext_resource path="res://SPRITES_GODOT/vest.png" type="Texture" id=5]
@@ -35,6 +36,7 @@ __meta__ = {
 position = Vector2( 510.009, 324.908 )
 scale = Vector2( 8.70692, 8.70692 )
 texture = ExtResource( 5 )
+script = ExtResource( 2 )
 
 [node name="Button" type="Button" parent="PauseMenu/Vest"]
 anchor_left = 0.5

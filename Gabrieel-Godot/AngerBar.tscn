@@ -42,5 +42,6 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="full" from="TextureProgress" to="Label" method="_on_TextureProgress_full"]
 [connection signal="not_full" from="TextureProgress" to="Label" method="_on_TextureProgress_not_full"]

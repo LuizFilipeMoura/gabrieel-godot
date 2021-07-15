@@ -18,8 +18,8 @@ var countTimesThatStopped = 0;
 var pilot
 var maxFires = 4
 var inBetweenShots = 0.8
-var maxTurns = 1
-var maxStopps = 1
+var maxTurns = 3
+var maxStopps = 3
 
 var tankWasHurt = false
 

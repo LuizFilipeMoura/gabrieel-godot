@@ -5,7 +5,7 @@ extends Node
 # var a = 
 # var b = "text"
 var trys = 30
-var patchEquiped = 'fireball'
+var patchEquiped = ['', 'fireball']
 var isMultiplayer = false
 var money = 0
 var isInShop = false

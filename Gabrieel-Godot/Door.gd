@@ -6,24 +6,25 @@ var target3washit = false
 var key1waspicked = false
 var key2waspicked = false
 var playerEntered = false
-# Declare member variables here. Examples:
+var targetsHitted = []
+var targetsRequireds = []
+var targetResponse = []
+var keysRequireds
 # var a = 2
 # var b = "text"
+
+
 
 signal consumeKeys
 
 # Called when the node enters the scene tree for the first time.
+
 func _ready():
+	if self.name == 'Door1':
+		targetsRequireds = ['Target_1']
+	if self.name == 'Door2':
+		targetsRequireds = ['Target_2', 'Target_3']
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if self.name == 'Door1' && target1washit:
-		open()
-	if self.name == 'Door2' && target2washit  && target3washit:
-		open()
-	
 
 func open():
 	$AnimatedSprite.play("door_open")
@@ -31,14 +32,23 @@ func open():
 	$CollisionShape2D.disabled = true
 	
 func _on_Target_1_wasHit(targetName):
-	target1washit = true
+	if targetsRequireds.has(targetName):
+		open()
 
 func _on_Target_2_wasHit(targetName):
-	target2washit = true
+	if targetsRequireds.has(targetName):
+		targetsHitted.append(targetName)
+		targetResponse.append(true)
+	if !targetResponse.has(false) && targetResponse.size() == targetsRequireds.size():
+		open()
 
 
 func _on_Target_3_wasHit(targetName):
-	target3washit = true
+	if targetsRequireds.has(targetName):
+		targetsHitted.append(targetName)
+		targetResponse.append(true)
+	if !targetResponse.has(false) && targetResponse.size() == targetsRequireds.size():
+		open()
 
 
 func _on_Player_pickupKey1():
@@ -50,8 +60,12 @@ func _on_Player_pickupKey2():
 
 func _on_Area2D_body_entered(body):
 	if(body.name == 'Player'):
-		if self.name == 'Door3' && key1waspicked  && key2waspicked:
+		if self.name == 'Door3' && key1waspicked && key2waspicked:
 			open()
 			emit_signal("consumeKeys")
 		
 
+
+
+func _on_Boss_bossDie():
+	open()

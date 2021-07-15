@@ -4,7 +4,7 @@ signal full
 signal not_full
 
 func _ready():
-	if Global.patchEquiped == '' :
+	if Global.patchEquiped.has(null) :
 		self.visible = false
 	pass # Replace with function body.
 

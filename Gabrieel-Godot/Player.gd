@@ -42,25 +42,25 @@ signal win
 signal refreshAnger
 	
 func _ready():
-	rng.randomize()
-	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/Counter/Label")
+	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/LifeCounter/Label")
 	trylabelnode = get_parent().get_node("HUD/Interface/HBoxContainer/TryCounter/Label")
 	angerNode = get_parent().get_node("HUD/Interface/HBoxContainer/AngerBar")
 	hud = get_parent().get_node("HUD/Interface")
-	trylabelnode.text = str(Global.trys)
+	rng.randomize()
+	trylabelnode.changeText()
 	spawnPoint = position
 	spawn()
 
 func spawn():
 	hurtable = false
-	if(Global.patchEquiped != ''):
+	if(!Global.patchEquiped.has(null)):
 		angerNode.visible = true
 		connect("refreshAnger", angerNode.get_node('TextureProgress'),  "_on_Player_refreshAnger" )
 	isSpawning = true
 	motion = Vector2(0,0)
 	position = spawnPoint
 	LIFE = Global.maxLIFE
-	lifelabelnode.text = str(LIFE)
+	lifelabelnode.changeText(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
 	isAlive = true
@@ -136,10 +136,10 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("attack") && !isHurt:
 			attack()
 			
-	if Input.is_action_pressed("special") && anger >= fireballAngerNeed && !isHurt:
+	if Input.is_action_pressed("special") && anger >= fireballAngerNeed && !isHurt && isAlive:
 		anger -= fireballAngerNeed
 		emit_signal("refreshAnger", anger)
-		if Global.patchEquiped == 'fireball':
+		if Global.patchEquiped.has('fireball'):
 			throw_fireball()
 
 
@@ -184,8 +184,8 @@ func attack():
 
 
 func throw_fireball():
-	isAttacking = true
 	if isAlive :
+		isAttacking = true
 		$AnimationPlayer.play("throw_fireball")
 		GRAVITY = 5
 		motion.y /=1.1 
@@ -290,8 +290,6 @@ func die(animated = true):
 	
 
 func _on_AttackRange_body_entered(body):
-	print('a')
-	print(body)
 	if(body.is_in_group("Enemy") && willHurtEnemy ):
 		$Camera2D.shake(0.5, 10, 2)
 		body.hurt(damage)
@@ -323,8 +321,7 @@ func _on_Timer_timeout():
 	spawn()
 
 func _on_Boss_bossDie():
-	Global.hasPatch = true
-	Global.patchEquiped = 'fireball'
+	Global.patchEquiped[0] = 'fireball'
 
 func coyoteTimer():
 	yield(get_tree().create_timer(.3), "timeout")
@@ -346,3 +343,8 @@ func _on_Key1_body_entered(body):
 func _on_Key2_body_entered(body):
 	emit_signal("pickupKey2")
 	pass # Replace with function body.
+
+
+func _on_LevelChangeArea_body_entered(body):
+	if body.is_in_group('Player'):
+		Global.isInShop = true

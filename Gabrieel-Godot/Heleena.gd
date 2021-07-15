@@ -43,24 +43,24 @@ func _ready():
 	if !Global.isMultiplayer :
 		self.queue_free()
 	rng.randomize()
-	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/Counter/Label")
+	lifelabelnode = get_parent().get_node("HUD/Interface/VBoxContainer/LifeCounter/Label")
 	trylabelnode = get_parent().get_node("HUD/Interface/HBoxContainer/TryCounter/Label")
 	angerNode = get_parent().get_node("HUD/Interface/HBoxContainer/AngerBar")
 	hud = get_parent().get_node("HUD/Interface")
-	trylabelnode.text = str(Global.trys)
+	trylabelnode.changeText()
 	spawnPoint = position
 	spawn()
 
 func spawn():
 	hurtable = false
-	if(Global.patchEquiped != ''):
+	if(!Global.patchEquiped.has(null)):
 		angerNode.visible = true
 		connect("refreshAnger", angerNode.get_node('TextureProgress'),  "_on_Player_refreshAnger" )
 	isSpawning = true
 	motion = Vector2(0,0)
 	position = spawnPoint
 	LIFE = Global.maxLIFE
-	lifelabelnode.text = str(LIFE)
+	lifelabelnode.changeText(LIFE)
 	$AnimationPlayer.play("player_spawn")
 	yield($AnimationPlayer, "animation_finished")
 	isAlive = true
