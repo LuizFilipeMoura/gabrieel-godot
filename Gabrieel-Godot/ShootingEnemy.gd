@@ -44,8 +44,9 @@ func shot():
 	$AnimatedSprite.play("Shoot")
 	var bullet = BULLET_SCENE.instance()
 	bullet.position = Vector2($Gun.get_global_position().x, $Gun.get_global_position().y)
+	bullet.scale = Vector2(0.8, 0.6)
 	bullet.Player = Player
-	bullet.speed = 2
+	bullet.speed = 2.5
 	bullet.damage = 2
 	bullet.shakeAmout = [0.5, 5, 2]
 	get_parent().add_child(bullet)
@@ -57,6 +58,7 @@ func turnToPlayer():
 	if look_vec.x > 0:
 		$AnimatedSprite.flip_h = false
 	else:
+		$Gun.position = Vector2(-18, -6)
 		$AnimatedSprite.flip_h = true
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
