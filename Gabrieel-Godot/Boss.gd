@@ -3,7 +3,7 @@ extends KinematicBody2D
 const UP = Vector2(0,-1)
 const GRAVITY = 10
 var ACCELERATION = 2
-var MAX_SPEED = 300
+var MAX_SPEED = 100
 
 onready var BULLET_SCENE = preload("res://Bullet.tscn")
 onready var PILOT_SCENE = preload("res://Enemy.tscn")

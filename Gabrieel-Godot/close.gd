@@ -19,5 +19,5 @@ func _ready():
 func _on_Buy_pressed():
 	get_tree().paused = false
 	Global.isInShop = false
-	get_tree().change_scene("res://Level 2.tscn")
+	get_tree().change_scene("res://Levels/Level 2.tscn")
 	pass # Replace with function body.

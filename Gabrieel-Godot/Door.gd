@@ -27,6 +27,12 @@ func _ready():
 	pass # Replace with function body.
 
 func open():
+	var t = Timer.new()
+	t.set_wait_time(3)
+	t.set_one_shot(true)
+	self.add_child(t)
+	t.start()
+	yield(t, "timeout")
 	$AnimatedSprite.play("door_open")
 	yield($AnimatedSprite, "animation_finished")
 	$CollisionShape2D.disabled = true
@@ -61,6 +67,7 @@ func _on_Player_pickupKey2():
 func _on_Area2D_body_entered(body):
 	if(body.name == 'Player'):
 		if self.name == 'Door3' && key1waspicked && key2waspicked:
+			
 			open()
 			emit_signal("consumeKeys")
 		

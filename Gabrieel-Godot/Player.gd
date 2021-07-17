@@ -309,7 +309,8 @@ func _on_CheckPoint_body_entered(body):
 
 func _on_NextLevel_body_entered(body):
 	if(body.name == 'Player'):
-		get_tree().change_scene("res://Boss.tscn")
+		print('entrou')
+		get_tree().change_scene("res://Levels/Boss.tscn")
 
 func turnSprite(flip):
 	if flip:
