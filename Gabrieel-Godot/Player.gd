@@ -325,7 +325,7 @@ func _on_Boss_bossDie():
 	Global.patchEquiped[0] = 'fireball'
 
 func coyoteTimer():
-	yield(get_tree().create_timer(.3), "timeout")
+	yield(get_tree().create_timer(.2), "timeout")
 	canJump = false
 
 

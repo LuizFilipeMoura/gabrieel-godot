@@ -52,6 +52,7 @@ func die():
 	
 func hurt(damageTaken):
 	life = life - damageTaken
+	$AnimationPlayer.playback_speed = $AnimationPlayer.playback_speed + ($AnimationPlayer.playback_speed * 0.1)
 	if(life <= 0):
 		die()
 	
