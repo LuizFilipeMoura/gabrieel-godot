@@ -2,9 +2,9 @@ extends KinematicBody2D
 
 var playerEntered = false
 var targetsHitted = []
-var targetsRequireds = []
+export var targetsRequireds = []
 var targetResponse = []
-var keysRequireds = []
+export var keysRequireds = []
 var keysAcquired = []
 # var a = 2
 # var b = "text"
@@ -16,12 +16,6 @@ signal consumeKeys
 # Called when the node enters the scene tree for the first time.
 
 func _ready():
-	if self.name == 'Door1':
-		targetsRequireds = ['Target_1']
-	if self.name == 'Door2':
-		targetsRequireds = ['Target_2', 'Target_3']
-	if self.name == 'Door3':
-		keysRequireds = ['Key1', 'Key2']
 	pass # Replace with function body.
 
 func open():

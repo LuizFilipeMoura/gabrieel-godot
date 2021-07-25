@@ -14,7 +14,7 @@ const UP = Vector2(0,-1)
 const GRAVITY = 10
 const JUMP_HEIGHT = -245
 var motion = Vector2()
-var firstShot = false
+var ready = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Player = get_parent().get_parent().get_node("Player")
@@ -32,18 +32,16 @@ func knockback(amount, positionX):
 		motion.x = -100
 
 func _on_Timer_timeout():
-	$Timer.start(fire_delay)
-	if ( inRange && !isDead):
+	ready = true
+	print('timer' + str(inRange))
+	if inRange:
 		shot()
 
 func _on_AttackRange_body_entered(body):
-	if body.is_in_group("Player"):
-		if !firstShot:
-			shot()
-			firstShot = true
+	if body.is_in_group("Player") && ready:
 		inRange = true
-		$Timer.start(fire_delay)
-	
+		shot()
+
 func shot():
 	if inRange:
 		$AnimatedSprite.play("Shoot")
@@ -54,8 +52,9 @@ func shot():
 		bullet.speed = 2.5
 		bullet.damage = 2
 		bullet.shakeAmout = [0.5, 5, 2]
-		get_parent().add_child(bullet)
+		#get_parent().add_child(bullet)
 		yield(get_node("AnimatedSprite"), "animation_finished")
+		$Timer.start(fire_delay)
 		$AnimatedSprite.play("idle")
 	
 func turnToPlayer():
@@ -67,7 +66,7 @@ func turnToPlayer():
 		$AnimatedSprite.flip_h = false
 	else:
 		$LineOfSight.position = Vector2(-70, -17)
-		$LineOfSight.rotation = -1.7
+		$LineOfSight.rotation = 182.14
 		$Gun.position = Vector2(-18, -6)
 		$AnimatedSprite.flip_h = true
 	
@@ -86,8 +85,7 @@ func die():
 	var money = MONEY_SCENE.instance()
 	money.position = Vector2(get_global_position().x+20, get_global_position().y)
 	get_parent().add_child(money)	
-	
-		
+
 func _on_Head_body_entered(body):
 	if(body.name == 'Player'):if(body.name == 'Player'):
 		if(isPilot):
@@ -103,15 +101,13 @@ func _on_Head_body_entered(body):
 
 func hurt(damageTaken):
 	life = life - damageTaken
-
 	if(life <= 0):
 		die()
-	
+
 	if(!isDead):
 		$AnimatedSprite.play("enemy_hurt")
 		yield($AnimatedSprite, "animation_finished")
 		$AnimatedSprite.play("enemy_idle")
-	
 
 func _on_Body_body_entered(body):
 	if(body.name == 'Player' && !isDead):
@@ -125,22 +121,12 @@ func _on_Body_body_entered(body):
 func isPilot():
 	isPilot = true
 	$CollisionShape2D.disabled = true
-
 	pass # Replace with function body.
 
-#func _process(delta):
-	#if !isDead && !is_on_floor() && !isPilot:
-		#turnToPlayer()
-		
-func _on_AttackRange_body_exited(body):
-	if(body.name == "Player"):
-		inRange = false
-
-
 func _on_Line_of_sight_body_entered(body):
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && ready:
 		inRange = true
-		$Timer.start(fire_delay)
+		shot()
 
 
 func _on_VisionArea_body_entered(body):
@@ -149,9 +135,9 @@ func _on_VisionArea_body_entered(body):
 
 
 func _on_LineOfSight_body_exited(body):
-	if body.is_in_group("Player"):
-		if !firstShot:
-			shot()
-			firstShot = true
+	if body.is_in_group("Player	"):
 		inRange = false
-	pass # Replace with function body.
+
+
+func _on_AttackRange_body_exited(body):
+	print('aaa')

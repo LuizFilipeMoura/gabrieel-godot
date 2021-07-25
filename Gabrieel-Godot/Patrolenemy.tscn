@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://SPRITES_GODOT/inimigoandar.png" type="Texture" id=1]
 [ext_resource path="res://Patrolenemy.gd" type="Script" id=2]
@@ -9,56 +9,56 @@
 extents = Vector2( 10.8402, 18.5145 )
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 41, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 41, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 41, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 4 )
-region = Rect2( 41, 0, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 41, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 41, 0, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 4 )
-region = Rect2( 41, 41, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 82, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 41, 41, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 4 )
-region = Rect2( 41, 82, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 41, 41 )
+atlas = ExtResource( 3 )
+region = Rect2( 41, 82, 41, 41 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 1 )
@@ -76,18 +76,18 @@ region = Rect2( 41, 41, 41, 41 )
 animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
 "loop": false,
-"name": "enemy_death",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
-"loop": false,
 "name": "enemy_hurt",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 14 ) ],
+"frames": [ SubResource( 8 ) ],
 "loop": true,
 "name": "enemy_idle",
 "speed": 1.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": false,
+"name": "enemy_death",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
@@ -101,37 +101,56 @@ extents = Vector2( 6.89881, 7.13471 )
 [sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 14.1172, 17.7324 )
 
-[node name="Patrolenemy" type="KinematicBody2D" groups=[
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 10, 26.2705 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Patrolenemy" type="KinematicBody2D" parent="." groups=[
 "Enemy",
 ]]
 collision_layer = 524289
 collision_mask = 524289
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Patrolenemy"]
 position = Vector2( 0.563141, 7.40141 )
 shape = SubResource( 1 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="Patrolenemy"]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Patrolenemy"]
 scale = Vector2( 1.21, 1.21 )
 frames = SubResource( 18 )
 animation = "enemy_hurt"
 
-[node name="Head" type="Area2D" parent="."]
+[node name="Head" type="Area2D" parent="Patrolenemy"]
 position = Vector2( 0.5, -19.75 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Patrolenemy/Head"]
 position = Vector2( -0.240997, 2.92379 )
 shape = SubResource( 19 )
 
-[node name="Body" type="Area2D" parent="."]
+[node name="Body" type="Area2D" parent="Patrolenemy"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Patrolenemy/Body"]
 position = Vector2( 0.623154, 8.12097 )
 shape = SubResource( 20 )
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="Head" to="." method="_on_Head_body_entered"]
-[connection signal="body_entered" from="Body" to="." method="_on_Body_body_entered"]
+[node name="TurningPointL" type="Area2D" parent="."]
+position = Vector2( 50, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurningPointL"]
+shape = SubResource( 21 )
+
+[node name="TurningPointR" type="Area2D" parent="."]
+position = Vector2( 50, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurningPointR"]
+shape = SubResource( 21 )
+
+[connection signal="timeout" from="Patrolenemy/Timer" to="Patrolenemy" method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Patrolenemy/Head" to="Patrolenemy" method="_on_Head_body_entered"]
+[connection signal="body_entered" from="Patrolenemy/Body" to="Patrolenemy" method="_on_Body_body_entered"]
+[connection signal="body_entered" from="TurningPointL" to="Patrolenemy" method="_on_TurningPointL_body_entered"]
+[connection signal="body_entered" from="TurningPointR" to="Patrolenemy" method="_on_TurningPointR_body_entered"]
